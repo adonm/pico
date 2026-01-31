@@ -36,7 +36,6 @@
 
   // 12-column explicit grid mode
   // Applied when any col-* class is present
-  .grid:has(> .col),
   .grid:has(> [class*="col-"]) {
     grid-template-columns: repeat(12, 1fr);
 
@@ -45,11 +44,6 @@
         grid-template-columns: repeat(12, 1fr);
       }
     }
-  }
-
-  // Auto-fill remaining space
-  .col {
-    grid-column: span 1;
   }
 
   // Explicit column spans (mobile-first)
