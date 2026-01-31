@@ -1,9 +1,18 @@
-name: Build and Test Grid Feature
+name: Build and Deploy to GitHub Pages
 
 on:
   push:
-    branches: [feature/12-column-grid]
+    branches: [pages]
   workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -24,11 +33,14 @@ jobs:
       - name: Build CSS
         run: yarn build:css
 
-      - name: Create test page
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Create demo page
         run: |
-          mkdir -p test-site
-          cp -r css test-site/
-          cat > test-site/index.html << 'EOF'
+          mkdir -p _site
+          cp -r css _site/
+          cat > _site/index.html << 'EOF'
           <!DOCTYPE html>
           <html lang="en">
           <head>
@@ -103,9 +115,18 @@ jobs:
           </html>
           EOF
 
-      - name: Upload test site artifact
-        uses: actions/upload-artifact@v4
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          name: test-site
-          path: test-site/
-          retention-days: 5
+          path: _site
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
