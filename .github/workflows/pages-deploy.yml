@@ -31,7 +31,7 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Build CSS
-        run: yarn build:css
+        run: yarn build
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
