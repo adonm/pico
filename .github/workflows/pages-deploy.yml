@@ -59,57 +59,104 @@ jobs:
                   .demo-grid {
                       margin-bottom: 2rem;
                   }
+                  
+                  /* Grid column classes (compiled from scss) */
+                  .grid:has(> [class*="col-"]) {
+                      grid-template-columns: repeat(12, 1fr);
+                  }
+                  
+                  .col-1 { grid-column: span 1; }
+                  .col-2 { grid-column: span 2; }
+                  .col-3 { grid-column: span 3; }
+                  .col-4 { grid-column: span 4; }
+                  .col-5 { grid-column: span 5; }
+                  .col-6 { grid-column: span 6; }
+                  .col-7 { grid-column: span 7; }
+                  .col-8 { grid-column: span 8; }
+                  .col-9 { grid-column: span 9; }
+                  .col-10 { grid-column: span 10; }
+                  .col-11 { grid-column: span 11; }
+                  .col-12 { grid-column: span 12; }
+                  
+                  @media (min-width: 768px) {
+                      .col-md-1 { grid-column: span 1; }
+                      .col-md-2 { grid-column: span 2; }
+                      .col-md-3 { grid-column: span 3; }
+                      .col-md-4 { grid-column: span 4; }
+                      .col-md-5 { grid-column: span 5; }
+                      .col-md-6 { grid-column: span 6; }
+                      .col-md-7 { grid-column: span 7; }
+                      .col-md-8 { grid-column: span 8; }
+                      .col-md-9 { grid-column: span 9; }
+                      .col-md-10 { grid-column: span 10; }
+                      .col-md-11 { grid-column: span 11; }
+                      .col-md-12 { grid-column: span 12; }
+                  }
               </style>
           </head>
           <body>
               <main class="container">
                   <h1>12-Column Grid Test</h1>
                   
-                  <h2>Auto Grid (Default)</h2>
+                  <h2>Mode 1: Auto-fit Grid (default)</h2>
+                  <p>Items divide equally without any column classes. Just add items to the grid.</p>
                   <div class="grid demo-grid">
-                      <div class="demo-box">Auto</div>
-                      <div class="demo-box">Auto</div>
-                      <div class="demo-box">Auto</div>
+                      <div class="demo-box">Auto-fit</div>
+                      <div class="demo-box">Auto-fit</div>
+                      <div class="demo-box">Auto-fit</div>
                   </div>
 
-                  <h2>12-Column: Equal Halves</h2>
+                  <h2>Mode 2: 12-Column Explicit Layout</h2>
+                  <p>Use <code>col-*</code> classes (1-12) for precise column spans. Total must equal 12 per row.</p>
+
+                  <h3>Equal Halves</h3>
                   <div class="grid demo-grid">
                       <div class="demo-box col-6">col-6</div>
                       <div class="demo-box col-6">col-6</div>
                   </div>
 
-                  <h2>12-Column: Thirds</h2>
+                  <h3>Thirds</h3>
                   <div class="grid demo-grid">
                       <div class="demo-box col-4">col-4</div>
                       <div class="demo-box col-4">col-4</div>
                       <div class="demo-box col-4">col-4</div>
                   </div>
 
-                  <h2>12-Column: Mixed</h2>
+                  <h3>Mixed Layout</h3>
                   <div class="grid demo-grid">
-                      <div class="demo-box col-3">col-3</div>
-                      <div class="demo-box col-6">col-6</div>
-                      <div class="demo-box col-3">col-3</div>
+                      <div class="demo-box col-3">col-3 (25%)</div>
+                      <div class="demo-box col-6">col-6 (50%)</div>
+                      <div class="demo-box col-3">col-3 (25%)</div>
                   </div>
 
-                  <h2>12-Column: Auto-fill (.col)</h2>
+                  <h3>Sidebar Layout</h3>
                   <div class="grid demo-grid">
-                      <div class="demo-box col-4">col-4</div>
-                      <div class="demo-box col">col (auto)</div>
+                      <div class="demo-box col-4">col-4 Sidebar</div>
+                      <div class="demo-box col-8">col-8 Main Content</div>
                   </div>
 
-                  <h2>Responsive: col-6 col-md-4</h2>
+                  <h2>Responsive: col-* with col-md-* breakpoints</h2>
+                  <p>Mobile-first: base <code>col-*</code> classes apply to all screens, <code>col-md-*</code> overrides at 768px+</p>
+
+                  <h3>Half mobile, third tablet+ (col-6 col-md-4)</h3>
                   <div class="grid demo-grid">
-                      <div class="demo-box col-6 col-md-4">Half mobile, third tablet+</div>
-                      <div class="demo-box col-6 col-md-4">Half mobile, third tablet+</div>
-                      <div class="demo-box col-6 col-md-4">Half mobile, third tablet+</div>
+                      <div class="demo-box col-6 col-md-4">50% mobile, 33% tablet+</div>
+                      <div class="demo-box col-6 col-md-4">50% mobile, 33% tablet+</div>
+                      <div class="demo-box col-6 col-md-4">50% mobile, 33% tablet+</div>
                   </div>
 
-                  <h2>Responsive: col-12 col-md-6</h2>
+                  <h3>Full mobile, half tablet+ (col-12 col-md-6)</h3>
                   <div class="grid demo-grid">
-                      <div class="demo-box col-12 col-md-6">Full mobile, half tablet+</div>
-                      <div class="demo-box col-12 col-md-6">Full mobile, half tablet+</div>
+                      <div class="demo-box col-12 col-md-6">100% mobile, 50% tablet+</div>
+                      <div class="demo-box col-12 col-md-6">100% mobile, 50% tablet+</div>
                   </div>
+
+                  <h2>Summary</h2>
+                  <ul>
+                      <li><strong>Auto-fit:</strong> Use <code>.grid</code> without column classes for equal-width items</li>
+                      <li><strong>12-Column:</strong> Use <code>col-1</code> to <code>col-12</code> for explicit layouts (sums to 12)</li>
+                      <li><strong>Responsive:</strong> Use <code>col-md-*</code> to override at 768px breakpoint</li>
+                  </ul>
               </main>
           </body>
           </html>
