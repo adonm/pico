@@ -33,6 +33,7 @@ jobs:
       - name: Build CSS
         run: |
           yarn build:css
+          yarn build:themes
           yarn build:autoprefix
           yarn build:minify
 
