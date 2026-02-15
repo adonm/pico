@@ -38,12 +38,6 @@
   // Applied when any col-* class is present
   .grid:has(> [class*="col-"]) {
     grid-template-columns: repeat(12, 1fr);
-
-    @if map.get($breakpoints, "md") {
-      @media (min-width: map.get(map.get($breakpoints, "md"), "breakpoint")) {
-        grid-template-columns: repeat(12, 1fr);
-      }
-    }
   }
 
   // Explicit column spans (mobile-first)
