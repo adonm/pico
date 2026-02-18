@@ -12,6 +12,7 @@
       }
     </style>
     <link rel="stylesheet" href="css/pico.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/3.1.2/chroma.min.js"></script>
     <style>
       .builder-layout {
         display: grid;
@@ -485,76 +486,56 @@
         btnAuto: document.getElementById("btn-auto"),
       };
 
-      function hexToRgb(hex) {
-        const r = parseInt(hex.slice(1, 3), 16);
-        const g = parseInt(hex.slice(3, 5), 16);
-        const b = parseInt(hex.slice(5, 7), 16);
-        return { r, g, b };
+      /**
+       * Constrain a color to ensure good contrast in both light and dark modes.
+       * Uses OKLCH color space for perceptually uniform constraints.
+       * - Keeps hue unchanged (user's color choice)
+       * - Clamps lightness to safe range
+       * - Clamps chroma (saturation) to moderate range
+       */
+      function constrainColor(hex, isPrimary) {
+        const [l, c, h] = chroma(hex).oklch();
+
+        if (isPrimary) {
+          // Primary: mid-tone with moderate saturation for button visibility
+          const constrainedL = Math.max(0.45, Math.min(0.65, l));
+          const constrainedC = Math.max(0.08, Math.min(0.22, c));
+          return chroma.oklch(constrainedL, constrainedC, h).hex();
+        } else {
+          // Secondary: wider lightness range, lower saturation for neutrals
+          const constrainedL = Math.max(0.35, Math.min(0.65, l));
+          const constrainedC = Math.max(0.02, Math.min(0.1, c));
+          return chroma.oklch(constrainedL, constrainedC, h).hex();
+        }
       }
 
-      function rgbToHex(r, g, b) {
-        return (
-          "#" +
-          [r, g, b]
-            .map((x) => {
-              const hex = Math.max(0, Math.min(255, Math.round(x))).toString(
-                16,
-              );
-              return hex.length === 1 ? "0" + hex : hex;
-            })
-            .join("")
-        );
-      }
-
-      // colorMix: result = color1 * (1 - amount) + color2 * amount
+      /**
+       * Mix two colors using chroma.js (more accurate than manual RGB mixing)
+       */
       function colorMix(color1, color2, amount) {
-        const c1 = hexToRgb(color1);
-        const c2 = hexToRgb(color2);
-        return rgbToHex(
-          c1.r + (c2.r - c1.r) * amount,
-          c1.g + (c2.g - c1.g) * amount,
-          c1.b + (c2.b - c1.b) * amount,
-        );
-      }
-
-      function rgbToHex(r, g, b) {
-        return (
-          "#" +
-          [r, g, b]
-            .map((x) => {
-              const hex = Math.max(0, Math.min(255, Math.round(x))).toString(
-                16,
-              );
-              return hex.length === 1 ? "0" + hex : hex;
-            })
-            .join("")
-        );
-      }
-
-      function colorMix(color1, color2, amount) {
-        const c1 = hexToRgb(color1);
-        const c2 = hexToRgb(color2);
-        return rgbToHex(
-          c1.r + (c2.r - c1.r) * amount,
-          c1.g + (c2.g - c1.g) * amount,
-          c1.b + (c2.b - c1.b) * amount,
-        );
-      }
-
-      function darken(hex, amount) {
-        return colorMix(hex, "#000000", amount);
-      }
-
-      function lighten(hex, amount) {
-        return colorMix(hex, "#ffffff", amount);
+        return chroma.mix(color1, color2, amount, "oklch").hex();
       }
 
       function updateTheme() {
+        // Apply constraints to ensure good contrast
+        const constrainedPrimary = constrainColor(state.primary, true);
+        const constrainedSecondary = constrainColor(state.secondary, false);
+
+        // Update state with constrained values
+        state.primary = constrainedPrimary;
+        state.secondary = constrainedSecondary;
+
+        // Update input fields to show constrained values
+        elements.primaryColor.value = constrainedPrimary;
+        elements.primaryHex.value = constrainedPrimary;
+        elements.secondaryColor.value = constrainedSecondary;
+        elements.secondaryHex.value = constrainedSecondary;
+
         const style = document.getElementById("theme-override");
         style.textContent = `
         :root {
-          --pico-primary: ${state.primary};
-          --pico-secondary: ${state.secondary};
+          --pico-primary: ${constrainedPrimary};
+          --pico-secondary: ${constrainedSecondary};
           --pico-border-radius: ${state.borderRadius};
         }
       `;
@@ -575,34 +556,27 @@
       function updateSwatches() {
         const isDark = state.mode === "dark";
         const secondary = state.secondary;
+        const primary = state.primary;
 
         // Derived - surface
-        // Light: color-mix(in srgb, white, secondary 4%) = white tinted with secondary
-        // Dark: color-mix(in srgb, black, secondary 20%) = black tinted with secondary
         const surface = isDark
           ? colorMix("#000000", secondary, 0.2)
           : colorMix("#ffffff", secondary, 0.04);
         document.getElementById("swatch-surface").style.background = surface;
 
         // Derived - text
-        // Light: color-mix(in srgb, black, secondary 25%)
-        // Dark: color-mix(in srgb, white, secondary 25%)
         const text = isDark
           ? colorMix("#ffffff", secondary, 0.25)
           : colorMix("#000000", secondary, 0.25);
         document.getElementById("swatch-color").style.background = text;
 
         // Derived - muted
-        // Light: color-mix(in srgb, secondary, black 25%)
-        // Dark: color-mix(in srgb, secondary, white 30%)
         const muted = isDark
           ? colorMix(secondary, "#ffffff", 0.3)
           : colorMix(secondary, "#000000", 0.25);
         document.getElementById("swatch-muted").style.background = muted;
 
         // Derived - border
-        // Light: color-mix(in srgb, secondary, white 75%)
-        // Dark: color-mix(in srgb, black, secondary 30%)
         const border = isDark
           ? colorMix("#000000", secondary, 0.3)
           : colorMix(secondary, "#ffffff", 0.75);
@@ -610,12 +584,12 @@
 
         // Primary variants
         const primaryHover = isDark
-          ? colorMix(state.primary, "#ffffff", 0.15)
-          : colorMix(state.primary, "#000000", 0.12);
+          ? colorMix(primary, "#ffffff", 0.15)
+          : colorMix(primary, "#000000", 0.12);
         document.getElementById("swatch-primary-hover").style.background =
           primaryHover;
         document.getElementById("swatch-primary-focus").style.background =
-          state.primary + "4D";
+          chroma(primary).alpha(0.3).css();
 
         // Semantic colors
         document.getElementById("swatch-success").style.background = "#22c55e";
@@ -679,12 +653,10 @@
       });
 
       function updateButtons() {
-        // Reset all buttons
         elements.btnLight.className = "outline secondary";
         elements.btnDark.className = "outline secondary";
         elements.btnAuto.className = "outline secondary";
 
-        // Set active button (no outline = solid/filled)
         if (state.mode === "light") {
           elements.btnLight.className = "secondary";
         } else if (state.mode === "dark") {

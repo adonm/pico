@@ -225,858 +225,892 @@
  */
 
 @layer theme {
-	/* ============================================================================
+  /* ============================================================================
    SOURCE VARIABLES (users set only these 2)
    ============================================================================ */
 
-	:root {
-		--pico-primary: #0172ad;
-		--pico-secondary: #646e82;
-		--pico-border-radius: 0.25rem;
-		--pico-font-family:
-			system-ui, -apple-system, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
-			Helvetica, Arial, "Helvetica Neue", sans-serif;
-	}
+  :root {
+    --pico-primary: #0172ad;
+    --pico-secondary: #646e82;
+    --pico-border-radius: 0.25rem;
+    --pico-font-family:
+      system-ui, -apple-system, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
+      Helvetica, Arial, "Helvetica Neue", sans-serif;
+  }
 
-	/* ============================================================================
+  /* ============================================================================
    SEMANTIC COLORS (success, warning, error)
    ============================================================================ */
 
-	:root {
-		--pico-success: oklch(0.6 0.15 145);
-		--pico-warning: oklch(0.8 0.15 85);
-		--pico-error: oklch(0.55 0.2 25);
-	}
+  :root {
+    --pico-success: oklch(0.6 0.15 145);
+    --pico-warning: oklch(0.8 0.15 85);
+    --pico-error: oklch(0.55 0.2 25);
+  }
 
-	/* ============================================================================
+  /* ============================================================================
    DERIVED PALETTE - Light Mode (default)
    ============================================================================ */
 
-	[data-theme="light"],
-	:root:not([data-theme="dark"]),
-	:host(:not([data-theme="dark"])) {
-		color-scheme: light;
+  [data-theme="light"],
+  :root:not([data-theme="dark"]),
+  :host(:not([data-theme="dark"])) {
+    color-scheme: light;
 
-		/* Surface: white with subtle secondary tint */
-		--pico-surface: color-mix(in srgb, white, var(--pico-secondary) 4%);
-		--pico-background-color: var(--pico-surface);
+    /* Surface: white with subtle secondary tint */
+    --pico-surface: color-mix(in srgb, white, var(--pico-secondary) 4%);
+    --pico-background-color: var(--pico-surface);
 
-		/* Text: dark with secondary influence */
-		--pico-color: color-mix(in srgb, black, var(--pico-secondary) 25%);
-		--pico-muted-color: color-mix(in srgb, var(--pico-secondary), black 25%);
+    /* Text: dark with secondary influence */
+    --pico-color: color-mix(in srgb, black, var(--pico-secondary) 25%);
+    --pico-muted-color: color-mix(in srgb, var(--pico-secondary), black 25%);
 
-		/* Primary derivatives */
-		--pico-primary-hover: color-mix(in srgb, var(--pico-primary), black 12%);
-		--pico-primary-focus: color-mix(
-			in srgb,
-			var(--pico-primary),
-			transparent 70%
-		);
-		--pico-primary-background: var(--pico-primary);
-		--pico-primary-border: var(--pico-primary);
-		--pico-primary-underline: color-mix(
-			in srgb,
-			var(--pico-primary),
-			transparent 50%
-		);
-		--pico-primary-hover-background: color-mix(
-			in srgb,
-			var(--pico-primary),
-			black 8%
-		);
-		--pico-primary-hover-border: var(--pico-primary-hover-background);
-		--pico-primary-hover-underline: var(--pico-primary-hover);
-		--pico-primary-inverse: white;
+    /* Primary derivatives */
+    --pico-primary-hover: color-mix(in srgb, var(--pico-primary), black 12%);
+    --pico-primary-focus: color-mix(
+      in srgb,
+      var(--pico-primary),
+      transparent 70%
+    );
+    --pico-primary-background: var(--pico-primary);
+    --pico-primary-border: var(--pico-primary);
+    --pico-primary-underline: color-mix(
+      in srgb,
+      var(--pico-primary),
+      transparent 50%
+    );
+    --pico-primary-hover-background: color-mix(
+      in srgb,
+      var(--pico-primary),
+      black 8%
+    );
+    --pico-primary-hover-border: var(--pico-primary-hover-background);
+    --pico-primary-hover-underline: var(--pico-primary-hover);
+    --pico-primary-inverse: white;
 
-		/* Text selection */
-		--pico-text-selection-color: color-mix(
-			in srgb,
-			var(--pico-primary),
-			transparent 75%
-		);
+    /* Text selection */
+    --pico-text-selection-color: color-mix(
+      in srgb,
+      var(--pico-primary),
+      transparent 75%
+    );
 
-		/* Border/muted derived from secondary */
-		--pico-muted-border-color: color-mix(
-			in srgb,
-			var(--pico-secondary),
-			white 75%
-		);
+    /* Border/muted derived from secondary */
+    --pico-muted-border-color: color-mix(
+      in srgb,
+      var(--pico-secondary),
+      white 75%
+    );
 
-		/* Secondary derivatives */
-		--pico-secondary-hover: color-mix(
-			in srgb,
-			var(--pico-secondary),
-			black 15%
-		);
-		--pico-secondary-background: var(--pico-secondary);
-		--pico-secondary-border: var(--pico-secondary);
-		--pico-secondary-underline: color-mix(
-			in srgb,
-			var(--pico-secondary),
-			transparent 50%
-		);
-		--pico-secondary-hover-background: color-mix(
-			in srgb,
-			var(--pico-secondary),
-			black 10%
-		);
-		--pico-secondary-hover-border: var(--pico-secondary-hover-background);
-		--pico-secondary-hover-underline: var(--pico-secondary-hover);
-		--pico-secondary-focus: color-mix(
-			in srgb,
-			var(--pico-secondary),
-			transparent 75%
-		);
-		--pico-secondary-inverse: white;
+    /* Secondary derivatives */
+    --pico-secondary-hover: color-mix(
+      in srgb,
+      var(--pico-secondary),
+      black 15%
+    );
+    --pico-secondary-background: var(--pico-secondary);
+    --pico-secondary-border: var(--pico-secondary);
+    --pico-secondary-underline: color-mix(
+      in srgb,
+      var(--pico-secondary),
+      transparent 50%
+    );
+    --pico-secondary-hover-background: color-mix(
+      in srgb,
+      var(--pico-secondary),
+      black 10%
+    );
+    --pico-secondary-hover-border: var(--pico-secondary-hover-background);
+    --pico-secondary-hover-underline: var(--pico-secondary-hover);
+    --pico-secondary-focus: color-mix(
+      in srgb,
+      var(--pico-secondary),
+      transparent 75%
+    );
+    --pico-secondary-inverse: white;
 
-		/* Contrast (near black) */
-		--pico-contrast: color-mix(in srgb, black, var(--pico-secondary) 15%);
-		--pico-contrast-background: var(--pico-contrast);
-		--pico-contrast-border: var(--pico-contrast);
-		--pico-contrast-underline: color-mix(
-			in srgb,
-			var(--pico-contrast),
-			transparent 50%
-		);
-		--pico-contrast-hover: black;
-		--pico-contrast-hover-background: black;
-		--pico-contrast-hover-border: var(--pico-contrast-hover-background);
-		--pico-contrast-hover-underline: var(--pico-contrast-hover);
-		--pico-contrast-focus: color-mix(
-			in srgb,
-			var(--pico-secondary),
-			transparent 75%
-		);
-		--pico-contrast-inverse: white;
+    /* Contrast (near black) */
+    --pico-contrast: color-mix(in srgb, black, var(--pico-secondary) 15%);
+    --pico-contrast-background: var(--pico-contrast);
+    --pico-contrast-border: var(--pico-contrast);
+    --pico-contrast-underline: color-mix(
+      in srgb,
+      var(--pico-contrast),
+      transparent 50%
+    );
+    --pico-contrast-hover: black;
+    --pico-contrast-hover-background: black;
+    --pico-contrast-hover-border: var(--pico-contrast-hover-background);
+    --pico-contrast-hover-underline: var(--pico-contrast-hover);
+    --pico-contrast-focus: color-mix(
+      in srgb,
+      var(--pico-secondary),
+      transparent 75%
+    );
+    --pico-contrast-inverse: white;
 
-		/* Box shadow */
-		--pico-box-shadow:
-			0.0145rem 0.029rem 0.174rem
-			color-mix(in srgb, var(--pico-secondary), transparent 98%),
-			0.0335rem 0.067rem 0.402rem
-			color-mix(in srgb, var(--pico-secondary), transparent 97.5%),
-			0.0625rem 0.125rem 0.75rem
-			color-mix(in srgb, var(--pico-secondary), transparent 97%),
-			0.1125rem 0.225rem 1.35rem
-			color-mix(in srgb, var(--pico-secondary), transparent 96.5%),
-			0.2085rem 0.417rem 2.502rem
-			color-mix(in srgb, var(--pico-secondary), transparent 95.5%),
-			0.5rem 1rem 6rem
-			color-mix(in srgb, var(--pico-secondary), transparent 94%),
-			0 0 0 0.0625rem
-			color-mix(in srgb, var(--pico-secondary), transparent 98.5%);
+    /* Box shadow */
+    --pico-box-shadow:
+      0.0145rem 0.029rem 0.174rem
+        color-mix(in srgb, var(--pico-secondary), transparent 98%),
+      0.0335rem 0.067rem 0.402rem
+        color-mix(in srgb, var(--pico-secondary), transparent 97.5%),
+      0.0625rem 0.125rem 0.75rem
+        color-mix(in srgb, var(--pico-secondary), transparent 97%),
+      0.1125rem 0.225rem 1.35rem
+        color-mix(in srgb, var(--pico-secondary), transparent 96.5%),
+      0.2085rem 0.417rem 2.502rem
+        color-mix(in srgb, var(--pico-secondary), transparent 95.5%),
+      0.5rem 1rem 6rem
+        color-mix(in srgb, var(--pico-secondary), transparent 94%),
+      0 0 0 0.0625rem
+        color-mix(in srgb, var(--pico-secondary), transparent 98.5%);
 
-		/* Typography */
-		--pico-h1-color: color-mix(in srgb, black, var(--pico-secondary) 20%);
-		--pico-h2-color: color-mix(in srgb, black, var(--pico-secondary) 25%);
-		--pico-h3-color: color-mix(in srgb, black, var(--pico-secondary) 30%);
-		--pico-h4-color: color-mix(in srgb, black, var(--pico-secondary) 35%);
-		--pico-h5-color: color-mix(in srgb, black, var(--pico-secondary) 45%);
-		--pico-h6-color: var(--pico-muted-color);
+    /* Typography */
+    --pico-h1-color: color-mix(in srgb, black, var(--pico-secondary) 20%);
+    --pico-h2-color: color-mix(in srgb, black, var(--pico-secondary) 25%);
+    --pico-h3-color: color-mix(in srgb, black, var(--pico-secondary) 30%);
+    --pico-h4-color: color-mix(in srgb, black, var(--pico-secondary) 35%);
+    --pico-h5-color: color-mix(in srgb, black, var(--pico-secondary) 45%);
+    --pico-h6-color: var(--pico-muted-color);
 
-		/* Mark, ins, del */
-		--pico-mark-background-color: color-mix(
-			in srgb,
-			var(--pico-warning),
-			white 50%
-		);
-		--pico-mark-color: var(--pico-color);
-		--pico-ins-color: var(--pico-success);
-		--pico-del-color: var(--pico-error);
+    /* Mark, ins, del */
+    --pico-mark-background-color: color-mix(
+      in srgb,
+      var(--pico-warning),
+      white 50%
+    );
+    --pico-mark-color: var(--pico-color);
+    --pico-ins-color: var(--pico-success);
+    --pico-del-color: var(--pico-error);
 
-		/* Blockquote */
-		--pico-blockquote-border-color: var(--pico-muted-border-color);
-		--pico-blockquote-footer-color: var(--pico-muted-color);
+    /* Blockquote */
+    --pico-blockquote-border-color: var(--pico-muted-border-color);
+    --pico-blockquote-footer-color: var(--pico-muted-color);
 
-		/* Button */
-		--pico-button-box-shadow: 0 0 0 transparent;
-		--pico-button-hover-box-shadow: 0 0 0 transparent;
+    /* Button */
+    --pico-button-box-shadow: 0 0 0 transparent;
+    --pico-button-hover-box-shadow: 0 0 0 transparent;
 
-		/* Table */
-		--pico-table-border-color: var(--pico-muted-border-color);
-		--pico-table-row-stripped-background-color: color-mix(
-			in srgb,
-			var(--pico-secondary),
-			white 96%
-		);
+    /* Table */
+    --pico-table-border-color: var(--pico-muted-border-color);
+    --pico-table-row-stripped-background-color: color-mix(
+      in srgb,
+      var(--pico-secondary),
+      white 96%
+    );
 
-		/* Code */
-		--pico-code-background-color: color-mix(
-			in srgb,
-			var(--pico-secondary),
-			white 92%
-		);
-		--pico-code-color: var(--pico-muted-color);
-		--pico-code-kbd-background-color: var(--pico-color);
-		--pico-code-kbd-color: var(--pico-background-color);
+    /* Code */
+    --pico-code-background-color: color-mix(
+      in srgb,
+      var(--pico-secondary),
+      white 92%
+    );
+    --pico-code-color: var(--pico-muted-color);
+    --pico-code-kbd-background-color: var(--pico-color);
+    --pico-code-kbd-color: var(--pico-background-color);
 
-		/* Form elements */
-		--pico-form-element-background-color: var(--pico-background-color);
-		--pico-form-element-selected-background-color: color-mix(
-			in srgb,
-			var(--pico-secondary),
-			white 85%
-		);
-		--pico-form-element-border-color: color-mix(
-			in srgb,
-			var(--pico-secondary),
-			white 70%
-		);
-		--pico-form-element-color: var(--pico-color);
-		--pico-form-element-placeholder-color: var(--pico-muted-color);
-		--pico-form-element-active-background-color: white;
-		--pico-form-element-active-border-color: var(--pico-primary-border);
-		--pico-form-element-focus-color: var(--pico-primary-border);
-		--pico-form-element-disabled-opacity: 0.5;
-		--pico-form-element-invalid-border-color: var(--pico-error);
-		--pico-form-element-invalid-active-border-color: color-mix(
-			in srgb,
-			var(--pico-error),
-			black 10%
-		);
-		--pico-form-element-invalid-focus-color: var(
-			--pico-form-element-invalid-active-border-color
-		);
-		--pico-form-element-valid-border-color: var(--pico-success);
-		--pico-form-element-valid-active-border-color: color-mix(
-			in srgb,
-			var(--pico-success),
-			black 10%
-		);
-		--pico-form-element-valid-focus-color: var(
-			--pico-form-element-valid-active-border-color
-		);
+    /* Form elements */
+    --pico-form-element-background-color: var(--pico-background-color);
+    --pico-form-element-selected-background-color: color-mix(
+      in srgb,
+      var(--pico-secondary),
+      white 85%
+    );
+    --pico-form-element-border-color: color-mix(
+      in srgb,
+      var(--pico-secondary),
+      white 70%
+    );
+    --pico-form-element-color: var(--pico-color);
+    --pico-form-element-placeholder-color: var(--pico-muted-color);
+    --pico-form-element-active-background-color: white;
+    --pico-form-element-active-border-color: var(--pico-primary-border);
+    --pico-form-element-focus-color: var(--pico-primary-border);
+    --pico-form-element-disabled-opacity: 0.5;
+    --pico-form-element-invalid-border-color: var(--pico-error);
+    --pico-form-element-invalid-active-border-color: color-mix(
+      in srgb,
+      var(--pico-error),
+      black 10%
+    );
+    --pico-form-element-invalid-focus-color: var(
+      --pico-form-element-invalid-active-border-color
+    );
+    --pico-form-element-valid-border-color: var(--pico-success);
+    --pico-form-element-valid-active-border-color: color-mix(
+      in srgb,
+      var(--pico-success),
+      black 10%
+    );
+    --pico-form-element-valid-focus-color: var(
+      --pico-form-element-valid-active-border-color
+    );
 
-		/* Switch */
-		--pico-switch-background-color: color-mix(
-			in srgb,
-			var(--pico-secondary),
-			white 30%
-		);
-		--pico-switch-checked-background-color: var(--pico-primary-background);
-		--pico-switch-color: white;
-		--pico-switch-thumb-box-shadow: 0 0 0 transparent;
+    /* Switch */
+    --pico-switch-background-color: color-mix(
+      in srgb,
+      var(--pico-secondary),
+      white 30%
+    );
+    --pico-switch-checked-background-color: var(--pico-primary-background);
+    --pico-switch-color: white;
+    --pico-switch-thumb-box-shadow: 0 0 0 transparent;
 
-		/* Range */
-		--pico-range-border-color: color-mix(
-			in srgb,
-			var(--pico-secondary),
-			white 75%
-		);
-		--pico-range-active-border-color: color-mix(
-			in srgb,
-			var(--pico-secondary),
-			white 50%
-		);
-		--pico-range-thumb-border-color: var(--pico-background-color);
-		--pico-range-thumb-color: var(--pico-secondary-background);
-		--pico-range-thumb-active-color: var(--pico-primary-background);
+    /* Range */
+    --pico-range-border-color: color-mix(
+      in srgb,
+      var(--pico-secondary),
+      white 75%
+    );
+    --pico-range-active-border-color: color-mix(
+      in srgb,
+      var(--pico-secondary),
+      white 50%
+    );
+    --pico-range-thumb-border-color: var(--pico-background-color);
+    --pico-range-thumb-color: var(--pico-secondary-background);
+    --pico-range-thumb-active-color: var(--pico-primary-background);
 
-		/* Accordion */
-		--pico-accordion-border-color: var(--pico-muted-border-color);
-		--pico-accordion-active-summary-color: var(--pico-primary-hover);
-		--pico-accordion-close-summary-color: var(--pico-color);
-		--pico-accordion-open-summary-color: var(--pico-muted-color);
+    /* Accordion */
+    --pico-accordion-border-color: var(--pico-muted-border-color);
+    --pico-accordion-active-summary-color: var(--pico-primary-hover);
+    --pico-accordion-close-summary-color: var(--pico-color);
+    --pico-accordion-open-summary-color: var(--pico-muted-color);
 
-		/* Card */
-		--pico-card-background-color: var(--pico-background-color);
-		--pico-card-border-color: var(--pico-muted-border-color);
-		--pico-card-box-shadow: var(--pico-box-shadow);
-		--pico-card-sectioning-background-color: color-mix(
-			in srgb,
-			var(--pico-secondary),
-			white 95%
-		);
+    /* Card */
+    --pico-card-background-color: var(--pico-background-color);
+    --pico-card-border-color: var(--pico-muted-border-color);
+    --pico-card-box-shadow: var(--pico-box-shadow);
+    --pico-card-sectioning-background-color: color-mix(
+      in srgb,
+      var(--pico-secondary),
+      white 95%
+    );
 
-		/* Dropdown */
-		--pico-dropdown-background-color: var(--pico-background-color);
-		--pico-dropdown-border-color: var(--pico-muted-border-color);
-		--pico-dropdown-box-shadow: var(--pico-box-shadow);
-		--pico-dropdown-color: var(--pico-color);
-		--pico-dropdown-hover-background-color: color-mix(
-			in srgb,
-			var(--pico-secondary),
-			white 90%
-		);
+    /* Dropdown */
+    --pico-dropdown-background-color: var(--pico-background-color);
+    --pico-dropdown-border-color: var(--pico-muted-border-color);
+    --pico-dropdown-box-shadow: var(--pico-box-shadow);
+    --pico-dropdown-color: var(--pico-color);
+    --pico-dropdown-hover-background-color: color-mix(
+      in srgb,
+      var(--pico-secondary),
+      white 90%
+    );
 
-		/* Loading */
-		--pico-loading-spinner-opacity: 0.5;
+    /* Loading */
+    --pico-loading-spinner-opacity: 0.5;
 
-		/* Modal */
-		--pico-modal-overlay-background-color: color-mix(
-			in srgb,
-			var(--pico-secondary),
-			transparent 75%
-		);
+    /* Modal */
+    --pico-modal-overlay-background-color: color-mix(
+      in srgb,
+      var(--pico-secondary),
+      transparent 75%
+    );
 
-		/* Progress */
-		--pico-progress-background-color: color-mix(
-			in srgb,
-			var(--pico-secondary),
-			white 75%
-		);
-		--pico-progress-color: var(--pico-primary-background);
+    /* Progress */
+    --pico-progress-background-color: color-mix(
+      in srgb,
+      var(--pico-secondary),
+      white 75%
+    );
+    --pico-progress-color: var(--pico-primary-background);
 
-		/* Tooltip */
-		--pico-tooltip-background-color: var(--pico-contrast-background);
-		--pico-tooltip-color: var(--pico-contrast-inverse);
-	}
+    /* Tooltip */
+    --pico-tooltip-background-color: var(--pico-contrast-background);
+    --pico-tooltip-color: var(--pico-contrast-inverse);
+  }
 
-	[data-theme="light"]
-		input:is(
-			[type="submit"],
-			[type="button"],
-			[type="reset"],
-			[type="checkbox"],
-			[type="radio"],
-			[type="file"]
-		),
-	:root:not([data-theme="dark"])
-		input:is(
-			[type="submit"],
-			[type="button"],
-			[type="reset"],
-			[type="checkbox"],
-			[type="radio"],
-			[type="file"]
-		),
-	:host(:not([data-theme="dark"]))
-		input:is(
-			[type="submit"],
-			[type="button"],
-			[type="reset"],
-			[type="checkbox"],
-			[type="radio"],
-			[type="file"]
-		) {
-		--pico-form-element-focus-color: var(--pico-primary-focus);
-	}
+  [data-theme="light"]
+    input:is(
+      [type="submit"],
+      [type="button"],
+      [type="reset"],
+      [type="checkbox"],
+      [type="radio"],
+      [type="file"]
+    ),
+  :root:not([data-theme="dark"])
+    input:is(
+      [type="submit"],
+      [type="button"],
+      [type="reset"],
+      [type="checkbox"],
+      [type="radio"],
+      [type="file"]
+    ),
+  :host(:not([data-theme="dark"]))
+    input:is(
+      [type="submit"],
+      [type="button"],
+      [type="reset"],
+      [type="checkbox"],
+      [type="radio"],
+      [type="file"]
+    ) {
+    --pico-form-element-focus-color: var(--pico-primary-focus);
+  }
 
-	/* ============================================================================
+  /* ============================================================================
    DERIVED PALETTE - Dark Mode
    ============================================================================ */
 
-	[data-theme="dark"] {
-		color-scheme: dark;
+  [data-theme="dark"] {
+    color-scheme: dark;
 
-		/* Surface: dark with secondary influence */
-		--pico-surface: color-mix(in srgb, black, var(--pico-secondary) 20%);
-		--pico-background-color: var(--pico-surface);
+    /* Surface: dark with secondary influence */
+    --pico-surface: color-mix(in srgb, black, var(--pico-secondary) 20%);
+    --pico-background-color: var(--pico-surface);
 
-		/* Text: light with secondary influence */
-		--pico-color: color-mix(in srgb, white, var(--pico-secondary) 25%);
-		--pico-muted-color: color-mix(in srgb, var(--pico-secondary), white 30%);
+    /* Text: light with secondary influence */
+    --pico-color: color-mix(in srgb, white, var(--pico-secondary) 25%);
+    --pico-muted-color: color-mix(in srgb, var(--pico-secondary), white 30%);
 
-		/* Primary derivatives for dark */
-		--pico-primary-hover: color-mix(in srgb, var(--pico-primary), white 15%);
-		--pico-primary-focus: color-mix(
-			in srgb,
-			var(--pico-primary),
-			transparent 62.5%
-		);
-		--pico-primary-inverse: white;
+    /* Primary derivatives for dark */
+    --pico-primary-hover: color-mix(in srgb, var(--pico-primary), white 15%);
+    --pico-primary-focus: color-mix(
+      in srgb,
+      var(--pico-primary),
+      transparent 62.5%
+    );
+    --pico-primary-inverse: black;
+    --pico-primary-background: color-mix(
+      in srgb,
+      var(--pico-primary),
+      white 25%
+    );
+    --pico-primary-border: var(--pico-primary-background);
+    --pico-primary-hover-background: color-mix(
+      in srgb,
+      var(--pico-primary),
+      white 35%
+    );
+    --pico-primary-hover-border: var(--pico-primary-hover-background);
+    --pico-primary-underline: color-mix(
+      in srgb,
+      var(--pico-primary),
+      transparent 50%
+    );
 
-		/* Border/muted for dark */
-		--pico-muted-border-color: color-mix(
-			in srgb,
-			black,
-			var(--pico-secondary) 30%
-		);
+    /* Border/muted for dark */
+    --pico-muted-border-color: color-mix(
+      in srgb,
+      black,
+      var(--pico-secondary) 30%
+    );
 
-		/* Secondary derivatives for dark */
-		--pico-secondary-hover: color-mix(
-			in srgb,
-			var(--pico-secondary),
-			white 20%
-		);
-		--pico-secondary-background: color-mix(
-			in srgb,
-			var(--pico-secondary),
-			white 10%
-		);
-		--pico-secondary-border: var(--pico-secondary-background);
-		--pico-secondary-hover-background: color-mix(
-			in srgb,
-			var(--pico-secondary),
-			white 15%
-		);
-		--pico-secondary-hover-border: var(--pico-secondary-hover-background);
-		--pico-secondary-focus: color-mix(
-			in srgb,
-			var(--pico-secondary),
-			transparent 75%
-		);
-		--pico-secondary-inverse: white;
+    /* Secondary derivatives for dark */
+    --pico-secondary-hover: color-mix(
+      in srgb,
+      var(--pico-secondary),
+      white 20%
+    );
+    --pico-secondary-background: color-mix(
+      in srgb,
+      var(--pico-secondary),
+      white 10%
+    );
+    --pico-secondary-border: var(--pico-secondary-background);
+    --pico-secondary-hover-background: color-mix(
+      in srgb,
+      var(--pico-secondary),
+      white 15%
+    );
+    --pico-secondary-hover-border: var(--pico-secondary-hover-background);
+    --pico-secondary-focus: color-mix(
+      in srgb,
+      var(--pico-secondary),
+      transparent 75%
+    );
+    --pico-secondary-inverse: white;
 
-		/* Contrast (near white) */
-		--pico-contrast: color-mix(in srgb, white, var(--pico-secondary) 15%);
-		--pico-contrast-background: var(--pico-contrast);
-		--pico-contrast-border: var(--pico-contrast);
-		--pico-contrast-underline: color-mix(
-			in srgb,
-			var(--pico-contrast),
-			transparent 50%
-		);
-		--pico-contrast-hover: white;
-		--pico-contrast-hover-background: white;
-		--pico-contrast-hover-border: var(--pico-contrast-hover-background);
-		--pico-contrast-hover-underline: var(--pico-contrast-hover);
-		--pico-contrast-focus: color-mix(
-			in srgb,
-			var(--pico-contrast),
-			transparent 75%
-		);
-		--pico-contrast-inverse: black;
+    /* Contrast (near white) */
+    --pico-contrast: color-mix(in srgb, white, var(--pico-secondary) 15%);
+    --pico-contrast-background: var(--pico-contrast);
+    --pico-contrast-border: var(--pico-contrast);
+    --pico-contrast-underline: color-mix(
+      in srgb,
+      var(--pico-contrast),
+      transparent 50%
+    );
+    --pico-contrast-hover: white;
+    --pico-contrast-hover-background: white;
+    --pico-contrast-hover-border: var(--pico-contrast-hover-background);
+    --pico-contrast-hover-underline: var(--pico-contrast-hover);
+    --pico-contrast-focus: color-mix(
+      in srgb,
+      var(--pico-contrast),
+      transparent 75%
+    );
+    --pico-contrast-inverse: black;
 
-		/* Box shadow for dark */
-		--pico-box-shadow:
-			0.0145rem 0.029rem 0.174rem color-mix(in srgb, black, transparent 98%),
-			0.0335rem 0.067rem 0.402rem color-mix(in srgb, black, transparent 97.5%),
-			0.0625rem 0.125rem 0.75rem color-mix(in srgb, black, transparent 97%),
-			0.1125rem 0.225rem 1.35rem color-mix(in srgb, black, transparent 96.5%),
-			0.2085rem 0.417rem 2.502rem color-mix(in srgb, black, transparent 95.5%),
-			0.5rem 1rem 6rem color-mix(in srgb, black, transparent 94%),
-			0 0 0 0.0625rem color-mix(in srgb, black, transparent 98.5%);
+    /* Box shadow for dark */
+    --pico-box-shadow:
+      0.0145rem 0.029rem 0.174rem color-mix(in srgb, black, transparent 98%),
+      0.0335rem 0.067rem 0.402rem color-mix(in srgb, black, transparent 97.5%),
+      0.0625rem 0.125rem 0.75rem color-mix(in srgb, black, transparent 97%),
+      0.1125rem 0.225rem 1.35rem color-mix(in srgb, black, transparent 96.5%),
+      0.2085rem 0.417rem 2.502rem color-mix(in srgb, black, transparent 95.5%),
+      0.5rem 1rem 6rem color-mix(in srgb, black, transparent 94%),
+      0 0 0 0.0625rem color-mix(in srgb, black, transparent 98.5%);
 
-		/* Typography for dark */
-		--pico-h1-color: color-mix(in srgb, white, var(--pico-secondary) 15%);
-		--pico-h2-color: color-mix(in srgb, white, var(--pico-secondary) 20%);
-		--pico-h3-color: var(--pico-color);
-		--pico-h4-color: color-mix(in srgb, white, var(--pico-secondary) 35%);
-		--pico-h5-color: color-mix(in srgb, white, var(--pico-secondary) 45%);
-		--pico-h6-color: var(--pico-muted-color);
+    /* Typography for dark */
+    --pico-h1-color: color-mix(in srgb, white, var(--pico-secondary) 15%);
+    --pico-h2-color: color-mix(in srgb, white, var(--pico-secondary) 20%);
+    --pico-h3-color: var(--pico-color);
+    --pico-h4-color: color-mix(in srgb, white, var(--pico-secondary) 35%);
+    --pico-h5-color: color-mix(in srgb, white, var(--pico-secondary) 45%);
+    --pico-h6-color: var(--pico-muted-color);
 
-		/* Mark, ins, del for dark */
-		--pico-mark-background-color: color-mix(
-			in srgb,
-			var(--pico-primary),
-			black 70%
-		);
-		--pico-mark-color: white;
-		--pico-ins-color: color-mix(in srgb, var(--pico-success), white 30%);
-		--pico-del-color: color-mix(in srgb, var(--pico-error), white 30%);
+    /* Mark, ins, del for dark */
+    --pico-mark-background-color: color-mix(
+      in srgb,
+      var(--pico-primary),
+      black 70%
+    );
+    --pico-mark-color: white;
+    --pico-ins-color: color-mix(in srgb, var(--pico-success), white 30%);
+    --pico-del-color: color-mix(in srgb, var(--pico-error), white 30%);
 
-		/* Code for dark */
-		--pico-code-background-color: color-mix(
-			in srgb,
-			black,
-			var(--pico-secondary) 30%
-		);
-		--pico-code-color: var(--pico-muted-color);
+    /* Code for dark */
+    --pico-code-background-color: color-mix(
+      in srgb,
+      black,
+      var(--pico-secondary) 30%
+    );
+    --pico-code-color: var(--pico-muted-color);
 
-		/* Form elements for dark */
-		--pico-form-element-background-color: color-mix(
-			in srgb,
-			black,
-			var(--pico-secondary) 25%
-		);
-		--pico-form-element-selected-background-color: color-mix(
-			in srgb,
-			black,
-			var(--pico-secondary) 35%
-		);
-		--pico-form-element-border-color: color-mix(
-			in srgb,
-			black,
-			var(--pico-secondary) 35%
-		);
-		--pico-form-element-color: color-mix(
-			in srgb,
-			white,
-			var(--pico-secondary) 20%
-		);
-		--pico-form-element-placeholder-color: var(--pico-muted-color);
-		--pico-form-element-active-background-color: color-mix(
-			in srgb,
-			black,
-			var(--pico-secondary) 30%
-		);
-		--pico-form-element-invalid-border-color: color-mix(
-			in srgb,
-			var(--pico-error),
-			white 30%
-		);
-		--pico-form-element-invalid-active-border-color: color-mix(
-			in srgb,
-			var(--pico-error),
-			white 20%
-		);
-		--pico-form-element-valid-border-color: color-mix(
-			in srgb,
-			var(--pico-success),
-			white 30%
-		);
-		--pico-form-element-valid-active-border-color: color-mix(
-			in srgb,
-			var(--pico-success),
-			white 20%
-		);
+    /* Form elements for dark */
+    --pico-form-element-background-color: color-mix(
+      in srgb,
+      black,
+      var(--pico-secondary) 25%
+    );
+    --pico-form-element-selected-background-color: color-mix(
+      in srgb,
+      black,
+      var(--pico-secondary) 35%
+    );
+    --pico-form-element-border-color: color-mix(
+      in srgb,
+      black,
+      var(--pico-secondary) 35%
+    );
+    --pico-form-element-color: color-mix(
+      in srgb,
+      white,
+      var(--pico-secondary) 20%
+    );
+    --pico-form-element-placeholder-color: var(--pico-muted-color);
+    --pico-form-element-active-background-color: color-mix(
+      in srgb,
+      black,
+      var(--pico-secondary) 30%
+    );
+    --pico-form-element-invalid-border-color: color-mix(
+      in srgb,
+      var(--pico-error),
+      white 30%
+    );
+    --pico-form-element-invalid-active-border-color: color-mix(
+      in srgb,
+      var(--pico-error),
+      white 20%
+    );
+    --pico-form-element-valid-border-color: color-mix(
+      in srgb,
+      var(--pico-success),
+      white 30%
+    );
+    --pico-form-element-valid-active-border-color: color-mix(
+      in srgb,
+      var(--pico-success),
+      white 20%
+    );
 
-		/* Switch for dark */
-		--pico-switch-background-color: color-mix(
-			in srgb,
-			black,
-			var(--pico-secondary) 40%
-		);
+    /* Switch for dark */
+    --pico-switch-background-color: color-mix(
+      in srgb,
+      black,
+      var(--pico-secondary) 40%
+    );
 
-		/* Range for dark */
-		--pico-range-border-color: color-mix(
-			in srgb,
-			black,
-			var(--pico-secondary) 30%
-		);
-		--pico-range-active-border-color: color-mix(
-			in srgb,
-			black,
-			var(--pico-secondary) 35%
-		);
+    /* Range for dark */
+    --pico-range-border-color: color-mix(
+      in srgb,
+      black,
+      var(--pico-secondary) 30%
+    );
+    --pico-range-active-border-color: color-mix(
+      in srgb,
+      black,
+      var(--pico-secondary) 35%
+    );
 
-		/* Card for dark */
-		--pico-card-background-color: color-mix(
-			in srgb,
-			black,
-			var(--pico-secondary) 15%
-		);
-		--pico-card-border-color: var(--pico-card-background-color);
-		--pico-card-sectioning-background-color: color-mix(
-			in srgb,
-			black,
-			var(--pico-secondary) 30%
-		);
+    /* Card for dark */
+    --pico-card-background-color: color-mix(
+      in srgb,
+      black,
+      var(--pico-secondary) 15%
+    );
+    --pico-card-border-color: var(--pico-card-background-color);
+    --pico-card-sectioning-background-color: color-mix(
+      in srgb,
+      black,
+      var(--pico-secondary) 30%
+    );
 
-		/* Dropdown for dark */
-		--pico-dropdown-background-color: color-mix(
-			in srgb,
-			black,
-			var(--pico-secondary) 15%
-		);
-		--pico-dropdown-border-color: color-mix(
-			in srgb,
-			black,
-			var(--pico-secondary) 30%
-		);
-		--pico-dropdown-hover-background-color: color-mix(
-			in srgb,
-			black,
-			var(--pico-secondary) 30%
-		);
+    /* Dropdown for dark */
+    --pico-dropdown-background-color: color-mix(
+      in srgb,
+      black,
+      var(--pico-secondary) 15%
+    );
+    --pico-dropdown-border-color: color-mix(
+      in srgb,
+      black,
+      var(--pico-secondary) 30%
+    );
+    --pico-dropdown-hover-background-color: color-mix(
+      in srgb,
+      black,
+      var(--pico-secondary) 30%
+    );
 
-		/* Modal for dark */
-		--pico-modal-overlay-background-color: color-mix(
-			in srgb,
-			black,
-			transparent 92%
-		);
+    /* Modal for dark */
+    --pico-modal-overlay-background-color: color-mix(
+      in srgb,
+      black,
+      transparent 92%
+    );
 
-		/* Progress for dark */
-		--pico-progress-background-color: color-mix(
-			in srgb,
-			black,
-			var(--pico-secondary) 30%
-		);
-	}
+    /* Progress for dark */
+    --pico-progress-background-color: color-mix(
+      in srgb,
+      black,
+      var(--pico-secondary) 30%
+    );
+  }
 
-	[data-theme="dark"]
-		input:is(
-			[type="submit"],
-			[type="button"],
-			[type="reset"],
-			[type="checkbox"],
-			[type="radio"],
-			[type="file"]
-		),
-	:host(:not([data-theme="light"]))
-		input:is(
-			[type="submit"],
-			[type="button"],
-			[type="reset"],
-			[type="checkbox"],
-			[type="radio"],
-			[type="file"]
-		) {
-		--pico-form-element-focus-color: var(--pico-primary-focus);
-	}
+  [data-theme="dark"]
+    input:is(
+      [type="submit"],
+      [type="button"],
+      [type="reset"],
+      [type="checkbox"],
+      [type="radio"],
+      [type="file"]
+    ),
+  :host(:not([data-theme="light"]))
+    input:is(
+      [type="submit"],
+      [type="button"],
+      [type="reset"],
+      [type="checkbox"],
+      [type="radio"],
+      [type="file"]
+    ) {
+    --pico-form-element-focus-color: var(--pico-primary-focus);
+  }
 
-	/* ============================================================================
+  /* ============================================================================
    AUTO DARK MODE (prefers-color-scheme)
    ============================================================================ */
 
-	@media only screen and (prefers-color-scheme: dark) {
-		:root:not([data-theme]),
-		:host(:not([data-theme])) {
-			color-scheme: dark;
+  @media only screen and (prefers-color-scheme: dark) {
+    :root:not([data-theme]),
+    :host(:not([data-theme])) {
+      color-scheme: dark;
 
-			--pico-surface: color-mix(in srgb, black, var(--pico-secondary) 20%);
-			--pico-background-color: var(--pico-surface);
-			--pico-color: color-mix(in srgb, white, var(--pico-secondary) 25%);
-			--pico-muted-color: color-mix(in srgb, var(--pico-secondary), white 30%);
-			--pico-primary-hover: color-mix(in srgb, var(--pico-primary), white 15%);
-			--pico-primary-focus: color-mix(
-				in srgb,
-				var(--pico-primary),
-				transparent 62.5%
-			);
-			--pico-primary-inverse: white;
-			--pico-muted-border-color: color-mix(
-				in srgb,
-				black,
-				var(--pico-secondary) 30%
-			);
-			--pico-secondary-hover: color-mix(
-				in srgb,
-				var(--pico-secondary),
-				white 20%
-			);
-			--pico-secondary-background: color-mix(
-				in srgb,
-				var(--pico-secondary),
-				white 10%
-			);
-			--pico-secondary-border: var(--pico-secondary-background);
-			--pico-secondary-hover-background: color-mix(
-				in srgb,
-				var(--pico-secondary),
-				white 15%
-			);
-			--pico-secondary-hover-border: var(--pico-secondary-hover-background);
-			--pico-secondary-focus: color-mix(
-				in srgb,
-				var(--pico-secondary),
-				transparent 75%
-			);
-			--pico-secondary-inverse: white;
-			--pico-contrast: color-mix(in srgb, white, var(--pico-secondary) 15%);
-			--pico-contrast-background: var(--pico-contrast);
-			--pico-contrast-border: var(--pico-contrast);
-			--pico-contrast-underline: color-mix(
-				in srgb,
-				var(--pico-contrast),
-				transparent 50%
-			);
-			--pico-contrast-hover: white;
-			--pico-contrast-hover-background: white;
-			--pico-contrast-hover-border: var(--pico-contrast-hover-background);
-			--pico-contrast-hover-underline: var(--pico-contrast-hover);
-			--pico-contrast-focus: color-mix(
-				in srgb,
-				var(--pico-contrast),
-				transparent 75%
-			);
-			--pico-contrast-inverse: black;
-			--pico-box-shadow:
-				0.0145rem 0.029rem 0.174rem color-mix(in srgb, black, transparent 98%),
-				0.0335rem 0.067rem 0.402rem color-mix(in srgb, black, transparent 97.5%),
-				0.0625rem 0.125rem 0.75rem color-mix(in srgb, black, transparent 97%),
-				0.1125rem 0.225rem 1.35rem color-mix(in srgb, black, transparent 96.5%),
-				0.2085rem 0.417rem 2.502rem color-mix(in srgb, black, transparent 95.5%),
-				0.5rem 1rem 6rem color-mix(in srgb, black, transparent 94%),
-				0 0 0 0.0625rem color-mix(in srgb, black, transparent 98.5%);
-			--pico-h1-color: color-mix(in srgb, white, var(--pico-secondary) 15%);
-			--pico-h2-color: color-mix(in srgb, white, var(--pico-secondary) 20%);
-			--pico-h3-color: var(--pico-color);
-			--pico-h4-color: color-mix(in srgb, white, var(--pico-secondary) 35%);
-			--pico-h5-color: color-mix(in srgb, white, var(--pico-secondary) 45%);
-			--pico-h6-color: var(--pico-muted-color);
-			--pico-mark-background-color: color-mix(
-				in srgb,
-				var(--pico-primary),
-				black 70%
-			);
-			--pico-mark-color: white;
-			--pico-ins-color: color-mix(in srgb, var(--pico-success), white 30%);
-			--pico-del-color: color-mix(in srgb, var(--pico-error), white 30%);
-			--pico-blockquote-border-color: var(--pico-muted-border-color);
-			--pico-blockquote-footer-color: var(--pico-muted-color);
-			--pico-button-box-shadow: 0 0 0 transparent;
-			--pico-button-hover-box-shadow: 0 0 0 transparent;
-			--pico-table-border-color: var(--pico-muted-border-color);
-			--pico-table-row-stripped-background-color: color-mix(
-				in srgb,
-				black,
-				var(--pico-secondary) 25%
-			);
-			--pico-code-background-color: color-mix(
-				in srgb,
-				black,
-				var(--pico-secondary) 30%
-			);
-			--pico-code-color: var(--pico-muted-color);
-			--pico-code-kbd-background-color: var(--pico-color);
-			--pico-code-kbd-color: var(--pico-background-color);
-			--pico-form-element-background-color: color-mix(
-				in srgb,
-				black,
-				var(--pico-secondary) 25%
-			);
-			--pico-form-element-selected-background-color: color-mix(
-				in srgb,
-				black,
-				var(--pico-secondary) 35%
-			);
-			--pico-form-element-border-color: color-mix(
-				in srgb,
-				black,
-				var(--pico-secondary) 35%
-			);
-			--pico-form-element-color: color-mix(
-				in srgb,
-				white,
-				var(--pico-secondary) 20%
-			);
-			--pico-form-element-placeholder-color: var(--pico-muted-color);
-			--pico-form-element-active-background-color: color-mix(
-				in srgb,
-				black,
-				var(--pico-secondary) 30%
-			);
-			--pico-form-element-active-border-color: var(--pico-primary-border);
-			--pico-form-element-focus-color: var(--pico-primary-border);
-			--pico-form-element-disabled-opacity: 0.5;
-			--pico-form-element-invalid-border-color: color-mix(
-				in srgb,
-				var(--pico-error),
-				white 30%
-			);
-			--pico-form-element-invalid-active-border-color: color-mix(
-				in srgb,
-				var(--pico-error),
-				white 20%
-			);
-			--pico-form-element-invalid-focus-color: var(
-				--pico-form-element-invalid-active-border-color
-			);
-			--pico-form-element-valid-border-color: color-mix(
-				in srgb,
-				var(--pico-success),
-				white 30%
-			);
-			--pico-form-element-valid-active-border-color: color-mix(
-				in srgb,
-				var(--pico-success),
-				white 20%
-			);
-			--pico-form-element-valid-focus-color: var(
-				--pico-form-element-valid-active-border-color
-			);
-			--pico-switch-background-color: color-mix(
-				in srgb,
-				black,
-				var(--pico-secondary) 40%
-			);
-			--pico-switch-checked-background-color: var(--pico-primary-background);
-			--pico-switch-color: white;
-			--pico-switch-thumb-box-shadow: 0 0 0 transparent;
-			--pico-range-border-color: color-mix(
-				in srgb,
-				black,
-				var(--pico-secondary) 30%
-			);
-			--pico-range-active-border-color: color-mix(
-				in srgb,
-				black,
-				var(--pico-secondary) 35%
-			);
-			--pico-range-thumb-border-color: var(--pico-background-color);
-			--pico-range-thumb-color: var(--pico-secondary-background);
-			--pico-range-thumb-active-color: var(--pico-primary-background);
-			--pico-accordion-border-color: var(--pico-muted-border-color);
-			--pico-accordion-active-summary-color: var(--pico-primary-hover);
-			--pico-accordion-close-summary-color: var(--pico-color);
-			--pico-accordion-open-summary-color: var(--pico-muted-color);
-			--pico-card-background-color: color-mix(
-				in srgb,
-				black,
-				var(--pico-secondary) 15%
-			);
-			--pico-card-border-color: var(--pico-card-background-color);
-			--pico-card-box-shadow: var(--pico-box-shadow);
-			--pico-card-sectioning-background-color: color-mix(
-				in srgb,
-				black,
-				var(--pico-secondary) 30%
-			);
-			--pico-dropdown-background-color: color-mix(
-				in srgb,
-				black,
-				var(--pico-secondary) 15%
-			);
-			--pico-dropdown-border-color: color-mix(
-				in srgb,
-				black,
-				var(--pico-secondary) 30%
-			);
-			--pico-dropdown-box-shadow: var(--pico-box-shadow);
-			--pico-dropdown-color: var(--pico-color);
-			--pico-dropdown-hover-background-color: color-mix(
-				in srgb,
-				black,
-				var(--pico-secondary) 30%
-			);
-			--pico-loading-spinner-opacity: 0.5;
-			--pico-modal-overlay-background-color: color-mix(
-				in srgb,
-				black,
-				transparent 92%
-			);
-			--pico-progress-background-color: color-mix(
-				in srgb,
-				black,
-				var(--pico-secondary) 30%
-			);
-			--pico-progress-color: var(--pico-primary-background);
-			--pico-tooltip-background-color: var(--pico-contrast-background);
-			--pico-tooltip-color: var(--pico-contrast-inverse);
-		}
+      --pico-surface: color-mix(in srgb, black, var(--pico-secondary) 20%);
+      --pico-background-color: var(--pico-surface);
+      --pico-color: color-mix(in srgb, white, var(--pico-secondary) 25%);
+      --pico-muted-color: color-mix(in srgb, var(--pico-secondary), white 30%);
+      --pico-primary-hover: color-mix(in srgb, var(--pico-primary), white 15%);
+      --pico-primary-focus: color-mix(
+        in srgb,
+        var(--pico-primary),
+        transparent 62.5%
+      );
+      --pico-primary-inverse: black;
+      --pico-primary-background: color-mix(
+        in srgb,
+        var(--pico-primary),
+        white 25%
+      );
+      --pico-primary-border: var(--pico-primary-background);
+      --pico-primary-hover-background: color-mix(
+        in srgb,
+        var(--pico-primary),
+        white 35%
+      );
+      --pico-primary-hover-border: var(--pico-primary-hover-background);
+      --pico-primary-underline: color-mix(
+        in srgb,
+        var(--pico-primary),
+        transparent 50%
+      );
+      --pico-muted-border-color: color-mix(
+        in srgb,
+        black,
+        var(--pico-secondary) 30%
+      );
+      --pico-secondary-hover: color-mix(
+        in srgb,
+        var(--pico-secondary),
+        white 20%
+      );
+      --pico-secondary-background: color-mix(
+        in srgb,
+        var(--pico-secondary),
+        white 10%
+      );
+      --pico-secondary-border: var(--pico-secondary-background);
+      --pico-secondary-hover-background: color-mix(
+        in srgb,
+        var(--pico-secondary),
+        white 15%
+      );
+      --pico-secondary-hover-border: var(--pico-secondary-hover-background);
+      --pico-secondary-focus: color-mix(
+        in srgb,
+        var(--pico-secondary),
+        transparent 75%
+      );
+      --pico-secondary-inverse: white;
+      --pico-contrast: color-mix(in srgb, white, var(--pico-secondary) 15%);
+      --pico-contrast-background: var(--pico-contrast);
+      --pico-contrast-border: var(--pico-contrast);
+      --pico-contrast-underline: color-mix(
+        in srgb,
+        var(--pico-contrast),
+        transparent 50%
+      );
+      --pico-contrast-hover: white;
+      --pico-contrast-hover-background: white;
+      --pico-contrast-hover-border: var(--pico-contrast-hover-background);
+      --pico-contrast-hover-underline: var(--pico-contrast-hover);
+      --pico-contrast-focus: color-mix(
+        in srgb,
+        var(--pico-contrast),
+        transparent 75%
+      );
+      --pico-contrast-inverse: black;
+      --pico-box-shadow:
+        0.0145rem 0.029rem 0.174rem color-mix(in srgb, black, transparent 98%),
+        0.0335rem 0.067rem 0.402rem color-mix(in srgb, black, transparent 97.5%),
+        0.0625rem 0.125rem 0.75rem color-mix(in srgb, black, transparent 97%),
+        0.1125rem 0.225rem 1.35rem color-mix(in srgb, black, transparent 96.5%),
+        0.2085rem 0.417rem 2.502rem color-mix(in srgb, black, transparent 95.5%),
+        0.5rem 1rem 6rem color-mix(in srgb, black, transparent 94%),
+        0 0 0 0.0625rem color-mix(in srgb, black, transparent 98.5%);
+      --pico-h1-color: color-mix(in srgb, white, var(--pico-secondary) 15%);
+      --pico-h2-color: color-mix(in srgb, white, var(--pico-secondary) 20%);
+      --pico-h3-color: var(--pico-color);
+      --pico-h4-color: color-mix(in srgb, white, var(--pico-secondary) 35%);
+      --pico-h5-color: color-mix(in srgb, white, var(--pico-secondary) 45%);
+      --pico-h6-color: var(--pico-muted-color);
+      --pico-mark-background-color: color-mix(
+        in srgb,
+        var(--pico-primary),
+        black 70%
+      );
+      --pico-mark-color: white;
+      --pico-ins-color: color-mix(in srgb, var(--pico-success), white 30%);
+      --pico-del-color: color-mix(in srgb, var(--pico-error), white 30%);
+      --pico-blockquote-border-color: var(--pico-muted-border-color);
+      --pico-blockquote-footer-color: var(--pico-muted-color);
+      --pico-button-box-shadow: 0 0 0 transparent;
+      --pico-button-hover-box-shadow: 0 0 0 transparent;
+      --pico-table-border-color: var(--pico-muted-border-color);
+      --pico-table-row-stripped-background-color: color-mix(
+        in srgb,
+        black,
+        var(--pico-secondary) 25%
+      );
+      --pico-code-background-color: color-mix(
+        in srgb,
+        black,
+        var(--pico-secondary) 30%
+      );
+      --pico-code-color: var(--pico-muted-color);
+      --pico-code-kbd-background-color: var(--pico-color);
+      --pico-code-kbd-color: var(--pico-background-color);
+      --pico-form-element-background-color: color-mix(
+        in srgb,
+        black,
+        var(--pico-secondary) 25%
+      );
+      --pico-form-element-selected-background-color: color-mix(
+        in srgb,
+        black,
+        var(--pico-secondary) 35%
+      );
+      --pico-form-element-border-color: color-mix(
+        in srgb,
+        black,
+        var(--pico-secondary) 35%
+      );
+      --pico-form-element-color: color-mix(
+        in srgb,
+        white,
+        var(--pico-secondary) 20%
+      );
+      --pico-form-element-placeholder-color: var(--pico-muted-color);
+      --pico-form-element-active-background-color: color-mix(
+        in srgb,
+        black,
+        var(--pico-secondary) 30%
+      );
+      --pico-form-element-active-border-color: var(--pico-primary-border);
+      --pico-form-element-focus-color: var(--pico-primary-border);
+      --pico-form-element-disabled-opacity: 0.5;
+      --pico-form-element-invalid-border-color: color-mix(
+        in srgb,
+        var(--pico-error),
+        white 30%
+      );
+      --pico-form-element-invalid-active-border-color: color-mix(
+        in srgb,
+        var(--pico-error),
+        white 20%
+      );
+      --pico-form-element-invalid-focus-color: var(
+        --pico-form-element-invalid-active-border-color
+      );
+      --pico-form-element-valid-border-color: color-mix(
+        in srgb,
+        var(--pico-success),
+        white 30%
+      );
+      --pico-form-element-valid-active-border-color: color-mix(
+        in srgb,
+        var(--pico-success),
+        white 20%
+      );
+      --pico-form-element-valid-focus-color: var(
+        --pico-form-element-valid-active-border-color
+      );
+      --pico-switch-background-color: color-mix(
+        in srgb,
+        black,
+        var(--pico-secondary) 40%
+      );
+      --pico-switch-checked-background-color: var(--pico-primary-background);
+      --pico-switch-color: white;
+      --pico-switch-thumb-box-shadow: 0 0 0 transparent;
+      --pico-range-border-color: color-mix(
+        in srgb,
+        black,
+        var(--pico-secondary) 30%
+      );
+      --pico-range-active-border-color: color-mix(
+        in srgb,
+        black,
+        var(--pico-secondary) 35%
+      );
+      --pico-range-thumb-border-color: var(--pico-background-color);
+      --pico-range-thumb-color: var(--pico-secondary-background);
+      --pico-range-thumb-active-color: var(--pico-primary-background);
+      --pico-accordion-border-color: var(--pico-muted-border-color);
+      --pico-accordion-active-summary-color: var(--pico-primary-hover);
+      --pico-accordion-close-summary-color: var(--pico-color);
+      --pico-accordion-open-summary-color: var(--pico-muted-color);
+      --pico-card-background-color: color-mix(
+        in srgb,
+        black,
+        var(--pico-secondary) 15%
+      );
+      --pico-card-border-color: var(--pico-card-background-color);
+      --pico-card-box-shadow: var(--pico-box-shadow);
+      --pico-card-sectioning-background-color: color-mix(
+        in srgb,
+        black,
+        var(--pico-secondary) 30%
+      );
+      --pico-dropdown-background-color: color-mix(
+        in srgb,
+        black,
+        var(--pico-secondary) 15%
+      );
+      --pico-dropdown-border-color: color-mix(
+        in srgb,
+        black,
+        var(--pico-secondary) 30%
+      );
+      --pico-dropdown-box-shadow: var(--pico-box-shadow);
+      --pico-dropdown-color: var(--pico-color);
+      --pico-dropdown-hover-background-color: color-mix(
+        in srgb,
+        black,
+        var(--pico-secondary) 30%
+      );
+      --pico-loading-spinner-opacity: 0.5;
+      --pico-modal-overlay-background-color: color-mix(
+        in srgb,
+        black,
+        transparent 92%
+      );
+      --pico-progress-background-color: color-mix(
+        in srgb,
+        black,
+        var(--pico-secondary) 30%
+      );
+      --pico-progress-color: var(--pico-primary-background);
+      --pico-tooltip-background-color: var(--pico-contrast-background);
+      --pico-tooltip-color: var(--pico-contrast-inverse);
+    }
 
-		:root:not([data-theme])
-			input:is(
-				[type="submit"],
-				[type="button"],
-				[type="reset"],
-				[type="checkbox"],
-				[type="radio"],
-				[type="file"]
-			),
-		:host(:not([data-theme]))
-			input:is(
-				[type="submit"],
-				[type="button"],
-				[type="reset"],
-				[type="checkbox"],
-				[type="radio"],
-				[type="file"]
-			) {
-			--pico-form-element-focus-color: var(--pico-primary-focus);
-		}
+    :root:not([data-theme])
+      input:is(
+        [type="submit"],
+        [type="button"],
+        [type="reset"],
+        [type="checkbox"],
+        [type="radio"],
+        [type="file"]
+      ),
+    :host(:not([data-theme]))
+      input:is(
+        [type="submit"],
+        [type="button"],
+        [type="reset"],
+        [type="checkbox"],
+        [type="radio"],
+        [type="file"]
+      ) {
+      --pico-form-element-focus-color: var(--pico-primary-focus);
+    }
 
-		:root:not([data-theme])
-			details
-			summary[role="button"].contrast:not(.outline)::after,
-		:host(:not([data-theme]))
-			details
-			summary[role="button"].contrast:not(.outline)::after {
-			filter: brightness(0);
-		}
+    :root:not([data-theme])
+      details
+      summary[role="button"].contrast:not(.outline)::after,
+    :host(:not([data-theme]))
+      details
+      summary[role="button"].contrast:not(.outline)::after {
+      filter: brightness(0);
+    }
 
-		:root:not([data-theme])
-			[aria-busy="true"]:not(input, select, textarea).contrast:is(
-				button,
-				[type="submit"],
-				[type="button"],
-				[type="reset"],
-				[role="button"]
-			):not(.outline)::before,
-		:host(:not([data-theme]))
-			[aria-busy="true"]:not(input, select, textarea).contrast:is(
-				button,
-				[type="submit"],
-				[type="button"],
-				[type="reset"],
-				[role="button"]
-			):not(.outline)::before {
-			filter: brightness(0);
-		}
-	}
+    :root:not([data-theme])
+      [aria-busy="true"]:not(input, select, textarea).contrast:is(
+        button,
+        [type="submit"],
+        [type="button"],
+        [type="reset"],
+        [role="button"]
+      ):not(.outline)::before,
+    :host(:not([data-theme]))
+      [aria-busy="true"]:not(input, select, textarea).contrast:is(
+        button,
+        [type="submit"],
+        [type="button"],
+        [type="reset"],
+        [role="button"]
+      ):not(.outline)::before {
+      filter: brightness(0);
+    }
+  }
 } /* @layer theme */
 @layer layout {
 	/**
@@ -1878,834 +1912,845 @@
 	}
 } /* @layer content */
 @layer forms {
-  /**
+	/**
 	 * Basics form elements
 	 */
 
-  input,
-  optgroup,
-  select,
-  textarea {
-    margin: 0;
-    font-size: 1rem;
-    line-height: var(--pico-line-height);
-    font-family: inherit;
-    letter-spacing: inherit;
-  }
+	input,
+	optgroup,
+	select,
+	textarea {
+		margin: 0;
+		font-size: 1rem;
+		line-height: var(--pico-line-height);
+		font-family: inherit;
+		letter-spacing: inherit;
+	}
 
-  input {
-    overflow: visible;
-  }
+	input {
+		overflow: visible;
+	}
 
-  select {
-    text-transform: none;
-  }
+	select {
+		text-transform: none;
+	}
 
-  legend {
-    max-width: 100%;
-    padding: 0;
-    color: inherit;
-    white-space: normal;
-  }
+	legend {
+		max-width: 100%;
+		padding: 0;
+		color: inherit;
+		white-space: normal;
+	}
 
-  textarea {
-    overflow: auto;
-  }
+	textarea {
+		overflow: auto;
+	}
 
-  [type="checkbox"],
-  [type="radio"] {
-    padding: 0;
-  }
+	[type="checkbox"],
+	[type="radio"] {
+		padding: 0;
+	}
 
-  ::-webkit-inner-spin-button,
-  ::-webkit-outer-spin-button {
-    height: auto;
-  }
+	::-webkit-inner-spin-button,
+	::-webkit-outer-spin-button {
+		height: auto;
+	}
 
-  [type="search"] {
-    appearance: textfield;
-    outline-offset: -2px;
-  }
+	[type="search"] {
+		appearance: textfield;
+		outline-offset: -2px;
+	}
 
-  [type="search"]::-webkit-search-decoration {
-    appearance: none;
-  }
+	[type="search"]::-webkit-search-decoration {
+		appearance: none;
+	}
 
-  ::-webkit-file-upload-button {
-    appearance: button;
-    font: inherit;
-  }
+	::-webkit-file-upload-button {
+		appearance: button;
+		font: inherit;
+	}
 
-  ::-moz-focus-inner {
-    padding: 0;
-    border-style: none;
-  }
+	::-moz-focus-inner {
+		padding: 0;
+		border-style: none;
+	}
 
-  :-moz-focusring {
-    outline: none;
-  }
+	:-moz-focusring {
+		outline: none;
+	}
 
-  :-moz-ui-invalid {
-    box-shadow: none;
-  }
+	:-moz-ui-invalid {
+		box-shadow: none;
+	}
 
-  [type="file"],
-  [type="range"] {
-    padding: 0;
-    border-width: 0;
-  }
+	[type="file"],
+	[type="range"] {
+		padding: 0;
+		border-width: 0;
+	}
 
-  input:not([type="checkbox"], [type="radio"], [type="range"]) {
-    height: calc(
-      1rem * var(--pico-line-height) +
-        var(--pico-form-element-spacing-vertical) * 2 +
-        var(--pico-border-width) * 2
-    );
-  }
+	input:not([type="checkbox"], [type="radio"], [type="range"]) {
+		height: calc(
+			1rem *
+			var(--pico-line-height) +
+			var(--pico-form-element-spacing-vertical) *
+			2 +
+			var(--pico-border-width) *
+			2
+		);
+	}
 
-  fieldset {
-    width: 100%;
-    margin: 0;
-    margin-bottom: var(--pico-spacing);
-    padding: 0;
-    border: 0;
-  }
+	fieldset {
+		width: 100%;
+		margin: 0;
+		margin-bottom: var(--pico-spacing);
+		padding: 0;
+		border: 0;
+	}
 
-  label,
-  fieldset legend {
-    display: block;
-    margin-bottom: calc(var(--pico-spacing) * 0.375);
-    color: var(--pico-color);
-    font-weight: var(--pico-form-label-font-weight, var(--pico-font-weight));
-  }
+	label,
+	fieldset legend {
+		display: block;
+		margin-bottom: calc(var(--pico-spacing) * 0.375);
+		color: var(--pico-color);
+		font-weight: var(--pico-form-label-font-weight, var(--pico-font-weight));
+	}
 
-  fieldset legend {
-    margin-bottom: calc(var(--pico-spacing) * 0.5);
-  }
+	fieldset legend {
+		margin-bottom: calc(var(--pico-spacing) * 0.5);
+	}
 
-  input:not([type="checkbox"], [type="radio"]),
-  button[type="submit"],
-  select,
-  textarea {
-    width: 100%;
-  }
+	input:not([type="checkbox"], [type="radio"]),
+	button[type="submit"],
+	select,
+	textarea {
+		width: 100%;
+	}
 
-  input:not([type="checkbox"], [type="radio"], [type="range"], [type="file"]),
-  select,
-  textarea {
-    appearance: none;
-    padding: var(--pico-form-element-spacing-vertical)
-      var(--pico-form-element-spacing-horizontal);
-  }
+	input:not([type="checkbox"], [type="radio"], [type="range"], [type="file"]),
+	select,
+	textarea {
+		appearance: none;
+		padding: var(--pico-form-element-spacing-vertical)
+			var(--pico-form-element-spacing-horizontal);
+	}
 
-  input,
-  select,
-  textarea {
-    --pico-background-color: var(--pico-form-element-background-color);
-    --pico-border-color: var(--pico-form-element-border-color);
-    --pico-color: var(--pico-form-element-color);
-    --pico-box-shadow: none;
-    border: var(--pico-border-width) solid var(--pico-border-color);
-    border-radius: var(--pico-border-radius);
-    outline: none;
-    background-color: var(--pico-background-color);
-    box-shadow: var(--pico-box-shadow);
-    color: var(--pico-color);
-    font-weight: var(--pico-font-weight);
-    transition:
-      background-color var(--pico-transition),
-      border-color var(--pico-transition),
-      color var(--pico-transition),
-      box-shadow var(--pico-transition);
-  }
+	input,
+	select,
+	textarea {
+		--pico-background-color: var(--pico-form-element-background-color);
+		--pico-border-color: var(--pico-form-element-border-color);
+		--pico-color: var(--pico-form-element-color);
+		--pico-box-shadow: none;
+		border: var(--pico-border-width) solid var(--pico-border-color);
+		border-radius: var(--pico-border-radius);
+		outline: none;
+		background-color: var(--pico-background-color);
+		box-shadow: var(--pico-box-shadow);
+		color: var(--pico-color);
+		font-weight: var(--pico-font-weight);
+		transition:
+			background-color var(--pico-transition),
+			border-color var(--pico-transition),
+			color var(--pico-transition),
+			box-shadow var(--pico-transition);
+	}
 
-  :where(
-    input:not([readonly]),
-    select:not([readonly]),
-    textarea:not([readonly])
-  ):is(:active, :focus) {
-    --pico-background-color: var(--pico-form-element-active-background-color);
-  }
+	:where(
+			input:not([readonly]),
+			select:not([readonly]),
+			textarea:not([readonly])
+		):is(:active, :focus) {
+		--pico-background-color: var(--pico-form-element-active-background-color);
+	}
 
-  :where(
-    input:not(
-      [type="submit"],
-      [type="button"],
-      [type="reset"],
-      [role="switch"],
-      [readonly]
-    ),
-    select:not([readonly]),
-    textarea:not([readonly])
-  ):is(:active, :focus) {
-    --pico-border-color: var(--pico-form-element-active-border-color);
-  }
+	:where(
+			input:not(
+					[type="submit"],
+					[type="button"],
+					[type="reset"],
+					[role="switch"],
+					[readonly]
+				),
+			select:not([readonly]),
+			textarea:not([readonly])
+		):is(:active, :focus) {
+		--pico-border-color: var(--pico-form-element-active-border-color);
+	}
 
-  :where(
-    input:not(
-      [type="submit"],
-      [type="button"],
-      [type="reset"],
-      [type="range"],
-      [type="file"],
-      [readonly]
-    ),
-    select:not([readonly]),
-    textarea:not([readonly])
-  ):focus {
-    --pico-box-shadow: 0 0 0 var(--pico-outline-width)
-      var(--pico-form-element-focus-color);
-  }
+	:where(
+			input:not(
+					[type="submit"],
+					[type="button"],
+					[type="reset"],
+					[type="range"],
+					[type="file"],
+					[readonly]
+				),
+			select:not([readonly]),
+			textarea:not([readonly])
+		):focus {
+		--pico-box-shadow: 0 0 0 var(--pico-outline-width)
+			var(--pico-form-element-focus-color);
+	}
 
-  input:not([type="submit"], [type="button"], [type="reset"])[disabled],
-  select[disabled],
-  textarea[disabled],
-  label[aria-disabled="true"],
-  :where(fieldset[disabled])
-    :is(
-      input:not([type="submit"], [type="button"], [type="reset"]),
-      select,
-      textarea
-    ) {
-    opacity: var(--pico-form-element-disabled-opacity);
-    pointer-events: none;
-  }
+	input:not([type="submit"], [type="button"], [type="reset"])[disabled],
+	select[disabled],
+	textarea[disabled],
+	label[aria-disabled="true"],
+	:where(fieldset[disabled])
+		:is(
+			input:not([type="submit"], [type="button"], [type="reset"]),
+			select,
+			textarea
+		) {
+		opacity: var(--pico-form-element-disabled-opacity);
+		pointer-events: none;
+	}
 
-  label[aria-disabled="true"] input[disabled] {
-    opacity: 1;
-  }
+	label[aria-disabled="true"] input[disabled] {
+		opacity: 1;
+	}
 
-  :where(input, select, textarea):not(
-      [type="checkbox"],
-      [type="radio"],
-      [type="date"],
-      [type="datetime-local"],
-      [type="month"],
-      [type="time"],
-      [type="week"],
-      [type="range"]
-    )[aria-invalid] {
-    padding-right: calc(var(--pico-form-element-spacing-horizontal) + 1.5rem);
-    padding-left: var(--pico-form-element-spacing-horizontal);
-    padding-inline-start: var(--pico-form-element-spacing-horizontal);
-    padding-inline-end: calc(
-      var(--pico-form-element-spacing-horizontal) + 1.5rem
-    );
-    background-position: center right 0.75rem;
-    background-size: 1rem auto;
-    background-repeat: no-repeat;
-  }
+	:where(input, select, textarea):not(
+			[type="checkbox"],
+			[type="radio"],
+			[type="date"],
+			[type="datetime-local"],
+			[type="month"],
+			[type="time"],
+			[type="week"],
+			[type="range"]
+		)[aria-invalid] {
+		padding-right: calc(var(--pico-form-element-spacing-horizontal) + 1.5rem);
+		padding-left: var(--pico-form-element-spacing-horizontal);
+		padding-inline-start: var(--pico-form-element-spacing-horizontal);
+		padding-inline-end: calc(
+			var(--pico-form-element-spacing-horizontal) +
+			1.5rem
+		);
+		background-position: center right 0.75rem;
+		background-size: 1rem auto;
+		background-repeat: no-repeat;
+	}
 
-  :where(input, select, textarea):not(
-      [type="checkbox"],
-      [type="radio"],
-      [type="date"],
-      [type="datetime-local"],
-      [type="month"],
-      [type="time"],
-      [type="week"],
-      [type="range"]
-    )[aria-invalid="false"]:not(select) {
-    background-image: var(--pico-icon-valid);
-  }
+	:where(input, select, textarea):not(
+			[type="checkbox"],
+			[type="radio"],
+			[type="date"],
+			[type="datetime-local"],
+			[type="month"],
+			[type="time"],
+			[type="week"],
+			[type="range"]
+		)[aria-invalid="false"]:not(select) {
+		background-image: var(--pico-icon-valid);
+	}
 
-  :where(
-    input:not(
-      [type="checkbox"],
-      [type="radio"],
-      [type="date"],
-      [type="datetime-local"],
-      [type="month"],
-      [type="time"],
-      [type="week"],
-      [type="range"]
-    ),
-    select,
-    textarea
-  )[aria-invalid] {
-    padding-right: calc(var(--pico-form-element-spacing-horizontal) + 1.5rem);
-    padding-left: var(--pico-form-element-spacing-horizontal);
-    padding-inline-start: var(--pico-form-element-spacing-horizontal);
-    padding-inline-end: calc(
-      var(--pico-form-element-spacing-horizontal) + 1.5rem
-    );
-    background-position: center right 0.75rem;
-    background-size: 1rem auto;
-    background-repeat: no-repeat;
-  }
+	:where(
+			input:not(
+					[type="checkbox"],
+					[type="radio"],
+					[type="date"],
+					[type="datetime-local"],
+					[type="month"],
+					[type="time"],
+					[type="week"],
+					[type="range"]
+				),
+			select,
+			textarea
+		)[aria-invalid] {
+		padding-right: calc(var(--pico-form-element-spacing-horizontal) + 1.5rem);
+		padding-left: var(--pico-form-element-spacing-horizontal);
+		padding-inline-start: var(--pico-form-element-spacing-horizontal);
+		padding-inline-end: calc(
+			var(--pico-form-element-spacing-horizontal) +
+			1.5rem
+		);
+		background-position: center right 0.75rem;
+		background-size: 1rem auto;
+		background-repeat: no-repeat;
+	}
 
-  :where(
-    input:not(
-      [type="checkbox"],
-      [type="radio"],
-      [type="date"],
-      [type="datetime-local"],
-      [type="month"],
-      [type="time"],
-      [type="week"],
-      [type="range"]
-    ),
-    select
-  )[aria-invalid="false"] {
-    background-image: var(--pico-icon-valid);
-  }
+	:where(
+			input:not(
+					[type="checkbox"],
+					[type="radio"],
+					[type="date"],
+					[type="datetime-local"],
+					[type="month"],
+					[type="time"],
+					[type="week"],
+					[type="range"]
+				),
+			select
+		)[aria-invalid="false"] {
+		background-image: var(--pico-icon-valid);
+	}
 
-  :where(
-    input:not(
-      [type="checkbox"],
-      [type="radio"],
-      [type="date"],
-      [type="datetime-local"],
-      [type="month"],
-      [type="time"],
-      [type="week"],
-      [type="range"]
-    ),
-    select
-  )[aria-invalid="true"] {
-    background-image: var(--pico-icon-invalid);
-  }
+	:where(
+			input:not(
+					[type="checkbox"],
+					[type="radio"],
+					[type="date"],
+					[type="datetime-local"],
+					[type="month"],
+					[type="time"],
+					[type="week"],
+					[type="range"]
+				),
+			select
+		)[aria-invalid="true"] {
+		background-image: var(--pico-icon-invalid);
+	}
 
-  :where(input, select, textarea)[aria-invalid="false"] {
-    --pico-border-color: var(--pico-form-element-valid-border-color);
-  }
+	:where(input, select, textarea)[aria-invalid="false"] {
+		--pico-border-color: var(--pico-form-element-valid-border-color);
+	}
 
-  :where(input, select, textarea)[aria-invalid="false"]:is(:active, :focus) {
-    --pico-border-color: var(--pico-form-element-valid-active-border-color);
-  }
+	:where(input, select, textarea)[aria-invalid="false"]:is(:active, :focus) {
+		--pico-border-color: var(--pico-form-element-valid-active-border-color);
+	}
 
-  :where(input, select, textarea)[aria-invalid="false"]:is(:active, :focus):not(
-      [type="checkbox"],
-      [type="radio"]
-    ) {
-    --pico-box-shadow: 0 0 0 var(--pico-outline-width)
-      var(--pico-form-element-valid-focus-color);
-  }
+	:where(input, select, textarea)[aria-invalid="false"]:is(:active, :focus):not(
+			[type="checkbox"],
+			[type="radio"]
+		) {
+		--pico-box-shadow: 0 0 0 var(--pico-outline-width)
+			var(--pico-form-element-valid-focus-color);
+	}
 
-  :where(input, select, textarea)[aria-invalid="true"] {
-    --pico-border-color: var(--pico-form-element-invalid-border-color);
-  }
+	:where(input, select, textarea)[aria-invalid="true"] {
+		--pico-border-color: var(--pico-form-element-invalid-border-color);
+	}
 
-  :where(input, select, textarea)[aria-invalid="true"]:is(:active, :focus) {
-    --pico-border-color: var(--pico-form-element-invalid-active-border-color);
-  }
+	:where(input, select, textarea)[aria-invalid="true"]:is(:active, :focus) {
+		--pico-border-color: var(--pico-form-element-invalid-active-border-color);
+	}
 
-  :where(input, select, textarea)[aria-invalid="true"]:is(:active, :focus):not(
-      [type="checkbox"],
-      [type="radio"]
-    ) {
-    --pico-box-shadow: 0 0 0 var(--pico-outline-width)
-      var(--pico-form-element-invalid-focus-color);
-  }
+	:where(input, select, textarea)[aria-invalid="true"]:is(:active, :focus):not(
+			[type="checkbox"],
+			[type="radio"]
+		) {
+		--pico-box-shadow: 0 0 0 var(--pico-outline-width)
+			var(--pico-form-element-invalid-focus-color);
+	}
 
-  [dir="rtl"]
-    :where(input, select, textarea):not([type="checkbox"], [type="radio"]):is(
-      [aria-invalid],
-      [aria-invalid="true"],
-      [aria-invalid="false"]
-    ) {
-    background-position: center left 0.75rem;
-  }
+	[dir="rtl"]
+		:where(input, select, textarea):not([type="checkbox"], [type="radio"]):is(
+			[aria-invalid],
+			[aria-invalid="true"],
+			[aria-invalid="false"]
+		) {
+		background-position: center left 0.75rem;
+	}
 
-  input::placeholder,
-  textarea::placeholder,
-  select:invalid {
-    color: var(--pico-form-element-placeholder-color);
-    opacity: 1;
-  }
+	input::placeholder,
+	textarea::placeholder,
+	select:invalid {
+		color: var(--pico-form-element-placeholder-color);
+		opacity: 1;
+	}
 
-  input:not([type="checkbox"], [type="radio"]),
-  select,
-  textarea {
-    margin-bottom: var(--pico-spacing);
-  }
+	input:not([type="checkbox"], [type="radio"]),
+	select,
+	textarea {
+		margin-bottom: var(--pico-spacing);
+	}
 
-  select:not([multiple], [size]) {
-    padding-right: calc(var(--pico-form-element-spacing-horizontal) + 1.5rem);
-    padding-left: var(--pico-form-element-spacing-horizontal);
-    padding-inline-start: var(--pico-form-element-spacing-horizontal);
-    padding-inline-end: calc(
-      var(--pico-form-element-spacing-horizontal) + 1.5rem
-    );
-    background-image: var(--pico-icon-chevron);
-    background-position: center right 0.75rem;
-    background-size: 1rem auto;
-    background-repeat: no-repeat;
-  }
+	select:not([multiple], [size]) {
+		padding-right: calc(var(--pico-form-element-spacing-horizontal) + 1.5rem);
+		padding-left: var(--pico-form-element-spacing-horizontal);
+		padding-inline-start: var(--pico-form-element-spacing-horizontal);
+		padding-inline-end: calc(
+			var(--pico-form-element-spacing-horizontal) +
+			1.5rem
+		);
+		background-image: var(--pico-icon-chevron);
+		background-position: center right 0.75rem;
+		background-size: 1rem auto;
+		background-repeat: no-repeat;
+	}
 
-  select[multiple] option:checked {
-    background: var(--pico-form-element-selected-background-color);
-    color: var(--pico-form-element-color);
-  }
+	select[multiple] option:checked {
+		background: var(--pico-form-element-selected-background-color);
+		color: var(--pico-form-element-color);
+	}
 
-  [dir="rtl"] select:not([multiple], [size]) {
-    background-position: center left 0.75rem;
-  }
+	[dir="rtl"] select:not([multiple], [size]) {
+		background-position: center left 0.75rem;
+	}
 
-  textarea {
-    display: block;
-    resize: vertical;
-  }
+	textarea {
+		display: block;
+		resize: vertical;
+	}
 
-  textarea[aria-invalid] {
-    --pico-icon-height: calc(
-      1rem * var(--pico-line-height) +
-        var(--pico-form-element-spacing-vertical) * 2 +
-        var(--pico-border-width) * 2
-    );
-    background-position: top right 0.75rem;
-    background-size: 1rem var(--pico-icon-height);
-  }
+	textarea[aria-invalid] {
+		--pico-icon-height: calc(
+			1rem *
+			var(--pico-line-height) +
+			var(--pico-form-element-spacing-vertical) *
+			2 +
+			var(--pico-border-width) *
+			2
+		);
+		background-position: top right 0.75rem;
+		background-size: 1rem var(--pico-icon-height);
+	}
 
-  :where(input, select, textarea, fieldset, .grid) + small {
-    display: block;
-    width: 100%;
-    margin-top: calc(var(--pico-spacing) * -0.75);
-    margin-bottom: var(--pico-spacing);
-    color: var(--pico-muted-color);
-  }
+	:where(input, select, textarea, fieldset, .grid) + small {
+		display: block;
+		width: 100%;
+		margin-top: calc(var(--pico-spacing) * -0.75);
+		margin-bottom: var(--pico-spacing);
+		color: var(--pico-muted-color);
+	}
 
-  :where(input, select, textarea, fieldset, .grid)[aria-invalid="false"]
-    + small {
-    color: var(--pico-ins-color);
-  }
+	:where(input, select, textarea, fieldset, .grid)[aria-invalid="false"]
+		+ small {
+		color: var(--pico-ins-color);
+	}
 
-  :where(input, select, textarea, fieldset, .grid)[aria-invalid="true"]
-    + small {
-    color: var(--pico-del-color);
-  }
+	:where(input, select, textarea, fieldset, .grid)[aria-invalid="true"]
+		+ small {
+		color: var(--pico-del-color);
+	}
 
-  label > :where(input, select, textarea) {
-    margin-top: calc(var(--pico-spacing) * 0.25);
-  }
+	label > :where(input, select, textarea) {
+		margin-top: calc(var(--pico-spacing) * 0.25);
+	}
 
-  /**
+	/**
 	 * Checkboxes, Radios and Switches
 	 */
 
-  label:has([type="checkbox"], [type="radio"]) {
-    width: fit-content;
-    cursor: pointer;
-  }
+	label:has([type="checkbox"], [type="radio"]) {
+		width: fit-content;
+		cursor: pointer;
+	}
 
-  [type="checkbox"],
-  [type="radio"] {
-    appearance: none;
-    width: 1.25em;
-    height: 1.25em;
-    margin-top: -0.125em;
-    margin-inline-end: 0.5em;
-    border-width: var(--pico-border-width);
-    vertical-align: middle;
-    cursor: pointer;
-  }
+	[type="checkbox"],
+	[type="radio"] {
+		appearance: none;
+		width: 1.25em;
+		height: 1.25em;
+		margin-top: -0.125em;
+		margin-inline-end: 0.5em;
+		border-width: var(--pico-border-width);
+		vertical-align: middle;
+		cursor: pointer;
+	}
 
-  [type="checkbox"]:checked,
-  [type="checkbox"]:checked:active,
-  [type="checkbox"]:checked:focus,
-  [type="radio"]:checked,
-  [type="radio"]:checked:active,
-  [type="radio"]:checked:focus {
-    --pico-background-color: var(--pico-primary-background);
-    --pico-border-color: var(--pico-primary-border);
-    background-image: var(--pico-icon-checkbox);
-    background-position: center;
-    background-size: 0.75em auto;
-    background-repeat: no-repeat;
-  }
+	[type="checkbox"]:checked,
+	[type="checkbox"]:checked:active,
+	[type="checkbox"]:checked:focus,
+	[type="radio"]:checked,
+	[type="radio"]:checked:active,
+	[type="radio"]:checked:focus {
+		--pico-background-color: var(--pico-primary-background);
+		--pico-border-color: var(--pico-primary-border);
+		background-image: var(--pico-icon-checkbox);
+		background-position: center;
+		background-size: 0.75em auto;
+		background-repeat: no-repeat;
+	}
 
-  [type="checkbox"] ~ label,
-  [type="radio"] ~ label {
-    display: inline-block;
-    margin-bottom: 0;
-    cursor: pointer;
-  }
+	[type="checkbox"] ~ label,
+	[type="radio"] ~ label {
+		display: inline-block;
+		margin-bottom: 0;
+		cursor: pointer;
+	}
 
-  [type="checkbox"] ~ label:not(:last-of-type),
-  [type="radio"] ~ label:not(:last-of-type) {
-    margin-inline-end: 1em;
-  }
+	[type="checkbox"] ~ label:not(:last-of-type),
+	[type="radio"] ~ label:not(:last-of-type) {
+		margin-inline-end: 1em;
+	}
 
-  [type="checkbox"]:indeterminate {
-    --pico-background-color: var(--pico-primary-background);
-    --pico-border-color: var(--pico-primary-border);
-    background-image: var(--pico-icon-minus);
-    background-position: center;
-    background-size: 0.75em auto;
-    background-repeat: no-repeat;
-  }
+	[type="checkbox"]:indeterminate {
+		--pico-background-color: var(--pico-primary-background);
+		--pico-border-color: var(--pico-primary-border);
+		background-image: var(--pico-icon-minus);
+		background-position: center;
+		background-size: 0.75em auto;
+		background-repeat: no-repeat;
+	}
 
-  [type="radio"] {
-    border-radius: 50%;
-  }
+	[type="radio"] {
+		border-radius: 50%;
+	}
 
-  [type="radio"]:checked,
-  [type="radio"]:checked:active,
-  [type="radio"]:checked:focus {
-    --pico-background-color: var(--pico-primary-inverse);
-    border-width: 0.35em;
-    background-image: none;
-  }
+	[type="radio"]:checked,
+	[type="radio"]:checked:active,
+	[type="radio"]:checked:focus {
+		--pico-background-color: var(--pico-primary-inverse);
+		border-width: 0.35em;
+		background-image: none;
+	}
 
-  [type="checkbox"][role="switch"] {
-    --pico-background-color: var(--pico-switch-background-color);
-    --pico-color: var(--pico-switch-color);
-    width: 2.25em;
-    height: 1.25em;
-    border: var(--pico-border-width) solid var(--pico-border-color);
-    border-radius: 1.25em;
-    background-color: var(--pico-background-color);
-    line-height: 1.25em;
-  }
+	[type="checkbox"][role="switch"] {
+		--pico-background-color: var(--pico-switch-background-color);
+		--pico-color: var(--pico-switch-color);
+		width: 2.25em;
+		height: 1.25em;
+		border: var(--pico-border-width) solid var(--pico-border-color);
+		border-radius: 1.25em;
+		background-color: var(--pico-background-color);
+		line-height: 1.25em;
+	}
 
-  [type="checkbox"][role="switch"]:not([aria-invalid]) {
-    --pico-border-color: var(--pico-switch-background-color);
-  }
+	[type="checkbox"][role="switch"]:not([aria-invalid]) {
+		--pico-border-color: var(--pico-switch-background-color);
+	}
 
-  [type="checkbox"][role="switch"]::before {
-    display: block;
-    aspect-ratio: 1;
-    height: 100%;
-    border-radius: 50%;
-    background-color: var(--pico-color);
-    box-shadow: var(--pico-switch-thumb-box-shadow);
-    content: "";
-    transition: margin 0.1s ease-in-out;
-  }
+	[type="checkbox"][role="switch"]::before {
+		display: block;
+		aspect-ratio: 1;
+		height: 100%;
+		border-radius: 50%;
+		background-color: var(--pico-color);
+		box-shadow: var(--pico-switch-thumb-box-shadow);
+		content: "";
+		transition: margin 0.1s ease-in-out;
+	}
 
-  [type="checkbox"][role="switch"]:focus {
-    --pico-background-color: var(--pico-switch-background-color);
-    --pico-border-color: var(--pico-switch-background-color);
-  }
+	[type="checkbox"][role="switch"]:focus {
+		--pico-background-color: var(--pico-switch-background-color);
+		--pico-border-color: var(--pico-switch-background-color);
+	}
 
-  [type="checkbox"][role="switch"]:checked {
-    --pico-background-color: var(--pico-switch-checked-background-color);
-    --pico-border-color: var(--pico-switch-checked-background-color);
-    background-image: none;
-  }
+	[type="checkbox"][role="switch"]:checked {
+		--pico-background-color: var(--pico-switch-checked-background-color);
+		--pico-border-color: var(--pico-switch-checked-background-color);
+		background-image: none;
+	}
 
-  [type="checkbox"][role="switch"]:checked::before {
-    margin-inline-start: calc(2.25em - 1.25em);
-  }
+	[type="checkbox"][role="switch"]:checked::before {
+		margin-inline-start: calc(2.25em - 1.25em);
+	}
 
-  [type="checkbox"][role="switch"][disabled] {
-    --pico-background-color: var(--pico-border-color);
-  }
+	[type="checkbox"][role="switch"][disabled] {
+		--pico-background-color: var(--pico-border-color);
+	}
 
-  [type="checkbox"][aria-invalid="false"]:checked,
-  [type="checkbox"][aria-invalid="false"]:checked:active,
-  [type="checkbox"][aria-invalid="false"]:checked:focus,
-  [type="checkbox"][role="switch"][aria-invalid="false"]:checked,
-  [type="checkbox"][role="switch"][aria-invalid="false"]:checked:active,
-  [type="checkbox"][role="switch"][aria-invalid="false"]:checked:focus {
-    --pico-background-color: var(--pico-form-element-valid-border-color);
-  }
+	[type="checkbox"][aria-invalid="false"]:checked,
+	[type="checkbox"][aria-invalid="false"]:checked:active,
+	[type="checkbox"][aria-invalid="false"]:checked:focus,
+	[type="checkbox"][role="switch"][aria-invalid="false"]:checked,
+	[type="checkbox"][role="switch"][aria-invalid="false"]:checked:active,
+	[type="checkbox"][role="switch"][aria-invalid="false"]:checked:focus {
+		--pico-background-color: var(--pico-form-element-valid-border-color);
+	}
 
-  [type="checkbox"]:checked[aria-invalid="true"],
-  [type="checkbox"]:checked:active[aria-invalid="true"],
-  [type="checkbox"]:checked:focus[aria-invalid="true"],
-  [type="checkbox"][role="switch"]:checked[aria-invalid="true"],
-  [type="checkbox"][role="switch"]:checked:active[aria-invalid="true"],
-  [type="checkbox"][role="switch"]:checked:focus[aria-invalid="true"] {
-    --pico-background-color: var(--pico-form-element-invalid-border-color);
-  }
+	[type="checkbox"]:checked[aria-invalid="true"],
+	[type="checkbox"]:checked:active[aria-invalid="true"],
+	[type="checkbox"]:checked:focus[aria-invalid="true"],
+	[type="checkbox"][role="switch"]:checked[aria-invalid="true"],
+	[type="checkbox"][role="switch"]:checked:active[aria-invalid="true"],
+	[type="checkbox"][role="switch"]:checked:focus[aria-invalid="true"] {
+		--pico-background-color: var(--pico-form-element-invalid-border-color);
+	}
 
-  [type="checkbox"][aria-invalid="false"]:checked,
-  [type="checkbox"][aria-invalid="false"]:checked:active,
-  [type="checkbox"][aria-invalid="false"]:checked:focus,
-  [type="radio"][aria-invalid="false"]:checked,
-  [type="radio"][aria-invalid="false"]:checked:active,
-  [type="radio"][aria-invalid="false"]:checked:focus,
-  [type="checkbox"][role="switch"][aria-invalid="false"]:checked,
-  [type="checkbox"][role="switch"][aria-invalid="false"]:checked:active,
-  [type="checkbox"][role="switch"][aria-invalid="false"]:checked:focus {
-    --pico-border-color: var(--pico-form-element-valid-border-color);
-  }
+	[type="checkbox"][aria-invalid="false"]:checked,
+	[type="checkbox"][aria-invalid="false"]:checked:active,
+	[type="checkbox"][aria-invalid="false"]:checked:focus,
+	[type="radio"][aria-invalid="false"]:checked,
+	[type="radio"][aria-invalid="false"]:checked:active,
+	[type="radio"][aria-invalid="false"]:checked:focus,
+	[type="checkbox"][role="switch"][aria-invalid="false"]:checked,
+	[type="checkbox"][role="switch"][aria-invalid="false"]:checked:active,
+	[type="checkbox"][role="switch"][aria-invalid="false"]:checked:focus {
+		--pico-border-color: var(--pico-form-element-valid-border-color);
+	}
 
-  [type="checkbox"]:checked[aria-invalid="true"],
-  [type="checkbox"]:checked:active[aria-invalid="true"],
-  [type="checkbox"]:checked:focus[aria-invalid="true"],
-  [type="radio"]:checked[aria-invalid="true"],
-  [type="radio"]:checked:active[aria-invalid="true"],
-  [type="radio"]:checked:focus[aria-invalid="true"],
-  [type="checkbox"][role="switch"]:checked[aria-invalid="true"],
-  [type="checkbox"][role="switch"]:checked:active[aria-invalid="true"],
-  [type="checkbox"][role="switch"]:checked:focus[aria-invalid="true"] {
-    --pico-border-color: var(--pico-form-element-invalid-border-color);
-  }
+	[type="checkbox"]:checked[aria-invalid="true"],
+	[type="checkbox"]:checked:active[aria-invalid="true"],
+	[type="checkbox"]:checked:focus[aria-invalid="true"],
+	[type="radio"]:checked[aria-invalid="true"],
+	[type="radio"]:checked:active[aria-invalid="true"],
+	[type="radio"]:checked:focus[aria-invalid="true"],
+	[type="checkbox"][role="switch"]:checked[aria-invalid="true"],
+	[type="checkbox"][role="switch"]:checked:active[aria-invalid="true"],
+	[type="checkbox"][role="switch"]:checked:focus[aria-invalid="true"] {
+		--pico-border-color: var(--pico-form-element-invalid-border-color);
+	}
 
-  /**
+	/**
 	 * Input type color
 	 */
 
-  [type="color"]::-webkit-color-swatch-wrapper {
-    padding: 0;
-  }
+	[type="color"]::-webkit-color-swatch-wrapper {
+		padding: 0;
+	}
 
-  [type="color"]::-moz-focus-inner {
-    padding: 0;
-  }
+	[type="color"]::-moz-focus-inner {
+		padding: 0;
+	}
 
-  [type="color"]::-webkit-color-swatch {
-    border: 0;
-    border-radius: calc(var(--pico-border-radius) * 0.5);
-  }
+	[type="color"]::-webkit-color-swatch {
+		border: 0;
+		border-radius: calc(var(--pico-border-radius) * 0.5);
+	}
 
-  [type="color"]::-moz-color-swatch {
-    border: 0;
-    border-radius: calc(var(--pico-border-radius) * 0.5);
-  }
+	[type="color"]::-moz-color-swatch {
+		border: 0;
+		border-radius: calc(var(--pico-border-radius) * 0.5);
+	}
 
-  /**
+	/**
 	 * Input type datetime
 	 */
 
-  input:not(
-      [type="checkbox"],
-      [type="radio"],
-      [type="range"],
-      [type="file"]
-    ):is(
-      [type="date"],
-      [type="datetime-local"],
-      [type="month"],
-      [type="time"],
-      [type="week"]
-    ) {
-    --pico-icon-position: 0.75rem;
-    --pico-icon-width: 1rem;
-    padding-right: calc(var(--pico-icon-width) + var(--pico-icon-position));
-    background-image: var(--pico-icon-date);
-    background-position: center right var(--pico-icon-position);
-    background-size: var(--pico-icon-width) auto;
-    background-repeat: no-repeat;
-  }
+	input:not(
+			[type="checkbox"],
+			[type="radio"],
+			[type="range"],
+			[type="file"]
+		):is(
+			[type="date"],
+			[type="datetime-local"],
+			[type="month"],
+			[type="time"],
+			[type="week"]
+		) {
+		--pico-icon-position: 0.75rem;
+		--pico-icon-width: 1rem;
+		padding-right: calc(var(--pico-icon-width) + var(--pico-icon-position));
+		background-image: var(--pico-icon-date);
+		background-position: center right var(--pico-icon-position);
+		background-size: var(--pico-icon-width) auto;
+		background-repeat: no-repeat;
+	}
 
-  input:not(
-      [type="checkbox"],
-      [type="radio"],
-      [type="range"],
-      [type="file"]
-    )[type="time"] {
-    background-image: var(--pico-icon-time);
-  }
+	input:not(
+			[type="checkbox"],
+			[type="radio"],
+			[type="range"],
+			[type="file"]
+		)[type="time"] {
+		background-image: var(--pico-icon-time);
+	}
 
-  [type="date"]::-webkit-calendar-picker-indicator,
-  [type="datetime-local"]::-webkit-calendar-picker-indicator,
-  [type="month"]::-webkit-calendar-picker-indicator,
-  [type="time"]::-webkit-calendar-picker-indicator,
-  [type="week"]::-webkit-calendar-picker-indicator {
-    width: var(--pico-icon-width);
-    margin-right: calc(var(--pico-icon-width) * -1);
-    margin-left: var(--pico-icon-position);
-    opacity: 0;
-  }
+	[type="date"]::-webkit-calendar-picker-indicator,
+	[type="datetime-local"]::-webkit-calendar-picker-indicator,
+	[type="month"]::-webkit-calendar-picker-indicator,
+	[type="time"]::-webkit-calendar-picker-indicator,
+	[type="week"]::-webkit-calendar-picker-indicator {
+		width: var(--pico-icon-width);
+		margin-right: calc(var(--pico-icon-width) * -1);
+		margin-left: var(--pico-icon-position);
+		opacity: 0;
+	}
 
-  @-moz-document url-prefix() {
-    [type="date"],
-    [type="datetime-local"],
-    [type="month"],
-    [type="time"],
-    [type="week"] {
-      padding-right: var(--pico-form-element-spacing-horizontal) !important;
-      background-image: none !important;
-    }
-  }
+	@-moz-document url-prefix() {
+		[type="date"],
+		[type="datetime-local"],
+		[type="month"],
+		[type="time"],
+		[type="week"] {
+			padding-right: var(--pico-form-element-spacing-horizontal) !important;
+			background-image: none !important;
+		}
+	}
 
-  [dir="rtl"]
-    :is(
-      [type="date"],
-      [type="datetime-local"],
-      [type="month"],
-      [type="time"],
-      [type="week"]
-    ) {
-    text-align: right;
-  }
+	[dir="rtl"]
+		:is(
+			[type="date"],
+			[type="datetime-local"],
+			[type="month"],
+			[type="time"],
+			[type="week"]
+		) {
+		text-align: right;
+	}
 
-  /**
+	/**
 	 * Input type file
 	 */
 
-  [type="file"] {
-    --pico-color: var(--pico-muted-color);
-    margin-left: calc(var(--pico-outline-width) * -1);
-    padding: calc(var(--pico-form-element-spacing-vertical) * 0.5) 0;
-    padding-left: var(--pico-outline-width);
-    border: 0;
-    border-radius: 0;
-    background: none;
-  }
+	[type="file"] {
+		--pico-color: var(--pico-muted-color);
+		margin-left: calc(var(--pico-outline-width) * -1);
+		padding: calc(var(--pico-form-element-spacing-vertical) * 0.5) 0;
+		padding-left: var(--pico-outline-width);
+		border: 0;
+		border-radius: 0;
+		background: none;
+	}
 
-  [type="file"]::file-selector-button {
-    margin-right: calc(var(--pico-spacing) / 2);
-    padding: calc(var(--pico-form-element-spacing-vertical) * 0.5)
-      var(--pico-form-element-spacing-horizontal);
-  }
+	[type="file"]::file-selector-button {
+		margin-right: calc(var(--pico-spacing) / 2);
+		padding: calc(var(--pico-form-element-spacing-vertical) * 0.5)
+			var(--pico-form-element-spacing-horizontal);
+	}
 
-  [type="file"]:is(:hover, :active, :focus)::file-selector-button {
-    --pico-background-color: var(--pico-secondary-hover-background);
-    --pico-border-color: var(--pico-secondary-hover-border);
-  }
+	[type="file"]:is(:hover, :active, :focus)::file-selector-button {
+		--pico-background-color: var(--pico-secondary-hover-background);
+		--pico-border-color: var(--pico-secondary-hover-border);
+	}
 
-  [type="file"]:focus::file-selector-button {
-    --pico-box-shadow:
-      var(--pico-button-hover-box-shadow, 0 0 0 transparent),
-      0 0 0 var(--pico-outline-width) var(--pico-secondary-focus);
-  }
+	[type="file"]:focus::file-selector-button {
+		--pico-box-shadow:
+			var(--pico-button-hover-box-shadow, 0 0 0 transparent),
+			0 0 0 var(--pico-outline-width) var(--pico-secondary-focus);
+	}
 
-  /**
+	/**
 	 * Input type range
 	 */
 
-  [type="range"] {
-    appearance: none;
-    width: 100%;
-    height: 1.25rem;
-    background: none;
-  }
+	[type="range"] {
+		appearance: none;
+		width: 100%;
+		height: 1.25rem;
+		background: none;
+	}
 
-  [type="range"]::-webkit-slider-runnable-track {
-    width: 100%;
-    height: 0.375rem;
-    border-radius: var(--pico-border-radius);
-    background-color: var(--pico-range-border-color);
-    transition:
-      background-color var(--pico-transition),
-      box-shadow var(--pico-transition);
-  }
+	[type="range"]::-webkit-slider-runnable-track {
+		width: 100%;
+		height: 0.375rem;
+		border-radius: var(--pico-border-radius);
+		background-color: var(--pico-range-border-color);
+		transition:
+			background-color var(--pico-transition),
+			box-shadow var(--pico-transition);
+	}
 
-  [type="range"]::-moz-range-track {
-    width: 100%;
-    height: 0.375rem;
-    border-radius: var(--pico-border-radius);
-    background-color: var(--pico-range-border-color);
-    transition:
-      background-color var(--pico-transition),
-      box-shadow var(--pico-transition);
-  }
+	[type="range"]::-moz-range-track {
+		width: 100%;
+		height: 0.375rem;
+		border-radius: var(--pico-border-radius);
+		background-color: var(--pico-range-border-color);
+		transition:
+			background-color var(--pico-transition),
+			box-shadow var(--pico-transition);
+	}
 
-  [type="range"]::-webkit-slider-thumb {
-    appearance: none;
-    width: 1.25rem;
-    height: 1.25rem;
-    margin-top: -0.4375rem;
-    border: 2px solid var(--pico-range-thumb-border-color);
-    border-radius: 50%;
-    background-color: var(--pico-range-thumb-color);
-    cursor: pointer;
-    transition:
-      background-color var(--pico-transition),
-      transform var(--pico-transition);
-  }
+	[type="range"]::-webkit-slider-thumb {
+		appearance: none;
+		width: 1.25rem;
+		height: 1.25rem;
+		margin-top: -0.4375rem;
+		border: 2px solid var(--pico-range-thumb-border-color);
+		border-radius: 50%;
+		background-color: var(--pico-range-thumb-color);
+		cursor: pointer;
+		transition:
+			background-color var(--pico-transition),
+			transform var(--pico-transition);
+	}
 
-  [type="range"]::-moz-range-thumb {
-    appearance: none;
-    width: 1.25rem;
-    height: 1.25rem;
-    border: 2px solid var(--pico-range-thumb-border-color);
-    border-radius: 50%;
-    background-color: var(--pico-range-thumb-color);
-    cursor: pointer;
-    transition:
-      background-color var(--pico-transition),
-      transform var(--pico-transition);
-  }
+	[type="range"]::-moz-range-thumb {
+		appearance: none;
+		width: 1.25rem;
+		height: 1.25rem;
+		border: 2px solid var(--pico-range-thumb-border-color);
+		border-radius: 50%;
+		background-color: var(--pico-range-thumb-color);
+		cursor: pointer;
+		transition:
+			background-color var(--pico-transition),
+			transform var(--pico-transition);
+	}
 
-  [type="range"]:active,
-  [type="range"]:focus-within {
-    --pico-range-border-color: var(--pico-range-active-border-color);
-    --pico-range-thumb-color: var(--pico-range-thumb-active-color);
-  }
+	[type="range"]:active,
+	[type="range"]:focus-within {
+		--pico-range-border-color: var(--pico-range-active-border-color);
+		--pico-range-thumb-color: var(--pico-range-thumb-active-color);
+	}
 
-  [type="range"]:active::-webkit-slider-thumb {
-    transform: scale(1.25);
-  }
+	[type="range"]:active::-webkit-slider-thumb {
+		transform: scale(1.25);
+	}
 
-  [type="range"]:active::-moz-range-thumb {
-    transform: scale(1.25);
-  }
+	[type="range"]:active::-moz-range-thumb {
+		transform: scale(1.25);
+	}
 
-  /**
+	/**
 	 * Input type search
 	 */
 
-  input:not(
-      [type="checkbox"],
-      [type="radio"],
-      [type="range"],
-      [type="file"]
-    )[type="search"] {
-    padding-inline-start: calc(
-      var(--pico-form-element-spacing-horizontal) + 1.75rem
-    );
-    background-image: var(--pico-icon-search);
-    background-position: center left
-      calc(var(--pico-form-element-spacing-horizontal) + 0.125rem);
-    background-size: 1rem auto;
-    background-repeat: no-repeat;
-  }
+	input:not(
+			[type="checkbox"],
+			[type="radio"],
+			[type="range"],
+			[type="file"]
+		)[type="search"] {
+		padding-inline-start: calc(
+			var(--pico-form-element-spacing-horizontal) +
+			1.75rem
+		);
+		background-image: var(--pico-icon-search);
+		background-position: center left
+			calc(var(--pico-form-element-spacing-horizontal) + 0.125rem);
+		background-size: 1rem auto;
+		background-repeat: no-repeat;
+	}
 
-  input:not(
-      [type="checkbox"],
-      [type="radio"],
-      [type="range"],
-      [type="file"]
-    )[type="search"][aria-invalid] {
-    padding-inline-start: calc(
-      var(--pico-form-element-spacing-horizontal) + 1.75rem
-    );
-    background-position:
-      center left 1.125rem,
-      center right 0.75rem;
-  }
+	input:not(
+			[type="checkbox"],
+			[type="radio"],
+			[type="range"],
+			[type="file"]
+		)[type="search"][aria-invalid] {
+		padding-inline-start: calc(
+			var(--pico-form-element-spacing-horizontal) +
+			1.75rem
+		);
+		background-position:
+			center left 1.125rem,
+			center right 0.75rem;
+	}
 
-  input:not(
-      [type="checkbox"],
-      [type="radio"],
-      [type="range"],
-      [type="file"]
-    )[type="search"][aria-invalid="false"] {
-    background-image: var(--pico-icon-search), var(--pico-icon-valid);
-  }
+	input:not(
+			[type="checkbox"],
+			[type="radio"],
+			[type="range"],
+			[type="file"]
+		)[type="search"][aria-invalid="false"] {
+		background-image: var(--pico-icon-search), var(--pico-icon-valid);
+	}
 
-  input:not(
-      [type="checkbox"],
-      [type="radio"],
-      [type="range"],
-      [type="file"]
-    )[type="search"][aria-invalid="true"] {
-    background-image: var(--pico-icon-search), var(--pico-icon-invalid);
-  }
+	input:not(
+			[type="checkbox"],
+			[type="radio"],
+			[type="range"],
+			[type="file"]
+		)[type="search"][aria-invalid="true"] {
+		background-image: var(--pico-icon-search), var(--pico-icon-invalid);
+	}
 
-  [dir="rtl"]
-    :where(input):not(
-      [type="checkbox"],
-      [type="radio"],
-      [type="range"],
-      [type="file"]
-    )[type="search"] {
-    background-position: center right 1.125rem;
-  }
+	[dir="rtl"]
+		:where(input):not(
+			[type="checkbox"],
+			[type="radio"],
+			[type="range"],
+			[type="file"]
+		)[type="search"] {
+		background-position: center right 1.125rem;
+	}
 
-  [dir="rtl"]
-    :where(input):not(
-      [type="checkbox"],
-      [type="radio"],
-      [type="range"],
-      [type="file"]
-    )[type="search"][aria-invalid] {
-    background-position:
-      center right 1.125rem,
-      center left 0.75rem;
-  }
+	[dir="rtl"]
+		:where(input):not(
+			[type="checkbox"],
+			[type="radio"],
+			[type="range"],
+			[type="file"]
+		)[type="search"][aria-invalid] {
+		background-position:
+			center right 1.125rem,
+			center left 0.75rem;
+	}
 
-  progress,
-  [type="checkbox"],
-  [type="radio"],
-  [type="range"] {
-    accent-color: var(--pico-primary);
-  }
+	progress,
+	[type="checkbox"],
+	[type="radio"],
+	[type="range"] {
+		accent-color: var(--pico-primary);
+	}
 } /* @layer forms */
 @layer buttons {
 	/**

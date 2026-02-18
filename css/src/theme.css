@@ -358,7 +358,24 @@
 			var(--pico-primary),
 			transparent 62.5%
 		);
-		--pico-primary-inverse: white;
+		--pico-primary-inverse: black;
+		--pico-primary-background: color-mix(
+			in srgb,
+			var(--pico-primary),
+			white 25%
+		);
+		--pico-primary-border: var(--pico-primary-background);
+		--pico-primary-hover-background: color-mix(
+			in srgb,
+			var(--pico-primary),
+			white 35%
+		);
+		--pico-primary-hover-border: var(--pico-primary-hover-background);
+		--pico-primary-underline: color-mix(
+			in srgb,
+			var(--pico-primary),
+			transparent 50%
+		);
 
 		/* Border/muted for dark */
 		--pico-muted-border-color: color-mix(
@@ -600,7 +617,24 @@
 				var(--pico-primary),
 				transparent 62.5%
 			);
-			--pico-primary-inverse: white;
+			--pico-primary-inverse: black;
+			--pico-primary-background: color-mix(
+				in srgb,
+				var(--pico-primary),
+				white 25%
+			);
+			--pico-primary-border: var(--pico-primary-background);
+			--pico-primary-hover-background: color-mix(
+				in srgb,
+				var(--pico-primary),
+				white 35%
+			);
+			--pico-primary-hover-border: var(--pico-primary-hover-background);
+			--pico-primary-underline: color-mix(
+				in srgb,
+				var(--pico-primary),
+				transparent 50%
+			);
 			--pico-muted-border-color: color-mix(
 				in srgb,
 				black,
