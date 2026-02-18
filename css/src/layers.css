@@ -1,0 +1,14 @@
+/**
+ * CSS Cascade Layers
+ *
+ * Layer order (first = lowest priority, last = highest):
+ * 1. reset    - Normalize/reset styles
+ * 2. theme    - CSS custom properties, colors, theming
+ * 3. layout   - Structural layout, grid, containers
+ * 4. content  - Typography, links, tables, code
+ * 5. forms    - Form elements
+ * 6. buttons  - Button styles
+ * 7. components - UI components (cards, modals, etc.)
+ * 8. utilities - Helper classes, accessibility
+ */
+@layer reset, theme, layout, content, forms, buttons, components, utilities;

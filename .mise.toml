@@ -1,0 +1,55 @@
+min_version = "2024.1.0"
+
+[tools]
+node = "22"
+biome = "latest"
+
+[settings]
+not_found_auto_install = true
+
+[tasks.build]
+description = "Build CSS (concat + minify)"
+run = """
+  echo "[pico] Building..."
+  mkdir -p css
+  cat css/src/layers.css css/src/reset.css css/src/theme.css css/src/layout.css css/src/content.css css/src/forms.css css/src/buttons.css css/src/components.css css/src/utilities.css > css/pico.css
+  npx esbuild css/pico.css --minify --outfile=css/pico.min.css
+  echo "[pico] Done!"
+"""
+
+[tasks.watch]
+description = "Watch and rebuild on changes"
+run = "npx nodemon -q -w css/src -e css --exec 'mise run build'"
+
+[tasks.lint]
+description = "Lint CSS with biome"
+run = "biome check css/src"
+
+[tasks.format]
+description = "Format CSS with biome"
+run = "biome format --write css/src"
+
+[tasks.check]
+description = "Lint + format + build"
+run = """
+  mise run lint
+  mise run format
+  mise run build
+"""
+
+[tasks.clean]
+description = "Clean build artifacts"
+run = "rm -f css/pico.css css/pico.min.css"
+
+[tasks.dev]
+description = "Open theme builder"
+run = "xdg-open theme.html 2>/dev/null || open theme.html 2>/dev/null || echo 'Open theme.html manually'"
+
+[tasks.size]
+description = "Show bundle sizes"
+run = """
+  echo ""
+  echo "Bundle sizes:"
+  wc -c css/pico.css css/pico.min.css
+  echo ""
+"""

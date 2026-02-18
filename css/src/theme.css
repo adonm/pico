@@ -1,0 +1,864 @@
+/**
+ * Pico CSS Theme System
+ *
+ * Set just 2 variables to customize everything including dark mode:
+ *   --pico-primary: your brand/accent color
+ *   --pico-secondary: your neutral color (for text, borders, muted elements)
+ *
+ * ALL colors are derived automatically using CSS color-mix()
+ */
+
+@layer theme {
+	/* ============================================================================
+   SOURCE VARIABLES (users set only these 2)
+   ============================================================================ */
+
+	:root {
+		--pico-primary: #0172ad;
+		--pico-secondary: #646e82;
+		--pico-border-radius: 0.25rem;
+		--pico-font-family:
+			system-ui, -apple-system, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
+			Helvetica, Arial, "Helvetica Neue", sans-serif;
+	}
+
+	/* ============================================================================
+   SEMANTIC COLORS (success, warning, error)
+   ============================================================================ */
+
+	:root {
+		--pico-success: oklch(0.6 0.15 145);
+		--pico-warning: oklch(0.8 0.15 85);
+		--pico-error: oklch(0.55 0.2 25);
+	}
+
+	/* ============================================================================
+   DERIVED PALETTE - Light Mode (default)
+   ============================================================================ */
+
+	[data-theme="light"],
+	:root:not([data-theme="dark"]),
+	:host(:not([data-theme="dark"])) {
+		color-scheme: light;
+
+		/* Surface: white with subtle secondary tint */
+		--pico-surface: color-mix(in srgb, white, var(--pico-secondary) 4%);
+		--pico-background-color: var(--pico-surface);
+
+		/* Text: dark with secondary influence */
+		--pico-color: color-mix(in srgb, black, var(--pico-secondary) 25%);
+		--pico-muted-color: color-mix(in srgb, var(--pico-secondary), black 25%);
+
+		/* Primary derivatives */
+		--pico-primary-hover: color-mix(in srgb, var(--pico-primary), black 12%);
+		--pico-primary-focus: color-mix(
+			in srgb,
+			var(--pico-primary),
+			transparent 70%
+		);
+		--pico-primary-background: var(--pico-primary);
+		--pico-primary-border: var(--pico-primary);
+		--pico-primary-underline: color-mix(
+			in srgb,
+			var(--pico-primary),
+			transparent 50%
+		);
+		--pico-primary-hover-background: color-mix(
+			in srgb,
+			var(--pico-primary),
+			black 8%
+		);
+		--pico-primary-hover-border: var(--pico-primary-hover-background);
+		--pico-primary-hover-underline: var(--pico-primary-hover);
+		--pico-primary-inverse: white;
+
+		/* Text selection */
+		--pico-text-selection-color: color-mix(
+			in srgb,
+			var(--pico-primary),
+			transparent 75%
+		);
+
+		/* Border/muted derived from secondary */
+		--pico-muted-border-color: color-mix(
+			in srgb,
+			var(--pico-secondary),
+			white 75%
+		);
+
+		/* Secondary derivatives */
+		--pico-secondary-hover: color-mix(
+			in srgb,
+			var(--pico-secondary),
+			black 15%
+		);
+		--pico-secondary-background: var(--pico-secondary);
+		--pico-secondary-border: var(--pico-secondary);
+		--pico-secondary-underline: color-mix(
+			in srgb,
+			var(--pico-secondary),
+			transparent 50%
+		);
+		--pico-secondary-hover-background: color-mix(
+			in srgb,
+			var(--pico-secondary),
+			black 10%
+		);
+		--pico-secondary-hover-border: var(--pico-secondary-hover-background);
+		--pico-secondary-hover-underline: var(--pico-secondary-hover);
+		--pico-secondary-focus: color-mix(
+			in srgb,
+			var(--pico-secondary),
+			transparent 75%
+		);
+		--pico-secondary-inverse: white;
+
+		/* Contrast (near black) */
+		--pico-contrast: color-mix(in srgb, black, var(--pico-secondary) 15%);
+		--pico-contrast-background: var(--pico-contrast);
+		--pico-contrast-border: var(--pico-contrast);
+		--pico-contrast-underline: color-mix(
+			in srgb,
+			var(--pico-contrast),
+			transparent 50%
+		);
+		--pico-contrast-hover: black;
+		--pico-contrast-hover-background: black;
+		--pico-contrast-hover-border: var(--pico-contrast-hover-background);
+		--pico-contrast-hover-underline: var(--pico-contrast-hover);
+		--pico-contrast-focus: color-mix(
+			in srgb,
+			var(--pico-secondary),
+			transparent 75%
+		);
+		--pico-contrast-inverse: white;
+
+		/* Box shadow */
+		--pico-box-shadow:
+			0.0145rem 0.029rem 0.174rem
+			color-mix(in srgb, var(--pico-secondary), transparent 98%),
+			0.0335rem 0.067rem 0.402rem
+			color-mix(in srgb, var(--pico-secondary), transparent 97.5%),
+			0.0625rem 0.125rem 0.75rem
+			color-mix(in srgb, var(--pico-secondary), transparent 97%),
+			0.1125rem 0.225rem 1.35rem
+			color-mix(in srgb, var(--pico-secondary), transparent 96.5%),
+			0.2085rem 0.417rem 2.502rem
+			color-mix(in srgb, var(--pico-secondary), transparent 95.5%),
+			0.5rem 1rem 6rem
+			color-mix(in srgb, var(--pico-secondary), transparent 94%),
+			0 0 0 0.0625rem
+			color-mix(in srgb, var(--pico-secondary), transparent 98.5%);
+
+		/* Typography */
+		--pico-h1-color: color-mix(in srgb, black, var(--pico-secondary) 20%);
+		--pico-h2-color: color-mix(in srgb, black, var(--pico-secondary) 25%);
+		--pico-h3-color: color-mix(in srgb, black, var(--pico-secondary) 30%);
+		--pico-h4-color: color-mix(in srgb, black, var(--pico-secondary) 35%);
+		--pico-h5-color: color-mix(in srgb, black, var(--pico-secondary) 45%);
+		--pico-h6-color: var(--pico-muted-color);
+
+		/* Mark, ins, del */
+		--pico-mark-background-color: color-mix(
+			in srgb,
+			var(--pico-warning),
+			white 50%
+		);
+		--pico-mark-color: var(--pico-color);
+		--pico-ins-color: var(--pico-success);
+		--pico-del-color: var(--pico-error);
+
+		/* Blockquote */
+		--pico-blockquote-border-color: var(--pico-muted-border-color);
+		--pico-blockquote-footer-color: var(--pico-muted-color);
+
+		/* Button */
+		--pico-button-box-shadow: 0 0 0 transparent;
+		--pico-button-hover-box-shadow: 0 0 0 transparent;
+
+		/* Table */
+		--pico-table-border-color: var(--pico-muted-border-color);
+		--pico-table-row-stripped-background-color: color-mix(
+			in srgb,
+			var(--pico-secondary),
+			white 96%
+		);
+
+		/* Code */
+		--pico-code-background-color: color-mix(
+			in srgb,
+			var(--pico-secondary),
+			white 92%
+		);
+		--pico-code-color: var(--pico-muted-color);
+		--pico-code-kbd-background-color: var(--pico-color);
+		--pico-code-kbd-color: var(--pico-background-color);
+
+		/* Form elements */
+		--pico-form-element-background-color: var(--pico-background-color);
+		--pico-form-element-selected-background-color: color-mix(
+			in srgb,
+			var(--pico-secondary),
+			white 85%
+		);
+		--pico-form-element-border-color: color-mix(
+			in srgb,
+			var(--pico-secondary),
+			white 70%
+		);
+		--pico-form-element-color: var(--pico-color);
+		--pico-form-element-placeholder-color: var(--pico-muted-color);
+		--pico-form-element-active-background-color: white;
+		--pico-form-element-active-border-color: var(--pico-primary-border);
+		--pico-form-element-focus-color: var(--pico-primary-border);
+		--pico-form-element-disabled-opacity: 0.5;
+		--pico-form-element-invalid-border-color: var(--pico-error);
+		--pico-form-element-invalid-active-border-color: color-mix(
+			in srgb,
+			var(--pico-error),
+			black 10%
+		);
+		--pico-form-element-invalid-focus-color: var(
+			--pico-form-element-invalid-active-border-color
+		);
+		--pico-form-element-valid-border-color: var(--pico-success);
+		--pico-form-element-valid-active-border-color: color-mix(
+			in srgb,
+			var(--pico-success),
+			black 10%
+		);
+		--pico-form-element-valid-focus-color: var(
+			--pico-form-element-valid-active-border-color
+		);
+
+		/* Switch */
+		--pico-switch-background-color: color-mix(
+			in srgb,
+			var(--pico-secondary),
+			white 30%
+		);
+		--pico-switch-checked-background-color: var(--pico-primary-background);
+		--pico-switch-color: white;
+		--pico-switch-thumb-box-shadow: 0 0 0 transparent;
+
+		/* Range */
+		--pico-range-border-color: color-mix(
+			in srgb,
+			var(--pico-secondary),
+			white 75%
+		);
+		--pico-range-active-border-color: color-mix(
+			in srgb,
+			var(--pico-secondary),
+			white 50%
+		);
+		--pico-range-thumb-border-color: var(--pico-background-color);
+		--pico-range-thumb-color: var(--pico-secondary-background);
+		--pico-range-thumb-active-color: var(--pico-primary-background);
+
+		/* Accordion */
+		--pico-accordion-border-color: var(--pico-muted-border-color);
+		--pico-accordion-active-summary-color: var(--pico-primary-hover);
+		--pico-accordion-close-summary-color: var(--pico-color);
+		--pico-accordion-open-summary-color: var(--pico-muted-color);
+
+		/* Card */
+		--pico-card-background-color: var(--pico-background-color);
+		--pico-card-border-color: var(--pico-muted-border-color);
+		--pico-card-box-shadow: var(--pico-box-shadow);
+		--pico-card-sectioning-background-color: color-mix(
+			in srgb,
+			var(--pico-secondary),
+			white 95%
+		);
+
+		/* Dropdown */
+		--pico-dropdown-background-color: var(--pico-background-color);
+		--pico-dropdown-border-color: var(--pico-muted-border-color);
+		--pico-dropdown-box-shadow: var(--pico-box-shadow);
+		--pico-dropdown-color: var(--pico-color);
+		--pico-dropdown-hover-background-color: color-mix(
+			in srgb,
+			var(--pico-secondary),
+			white 90%
+		);
+
+		/* Loading */
+		--pico-loading-spinner-opacity: 0.5;
+
+		/* Modal */
+		--pico-modal-overlay-background-color: color-mix(
+			in srgb,
+			var(--pico-secondary),
+			transparent 75%
+		);
+
+		/* Progress */
+		--pico-progress-background-color: color-mix(
+			in srgb,
+			var(--pico-secondary),
+			white 75%
+		);
+		--pico-progress-color: var(--pico-primary-background);
+
+		/* Tooltip */
+		--pico-tooltip-background-color: var(--pico-contrast-background);
+		--pico-tooltip-color: var(--pico-contrast-inverse);
+	}
+
+	[data-theme="light"]
+		input:is(
+			[type="submit"],
+			[type="button"],
+			[type="reset"],
+			[type="checkbox"],
+			[type="radio"],
+			[type="file"]
+		),
+	:root:not([data-theme="dark"])
+		input:is(
+			[type="submit"],
+			[type="button"],
+			[type="reset"],
+			[type="checkbox"],
+			[type="radio"],
+			[type="file"]
+		),
+	:host(:not([data-theme="dark"]))
+		input:is(
+			[type="submit"],
+			[type="button"],
+			[type="reset"],
+			[type="checkbox"],
+			[type="radio"],
+			[type="file"]
+		) {
+		--pico-form-element-focus-color: var(--pico-primary-focus);
+	}
+
+	/* ============================================================================
+   DERIVED PALETTE - Dark Mode
+   ============================================================================ */
+
+	[data-theme="dark"] {
+		color-scheme: dark;
+
+		/* Surface: dark with secondary influence */
+		--pico-surface: color-mix(in srgb, black, var(--pico-secondary) 20%);
+		--pico-background-color: var(--pico-surface);
+
+		/* Text: light with secondary influence */
+		--pico-color: color-mix(in srgb, white, var(--pico-secondary) 25%);
+		--pico-muted-color: color-mix(in srgb, var(--pico-secondary), white 30%);
+
+		/* Primary derivatives for dark */
+		--pico-primary-hover: color-mix(in srgb, var(--pico-primary), white 15%);
+		--pico-primary-focus: color-mix(
+			in srgb,
+			var(--pico-primary),
+			transparent 62.5%
+		);
+		--pico-primary-inverse: white;
+
+		/* Border/muted for dark */
+		--pico-muted-border-color: color-mix(
+			in srgb,
+			black,
+			var(--pico-secondary) 30%
+		);
+
+		/* Secondary derivatives for dark */
+		--pico-secondary-hover: color-mix(
+			in srgb,
+			var(--pico-secondary),
+			white 20%
+		);
+		--pico-secondary-background: color-mix(
+			in srgb,
+			var(--pico-secondary),
+			white 10%
+		);
+		--pico-secondary-border: var(--pico-secondary-background);
+		--pico-secondary-hover-background: color-mix(
+			in srgb,
+			var(--pico-secondary),
+			white 15%
+		);
+		--pico-secondary-hover-border: var(--pico-secondary-hover-background);
+		--pico-secondary-focus: color-mix(
+			in srgb,
+			var(--pico-secondary),
+			transparent 75%
+		);
+		--pico-secondary-inverse: white;
+
+		/* Contrast (near white) */
+		--pico-contrast: color-mix(in srgb, white, var(--pico-secondary) 15%);
+		--pico-contrast-background: var(--pico-contrast);
+		--pico-contrast-border: var(--pico-contrast);
+		--pico-contrast-underline: color-mix(
+			in srgb,
+			var(--pico-contrast),
+			transparent 50%
+		);
+		--pico-contrast-hover: white;
+		--pico-contrast-hover-background: white;
+		--pico-contrast-hover-border: var(--pico-contrast-hover-background);
+		--pico-contrast-hover-underline: var(--pico-contrast-hover);
+		--pico-contrast-focus: color-mix(
+			in srgb,
+			var(--pico-contrast),
+			transparent 75%
+		);
+		--pico-contrast-inverse: black;
+
+		/* Box shadow for dark */
+		--pico-box-shadow:
+			0.0145rem 0.029rem 0.174rem color-mix(in srgb, black, transparent 98%),
+			0.0335rem 0.067rem 0.402rem color-mix(in srgb, black, transparent 97.5%),
+			0.0625rem 0.125rem 0.75rem color-mix(in srgb, black, transparent 97%),
+			0.1125rem 0.225rem 1.35rem color-mix(in srgb, black, transparent 96.5%),
+			0.2085rem 0.417rem 2.502rem color-mix(in srgb, black, transparent 95.5%),
+			0.5rem 1rem 6rem color-mix(in srgb, black, transparent 94%),
+			0 0 0 0.0625rem color-mix(in srgb, black, transparent 98.5%);
+
+		/* Typography for dark */
+		--pico-h1-color: color-mix(in srgb, white, var(--pico-secondary) 15%);
+		--pico-h2-color: color-mix(in srgb, white, var(--pico-secondary) 20%);
+		--pico-h3-color: var(--pico-color);
+		--pico-h4-color: color-mix(in srgb, white, var(--pico-secondary) 35%);
+		--pico-h5-color: color-mix(in srgb, white, var(--pico-secondary) 45%);
+		--pico-h6-color: var(--pico-muted-color);
+
+		/* Mark, ins, del for dark */
+		--pico-mark-background-color: color-mix(
+			in srgb,
+			var(--pico-primary),
+			black 70%
+		);
+		--pico-mark-color: white;
+		--pico-ins-color: color-mix(in srgb, var(--pico-success), white 30%);
+		--pico-del-color: color-mix(in srgb, var(--pico-error), white 30%);
+
+		/* Code for dark */
+		--pico-code-background-color: color-mix(
+			in srgb,
+			black,
+			var(--pico-secondary) 30%
+		);
+		--pico-code-color: var(--pico-muted-color);
+
+		/* Form elements for dark */
+		--pico-form-element-background-color: color-mix(
+			in srgb,
+			black,
+			var(--pico-secondary) 25%
+		);
+		--pico-form-element-selected-background-color: color-mix(
+			in srgb,
+			black,
+			var(--pico-secondary) 35%
+		);
+		--pico-form-element-border-color: color-mix(
+			in srgb,
+			black,
+			var(--pico-secondary) 35%
+		);
+		--pico-form-element-color: color-mix(
+			in srgb,
+			white,
+			var(--pico-secondary) 20%
+		);
+		--pico-form-element-placeholder-color: var(--pico-muted-color);
+		--pico-form-element-active-background-color: color-mix(
+			in srgb,
+			black,
+			var(--pico-secondary) 30%
+		);
+		--pico-form-element-invalid-border-color: color-mix(
+			in srgb,
+			var(--pico-error),
+			white 30%
+		);
+		--pico-form-element-invalid-active-border-color: color-mix(
+			in srgb,
+			var(--pico-error),
+			white 20%
+		);
+		--pico-form-element-valid-border-color: color-mix(
+			in srgb,
+			var(--pico-success),
+			white 30%
+		);
+		--pico-form-element-valid-active-border-color: color-mix(
+			in srgb,
+			var(--pico-success),
+			white 20%
+		);
+
+		/* Switch for dark */
+		--pico-switch-background-color: color-mix(
+			in srgb,
+			black,
+			var(--pico-secondary) 40%
+		);
+
+		/* Range for dark */
+		--pico-range-border-color: color-mix(
+			in srgb,
+			black,
+			var(--pico-secondary) 30%
+		);
+		--pico-range-active-border-color: color-mix(
+			in srgb,
+			black,
+			var(--pico-secondary) 35%
+		);
+
+		/* Card for dark */
+		--pico-card-background-color: color-mix(
+			in srgb,
+			black,
+			var(--pico-secondary) 15%
+		);
+		--pico-card-border-color: var(--pico-card-background-color);
+		--pico-card-sectioning-background-color: color-mix(
+			in srgb,
+			black,
+			var(--pico-secondary) 30%
+		);
+
+		/* Dropdown for dark */
+		--pico-dropdown-background-color: color-mix(
+			in srgb,
+			black,
+			var(--pico-secondary) 15%
+		);
+		--pico-dropdown-border-color: color-mix(
+			in srgb,
+			black,
+			var(--pico-secondary) 30%
+		);
+		--pico-dropdown-hover-background-color: color-mix(
+			in srgb,
+			black,
+			var(--pico-secondary) 30%
+		);
+
+		/* Modal for dark */
+		--pico-modal-overlay-background-color: color-mix(
+			in srgb,
+			black,
+			transparent 92%
+		);
+
+		/* Progress for dark */
+		--pico-progress-background-color: color-mix(
+			in srgb,
+			black,
+			var(--pico-secondary) 30%
+		);
+	}
+
+	[data-theme="dark"]
+		input:is(
+			[type="submit"],
+			[type="button"],
+			[type="reset"],
+			[type="checkbox"],
+			[type="radio"],
+			[type="file"]
+		),
+	:host(:not([data-theme="light"]))
+		input:is(
+			[type="submit"],
+			[type="button"],
+			[type="reset"],
+			[type="checkbox"],
+			[type="radio"],
+			[type="file"]
+		) {
+		--pico-form-element-focus-color: var(--pico-primary-focus);
+	}
+
+	/* ============================================================================
+   AUTO DARK MODE (prefers-color-scheme)
+   ============================================================================ */
+
+	@media only screen and (prefers-color-scheme: dark) {
+		:root:not([data-theme]),
+		:host(:not([data-theme])) {
+			color-scheme: dark;
+
+			--pico-surface: color-mix(in srgb, black, var(--pico-secondary) 20%);
+			--pico-background-color: var(--pico-surface);
+			--pico-color: color-mix(in srgb, white, var(--pico-secondary) 25%);
+			--pico-muted-color: color-mix(in srgb, var(--pico-secondary), white 30%);
+			--pico-primary-hover: color-mix(in srgb, var(--pico-primary), white 15%);
+			--pico-primary-focus: color-mix(
+				in srgb,
+				var(--pico-primary),
+				transparent 62.5%
+			);
+			--pico-primary-inverse: white;
+			--pico-muted-border-color: color-mix(
+				in srgb,
+				black,
+				var(--pico-secondary) 30%
+			);
+			--pico-secondary-hover: color-mix(
+				in srgb,
+				var(--pico-secondary),
+				white 20%
+			);
+			--pico-secondary-background: color-mix(
+				in srgb,
+				var(--pico-secondary),
+				white 10%
+			);
+			--pico-secondary-border: var(--pico-secondary-background);
+			--pico-secondary-hover-background: color-mix(
+				in srgb,
+				var(--pico-secondary),
+				white 15%
+			);
+			--pico-secondary-hover-border: var(--pico-secondary-hover-background);
+			--pico-secondary-focus: color-mix(
+				in srgb,
+				var(--pico-secondary),
+				transparent 75%
+			);
+			--pico-secondary-inverse: white;
+			--pico-contrast: color-mix(in srgb, white, var(--pico-secondary) 15%);
+			--pico-contrast-background: var(--pico-contrast);
+			--pico-contrast-border: var(--pico-contrast);
+			--pico-contrast-underline: color-mix(
+				in srgb,
+				var(--pico-contrast),
+				transparent 50%
+			);
+			--pico-contrast-hover: white;
+			--pico-contrast-hover-background: white;
+			--pico-contrast-hover-border: var(--pico-contrast-hover-background);
+			--pico-contrast-hover-underline: var(--pico-contrast-hover);
+			--pico-contrast-focus: color-mix(
+				in srgb,
+				var(--pico-contrast),
+				transparent 75%
+			);
+			--pico-contrast-inverse: black;
+			--pico-box-shadow:
+				0.0145rem 0.029rem 0.174rem color-mix(in srgb, black, transparent 98%),
+				0.0335rem 0.067rem 0.402rem color-mix(in srgb, black, transparent 97.5%),
+				0.0625rem 0.125rem 0.75rem color-mix(in srgb, black, transparent 97%),
+				0.1125rem 0.225rem 1.35rem color-mix(in srgb, black, transparent 96.5%),
+				0.2085rem 0.417rem 2.502rem color-mix(in srgb, black, transparent 95.5%),
+				0.5rem 1rem 6rem color-mix(in srgb, black, transparent 94%),
+				0 0 0 0.0625rem color-mix(in srgb, black, transparent 98.5%);
+			--pico-h1-color: color-mix(in srgb, white, var(--pico-secondary) 15%);
+			--pico-h2-color: color-mix(in srgb, white, var(--pico-secondary) 20%);
+			--pico-h3-color: var(--pico-color);
+			--pico-h4-color: color-mix(in srgb, white, var(--pico-secondary) 35%);
+			--pico-h5-color: color-mix(in srgb, white, var(--pico-secondary) 45%);
+			--pico-h6-color: var(--pico-muted-color);
+			--pico-mark-background-color: color-mix(
+				in srgb,
+				var(--pico-primary),
+				black 70%
+			);
+			--pico-mark-color: white;
+			--pico-ins-color: color-mix(in srgb, var(--pico-success), white 30%);
+			--pico-del-color: color-mix(in srgb, var(--pico-error), white 30%);
+			--pico-blockquote-border-color: var(--pico-muted-border-color);
+			--pico-blockquote-footer-color: var(--pico-muted-color);
+			--pico-button-box-shadow: 0 0 0 transparent;
+			--pico-button-hover-box-shadow: 0 0 0 transparent;
+			--pico-table-border-color: var(--pico-muted-border-color);
+			--pico-table-row-stripped-background-color: color-mix(
+				in srgb,
+				black,
+				var(--pico-secondary) 25%
+			);
+			--pico-code-background-color: color-mix(
+				in srgb,
+				black,
+				var(--pico-secondary) 30%
+			);
+			--pico-code-color: var(--pico-muted-color);
+			--pico-code-kbd-background-color: var(--pico-color);
+			--pico-code-kbd-color: var(--pico-background-color);
+			--pico-form-element-background-color: color-mix(
+				in srgb,
+				black,
+				var(--pico-secondary) 25%
+			);
+			--pico-form-element-selected-background-color: color-mix(
+				in srgb,
+				black,
+				var(--pico-secondary) 35%
+			);
+			--pico-form-element-border-color: color-mix(
+				in srgb,
+				black,
+				var(--pico-secondary) 35%
+			);
+			--pico-form-element-color: color-mix(
+				in srgb,
+				white,
+				var(--pico-secondary) 20%
+			);
+			--pico-form-element-placeholder-color: var(--pico-muted-color);
+			--pico-form-element-active-background-color: color-mix(
+				in srgb,
+				black,
+				var(--pico-secondary) 30%
+			);
+			--pico-form-element-active-border-color: var(--pico-primary-border);
+			--pico-form-element-focus-color: var(--pico-primary-border);
+			--pico-form-element-disabled-opacity: 0.5;
+			--pico-form-element-invalid-border-color: color-mix(
+				in srgb,
+				var(--pico-error),
+				white 30%
+			);
+			--pico-form-element-invalid-active-border-color: color-mix(
+				in srgb,
+				var(--pico-error),
+				white 20%
+			);
+			--pico-form-element-invalid-focus-color: var(
+				--pico-form-element-invalid-active-border-color
+			);
+			--pico-form-element-valid-border-color: color-mix(
+				in srgb,
+				var(--pico-success),
+				white 30%
+			);
+			--pico-form-element-valid-active-border-color: color-mix(
+				in srgb,
+				var(--pico-success),
+				white 20%
+			);
+			--pico-form-element-valid-focus-color: var(
+				--pico-form-element-valid-active-border-color
+			);
+			--pico-switch-background-color: color-mix(
+				in srgb,
+				black,
+				var(--pico-secondary) 40%
+			);
+			--pico-switch-checked-background-color: var(--pico-primary-background);
+			--pico-switch-color: white;
+			--pico-switch-thumb-box-shadow: 0 0 0 transparent;
+			--pico-range-border-color: color-mix(
+				in srgb,
+				black,
+				var(--pico-secondary) 30%
+			);
+			--pico-range-active-border-color: color-mix(
+				in srgb,
+				black,
+				var(--pico-secondary) 35%
+			);
+			--pico-range-thumb-border-color: var(--pico-background-color);
+			--pico-range-thumb-color: var(--pico-secondary-background);
+			--pico-range-thumb-active-color: var(--pico-primary-background);
+			--pico-accordion-border-color: var(--pico-muted-border-color);
+			--pico-accordion-active-summary-color: var(--pico-primary-hover);
+			--pico-accordion-close-summary-color: var(--pico-color);
+			--pico-accordion-open-summary-color: var(--pico-muted-color);
+			--pico-card-background-color: color-mix(
+				in srgb,
+				black,
+				var(--pico-secondary) 15%
+			);
+			--pico-card-border-color: var(--pico-card-background-color);
+			--pico-card-box-shadow: var(--pico-box-shadow);
+			--pico-card-sectioning-background-color: color-mix(
+				in srgb,
+				black,
+				var(--pico-secondary) 30%
+			);
+			--pico-dropdown-background-color: color-mix(
+				in srgb,
+				black,
+				var(--pico-secondary) 15%
+			);
+			--pico-dropdown-border-color: color-mix(
+				in srgb,
+				black,
+				var(--pico-secondary) 30%
+			);
+			--pico-dropdown-box-shadow: var(--pico-box-shadow);
+			--pico-dropdown-color: var(--pico-color);
+			--pico-dropdown-hover-background-color: color-mix(
+				in srgb,
+				black,
+				var(--pico-secondary) 30%
+			);
+			--pico-loading-spinner-opacity: 0.5;
+			--pico-modal-overlay-background-color: color-mix(
+				in srgb,
+				black,
+				transparent 92%
+			);
+			--pico-progress-background-color: color-mix(
+				in srgb,
+				black,
+				var(--pico-secondary) 30%
+			);
+			--pico-progress-color: var(--pico-primary-background);
+			--pico-tooltip-background-color: var(--pico-contrast-background);
+			--pico-tooltip-color: var(--pico-contrast-inverse);
+		}
+
+		:root:not([data-theme])
+			input:is(
+				[type="submit"],
+				[type="button"],
+				[type="reset"],
+				[type="checkbox"],
+				[type="radio"],
+				[type="file"]
+			),
+		:host(:not([data-theme]))
+			input:is(
+				[type="submit"],
+				[type="button"],
+				[type="reset"],
+				[type="checkbox"],
+				[type="radio"],
+				[type="file"]
+			) {
+			--pico-form-element-focus-color: var(--pico-primary-focus);
+		}
+
+		:root:not([data-theme])
+			details
+			summary[role="button"].contrast:not(.outline)::after,
+		:host(:not([data-theme]))
+			details
+			summary[role="button"].contrast:not(.outline)::after {
+			filter: brightness(0);
+		}
+
+		:root:not([data-theme])
+			[aria-busy="true"]:not(input, select, textarea).contrast:is(
+				button,
+				[type="submit"],
+				[type="button"],
+				[type="reset"],
+				[role="button"]
+			):not(.outline)::before,
+		:host(:not([data-theme]))
+			[aria-busy="true"]:not(input, select, textarea).contrast:is(
+				button,
+				[type="submit"],
+				[type="button"],
+				[type="reset"],
+				[role="button"]
+			):not(.outline)::before {
+			filter: brightness(0);
+		}
+	}
+} /* @layer theme */
