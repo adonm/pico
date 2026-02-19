@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="css/pico.css" />
     <link href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css" rel="stylesheet" />
     <style>
-      body { padding-top: 4.5rem; }
+      body { padding-top: 3.5rem; }
 
       .top-nav {
         position: fixed;
@@ -23,9 +23,13 @@
         left: 0;
         right: 0;
         z-index: 100;
+        padding: 0.5rem 1rem;
       }
-
-      .top-nav .icon { font-size: 1.1em; }
+      .top-nav ul { margin: 0; }
+      .top-nav li { margin: 0; }
+      .top-nav a { padding: 0.25rem 0.5rem; }
+      .top-nav [role="group"] { margin: 0; }
+      .top-nav [role="group"] button { padding: 0.25rem 0.5rem; }
 
       .color-picker {
         display: flex;
@@ -42,9 +46,7 @@
         position: relative;
         transition: transform 0.15s;
       }
-      .color-picker button:hover {
-        transform: scale(1.15);
-      }
+      .color-picker button:hover { transform: scale(1.15); }
       .color-picker button.selected::after {
         content: "";
         position: absolute;
@@ -67,14 +69,12 @@
         stroke-dashoffset: 18px;
         animation: check 0.2s ease-out forwards;
       }
-      @keyframes check {
-        to { stroke-dashoffset: 0; }
-      }
+      @keyframes check { to { stroke-dashoffset: 0; } }
 
       .builder-layout {
         display: grid;
         grid-template-columns: 320px 1fr;
-        min-height: calc(100vh - 4.5rem);
+        min-height: calc(100vh - 3.5rem);
       }
       .builder-sidebar {
         padding: 1.5rem;
@@ -90,7 +90,7 @@
         padding: 0.75rem;
         border-radius: var(--pico-border-radius);
         font-family: var(--pico-font-family-monospace);
-        font-size: 0.8rem;
+        font-size: 0.85rem;
         overflow-x: auto;
         white-space: pre;
       }
@@ -111,19 +111,13 @@
         transition: color 0.15s, border-color 0.15s;
         margin-bottom: -1px;
       }
-      .tabs button:hover {
-        color: var(--pico-primary-hover);
-      }
+      .tabs button:hover { color: var(--pico-primary-hover); }
       .tabs button.active {
         color: var(--pico-primary);
         border-bottom-color: var(--pico-primary);
       }
-      .tab-panel {
-        display: none;
-      }
-      .tab-panel.active {
-        display: block;
-      }
+      .tab-panel { display: none; }
+      .tab-panel.active { display: block; }
       .forced-demo {
         padding: 1rem;
         border-radius: var(--pico-border-radius);
@@ -133,66 +127,45 @@
       }
 
       .docs-layout {
-        display: grid;
-        grid-template-columns: 220px 1fr;
-        gap: 2rem;
-        max-width: 1200px;
+        max-width: 900px;
         margin: 0 auto;
         padding: 2rem;
-        min-height: calc(100vh - 4.5rem);
       }
-      .docs-toc {
-        position: sticky;
-        top: 5.5rem;
-        height: fit-content;
-        max-height: calc(100vh - 6.5rem);
-        overflow-y: auto;
+      .docs-section {
+        margin-bottom: 3rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid var(--pico-muted-border-color);
       }
-      .docs-toc ul {
-        list-style: none;
-        padding-left: 0;
-        margin: 0;
+      .docs-section:last-child { border-bottom: none; }
+      .docs-section h2 { margin-top: 0; }
+      .demo-box {
+        padding: 1.5rem;
+        margin: 1rem 0;
+        border-radius: var(--pico-border-radius);
+        border: 1px solid var(--pico-muted-border-color);
+        background: var(--pico-background-color);
       }
-      .docs-toc li {
-        margin-bottom: 0.25rem;
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        align-items: center;
       }
-      .docs-toc a {
-        color: var(--pico-muted-color);
-        text-decoration: none;
-        font-size: 0.9rem;
+      .icon-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        font-size: 1.5rem;
       }
-      .docs-toc a:hover {
-        color: var(--pico-primary);
-      }
-      .docs-toc .toc-h3 {
-        padding-left: 1rem;
-      }
-      .docs-toc .toc-h3 a {
-        font-size: 0.85rem;
-      }
-      .docs-main {
-        max-width: 75ch;
-      }
-      .docs-main h1:first-child { margin-top: 0; }
-      .docs-main p:first-of-type { margin-top: 0; }
+      .icon-grid span { opacity: 0.8; }
 
       @media (max-width: 768px) {
-        .builder-layout {
-          grid-template-columns: 1fr;
-        }
+        .builder-layout { grid-template-columns: 1fr; }
         .builder-sidebar {
           border-right: none;
           border-bottom: 1px solid var(--pico-muted-border-color);
         }
-        .docs-layout {
-          grid-template-columns: 1fr;
-          padding: 1rem;
-        }
-        .docs-toc {
-          position: static;
-          max-height: none;
-          margin-bottom: 1rem;
-        }
+        .docs-layout { padding: 1rem; }
       }
     </style>
   </head>
@@ -217,11 +190,212 @@
     </nav>
 
     <div id="view-docs" class="docs-layout">
-      <aside class="docs-toc">
-        <strong style="display: block; margin-bottom: 0.75rem;">Contents</strong>
-        <nav id="toc-nav"></nav>
-      </aside>
-      <main id="docs-content" class="docs-main"></main>
+      <section class="docs-section">
+        <h2>Quick Start</h2>
+        <p>Add to your HTML:</p>
+        <div class="code-block">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/adonm/pico/css/pico.min.css"&gt;</div>
+        <p>Minimal page:</p>
+        <div class="code-block">&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+  &lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/adonm/pico/css/pico.min.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;main class="container"&gt;
+    &lt;h1&gt;Hello world&lt;/h1&gt;
+  &lt;/main&gt;
+&lt;/body&gt;
+&lt;/html&gt;</div>
+      </section>
+
+      <section class="docs-section">
+        <h2>Theming</h2>
+        <p>Set two variables on <code>:root</code> to customize everything:</p>
+        <div class="code-block">:root {
+  --pico-primary: #0172ad;
+  --pico-secondary: #646e82;
+}</div>
+        <p>All colors (hover states, backgrounds, borders) derive automatically via <code>color-mix()</code>.</p>
+        <h3>Available Variables</h3>
+        <table>
+          <thead><tr><th>Variable</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td><code>--pico-primary</code></td><td>Brand/accent color</td></tr>
+            <tr><td><code>--pico-secondary</code></td><td>Neutral (text, borders)</td></tr>
+            <tr><td><code>--pico-border-radius</code></td><td>Corner rounding (default: 0.25rem)</td></tr>
+            <tr><td><code>--pico-shadow</code></td><td>Box shadow (set to <code>none</code> to disable)</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="docs-section">
+        <h2>Buttons</h2>
+        <div class="demo-box">
+          <div class="demo-row">
+            <button>Primary</button>
+            <button class="secondary">Secondary</button>
+            <button class="contrast">Contrast</button>
+          </div>
+          <div class="demo-row" style="margin-top: 0.5rem">
+            <button class="outline">Outline</button>
+            <button class="secondary outline">Secondary</button>
+            <button disabled>Disabled</button>
+          </div>
+        </div>
+        <div class="code-block">&lt;button&gt;Primary&lt;/button&gt;
+&lt;button class="secondary"&gt;Secondary&lt;/button&gt;
+&lt;button class="outline"&gt;Outline&lt;/button&gt;</div>
+      </section>
+
+      <section class="docs-section">
+        <h2>Forms</h2>
+        <div class="demo-box">
+          <form>
+            <label>Email <input type="email" placeholder="you@example.com"></label>
+            <label>Select <select><option>Option 1</option><option>Option 2</option></select></label>
+            <fieldset>
+              <label><input type="checkbox" checked> Checkbox</label>
+              <label><input type="checkbox" role="switch" checked> Switch</label>
+            </fieldset>
+          </form>
+        </div>
+      </section>
+
+      <section class="docs-section">
+        <h2>Cards</h2>
+        <div class="demo-box">
+          <article>
+            <header>Card Title</header>
+            <p>Card content goes here.</p>
+            <footer>
+              <button>Save</button>
+              <button class="secondary">Cancel</button>
+            </footer>
+          </article>
+        </div>
+        <div class="code-block">&lt;article&gt;
+  &lt;header&gt;Card Title&lt;/header&gt;
+  &lt;p&gt;Card content.&lt;/p&gt;
+  &lt;footer&gt;
+    &lt;button&gt;Save&lt;/button&gt;
+  &lt;/footer&gt;
+&lt;/article&gt;</div>
+      </section>
+
+      <section class="docs-section">
+        <h2>Tables</h2>
+        <div class="demo-box">
+          <table class="striped">
+            <thead><tr><th>Name</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>Alice</td><td><span class="tag success">Active</span></td></tr>
+              <tr><td>Bob</td><td><span class="tag secondary">Inactive</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="docs-section">
+        <h2>Navigation</h2>
+        <div class="demo-box">
+          <nav>
+            <ul><li><strong>Brand</strong></li></ul>
+            <ul>
+              <li><a href="#">Home</a></li>
+              <li><a href="#">About</a></li>
+            </ul>
+          </nav>
+        </div>
+        <h3>Dark Nav on Light Page</h3>
+        <div class="demo-box">
+          <nav class="dark" style="margin: 0">
+            <ul><li><strong>Brand</strong></li></ul>
+            <ul><li><a href="#">Link</a></li></ul>
+          </nav>
+        </div>
+        <div class="code-block">&lt;nav class="dark"&gt;
+  &lt;ul&gt;&lt;li&gt;&lt;strong&gt;Brand&lt;/strong&gt;&lt;/li&gt;&lt;/ul&gt;
+  &lt;ul&gt;&lt;li&gt;&lt;a href="#"&gt;Link&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
+&lt;/nav&gt;</div>
+      </section>
+
+      <section class="docs-section">
+        <h2>Light/Dark Mode</h2>
+        <p><strong>Automatic:</strong> Colors switch based on system preference. Works out of the box.</p>
+        <p><strong>Force globally:</strong></p>
+        <div class="code-block">:root { color-scheme: light; }  /* or dark */</div>
+        <p><strong>Invert sections:</strong></p>
+        <div class="code-block">&lt;nav class="dark"&gt;...&lt;/nav&gt;
+&lt;article class="light"&gt;...&lt;/article&gt;</div>
+      </section>
+
+      <section class="docs-section">
+        <h2>Icons</h2>
+        <p>Icons inherit text color and size (1em):</p>
+        <div class="demo-box">
+          <div class="icon-grid">
+            <span class="icon icon-arrow-right"></span>
+            <span class="icon icon-arrow-left"></span>
+            <span class="icon icon-chevron-right"></span>
+            <span class="icon icon-plus"></span>
+            <span class="icon icon-x"></span>
+            <span class="icon icon-check"></span>
+            <span class="icon icon-menu"></span>
+            <span class="icon icon-search"></span>
+            <span class="icon icon-user"></span>
+            <span class="icon icon-settings"></span>
+            <span class="icon icon-home"></span>
+            <span class="icon icon-sun"></span>
+            <span class="icon icon-moon"></span>
+            <span class="icon icon-info"></span>
+            <span class="icon icon-warning"></span>
+            <span class="icon icon-error"></span>
+            <span class="icon icon-success"></span>
+          </div>
+        </div>
+        <div class="code-block">&lt;button&gt;&lt;span class="icon icon-plus"&gt;&lt;/span&gt; Add&lt;/button&gt;
+&lt;a href="#"&gt;Continue &lt;span class="icon icon-arrow-right"&gt;&lt;/span&gt;&lt;/a&gt;</div>
+        <h3>Available Icons</h3>
+        <p><strong>Navigation:</strong> arrow-right, arrow-left, arrow-up, arrow-down, chevron-right, chevron-left, chevron-up, chevron-down</p>
+        <p><strong>Actions:</strong> plus, minus, x, check, edit, trash</p>
+        <p><strong>UI:</strong> menu, more, search, filter</p>
+        <p><strong>Status:</strong> info, warning, error, success</p>
+        <p><strong>Common:</strong> user, settings, home, external, sun, moon, system</p>
+      </section>
+
+      <section class="docs-section">
+        <h2>Layout</h2>
+        <p>Use inline CSS for grids (no utility classes):</p>
+        <div class="code-block">&lt;div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem"&gt;
+  &lt;div&gt;1&lt;/div&gt;
+  &lt;div&gt;2&lt;/div&gt;
+  &lt;div&gt;3&lt;/div&gt;
+&lt;/div&gt;</div>
+        <p>Responsive:</p>
+        <div class="code-block">&lt;div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem"&gt;
+  ...
+&lt;/div&gt;</div>
+      </section>
+
+      <section class="docs-section">
+        <h2>Escape Hatch</h2>
+        <p>Isolate third-party widgets (maps, charts) from Pico styles:</p>
+        <div class="code-block">&lt;div id="map" data-no-pico style="color-scheme: light; background: white"&gt;&lt;/div&gt;</div>
+      </section>
+
+      <section class="docs-section">
+        <h2>Browser Support</h2>
+        <table>
+          <thead><tr><th>Feature</th><th>Chrome</th><th>Firefox</th><th>Safari</th></tr></thead>
+          <tbody>
+            <tr><td><code>light-dark()</code></td><td>123+</td><td>120+</td><td>17.2+</td></tr>
+            <tr><td>CSS nesting</td><td>120+</td><td>117+</td><td>17.2+</td></tr>
+            <tr><td>Cascade layers</td><td>99+</td><td>97+</td><td>15.4+</td></tr>
+          </tbody>
+        </table>
+      </section>
     </div>
 
     <div id="view-theme" class="builder-layout" style="display: none">
@@ -493,7 +667,6 @@
       </main>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://unpkg.com/maplibre-gl/dist/maplibre-gl.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
     <script type="module">
@@ -541,15 +714,12 @@ const elements = {
   navLight: document.getElementById("nav-light"),
   navDark: document.getElementById("nav-dark"),
   navAuto: document.getElementById("nav-auto"),
-  docsContent: document.getElementById("docs-content"),
-  tocNav: document.getElementById("toc-nav"),
   viewDocs: document.getElementById("view-docs"),
   viewTheme: document.getElementById("view-theme"),
 };
 
 let mapInstance = null;
 let chartInstance = null;
-let docsLoaded = false;
 
 function deriveSecondary(hex) {
   const [l, c, h] = chroma(hex).oklch();
@@ -617,9 +787,8 @@ ${modeLine}  --pico-primary: ${state.primary};
 function showView(view) {
   state.view = view;
   if (view === "docs") {
-    elements.viewDocs.style.display = "grid";
+    elements.viewDocs.style.display = "block";
     elements.viewTheme.style.display = "none";
-    if (!docsLoaded) loadDocs();
   } else {
     elements.viewDocs.style.display = "none";
     elements.viewTheme.style.display = "grid";
@@ -633,57 +802,6 @@ function updateNavLinks() {
       el.classList.toggle('secondary', el.dataset.view !== state.view);
     }
   });
-}
-
-async function loadDocs() {
-  try {
-    const res = await fetch('README.md');
-    const markdown = await res.text();
-    const html = marked.parse(markdown, { gfm: true });
-    elements.docsContent.innerHTML = html;
-    generateTOC();
-    docsLoaded = true;
-  } catch (err) {
-    elements.docsContent.innerHTML = '<p>Error loading documentation.</p>';
-  }
-}
-
-function generateTOC() {
-  const headings = elements.docsContent.querySelectorAll('h2, h3');
-  const toc = document.createElement('ul');
-  let currentH2Item = null;
-  let h3List = null;
-
-  headings.forEach(h => {
-    const id = h.textContent.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-    h.id = id;
-
-    const li = document.createElement('li');
-    const a = document.createElement('a');
-    a.href = '#' + id;
-    a.textContent = h.textContent;
-    a.addEventListener('click', (e) => {
-      e.preventDefault();
-      h.scrollIntoView({ behavior: 'smooth' });
-    });
-    li.appendChild(a);
-
-    if (h.tagName === 'H2') {
-      li.style.marginTop = '0.5rem';
-      toc.appendChild(li);
-      currentH2Item = li;
-      h3List = null;
-    } else if (h.tagName === 'H3' && currentH2Item) {
-      li.classList.add('toc-h3');
-      if (!h3List) {
-        h3List = document.createElement('ul');
-        currentH2Item.appendChild(h3List);
-      }
-      h3List.appendChild(li);
-    }
-  });
-
-  elements.tocNav.appendChild(toc);
 }
 
 function initMap() {
