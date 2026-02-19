@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Theme Builder</title>
+    <title>Pico CSS</title>
     <style id="theme-override">
       :root {
         --pico-primary: #0172ad;
@@ -15,6 +15,18 @@
     <link rel="stylesheet" href="css/pico.css" />
     <link href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css" rel="stylesheet" />
     <style>
+      body { padding-top: 4.5rem; }
+
+      .top-nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+      }
+
+      .top-nav .icon { font-size: 1.1em; }
+
       .color-picker {
         display: flex;
         flex-wrap: wrap;
@@ -58,10 +70,11 @@
       @keyframes check {
         to { stroke-dashoffset: 0; }
       }
+
       .builder-layout {
         display: grid;
-        grid-template-columns: 380px 1fr;
-        min-height: 100vh;
+        grid-template-columns: 320px 1fr;
+        min-height: calc(100vh - 4.5rem);
       }
       .builder-sidebar {
         padding: 1.5rem;
@@ -118,14 +131,100 @@
         margin-top: 0.5rem;
         background-color: var(--pico-background-color);
       }
+
+      .docs-layout {
+        display: grid;
+        grid-template-columns: 220px 1fr;
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+        min-height: calc(100vh - 4.5rem);
+      }
+      .docs-toc {
+        position: sticky;
+        top: 5.5rem;
+        height: fit-content;
+        max-height: calc(100vh - 6.5rem);
+        overflow-y: auto;
+      }
+      .docs-toc ul {
+        list-style: none;
+        padding-left: 0;
+        margin: 0;
+      }
+      .docs-toc li {
+        margin-bottom: 0.25rem;
+      }
+      .docs-toc a {
+        color: var(--pico-muted-color);
+        text-decoration: none;
+        font-size: 0.9rem;
+      }
+      .docs-toc a:hover {
+        color: var(--pico-primary);
+      }
+      .docs-toc .toc-h3 {
+        padding-left: 1rem;
+      }
+      .docs-toc .toc-h3 a {
+        font-size: 0.85rem;
+      }
+      .docs-main {
+        max-width: 75ch;
+      }
+      .docs-main h1:first-child { margin-top: 0; }
+      .docs-main p:first-of-type { margin-top: 0; }
+
       @media (max-width: 768px) {
-        .builder-layout { grid-template-columns: 1fr; }
-        .builder-sidebar { border-right: none; border-bottom: 1px solid var(--pico-muted-border-color); }
+        .builder-layout {
+          grid-template-columns: 1fr;
+        }
+        .builder-sidebar {
+          border-right: none;
+          border-bottom: 1px solid var(--pico-muted-border-color);
+        }
+        .docs-layout {
+          grid-template-columns: 1fr;
+          padding: 1rem;
+        }
+        .docs-toc {
+          position: static;
+          max-height: none;
+          margin-bottom: 1rem;
+        }
       }
     </style>
   </head>
   <body>
-    <div class="builder-layout">
+    <nav class="top-nav dark">
+      <ul>
+        <li><a href="#" data-view="docs"><strong>Pico</strong></a></li>
+      </ul>
+      <ul>
+        <li><a href="#" data-view="docs">Docs</a></li>
+        <li><a href="#" data-view="theme">Theme</a></li>
+      </ul>
+      <ul>
+        <li>
+          <div role="group">
+            <button id="nav-light" class="outline secondary"><span class="icon icon-sun"></span></button>
+            <button id="nav-dark" class="outline secondary"><span class="icon icon-moon"></span></button>
+            <button id="nav-auto" class="outline secondary"><span class="icon icon-system"></span></button>
+          </div>
+        </li>
+      </ul>
+    </nav>
+
+    <div id="view-docs" class="docs-layout">
+      <aside class="docs-toc">
+        <strong style="display: block; margin-bottom: 0.75rem;">Contents</strong>
+        <nav id="toc-nav"></nav>
+      </aside>
+      <main id="docs-content" class="docs-main"></main>
+    </div>
+
+    <div id="view-theme" class="builder-layout" style="display: none">
       <aside class="builder-sidebar">
         <hgroup>
           <h2 id="theme-title">Azure</h2>
@@ -153,15 +252,6 @@
             <option value="0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)" selected>Medium</option>
             <option value="0 10px 15px -3px rgba(0, 0, 0, 0.15), 0 4px 6px -4px rgba(0, 0, 0, 0.15)">Strong</option>
           </select>
-        </label>
-
-        <label>
-          Mode
-          <div role="group">
-            <button id="btn-light" class="outline"><span class="icon icon-sun"></span></button>
-            <button id="btn-dark" class="outline"><span class="icon icon-moon"></span></button>
-            <button id="btn-auto" class="outline secondary"><span class="icon icon-system"></span></button>
-          </div>
         </label>
 
         <hr />
@@ -403,6 +493,7 @@
       </main>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://unpkg.com/maplibre-gl/dist/maplibre-gl.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
     <script type="module">
@@ -436,7 +527,8 @@ const state = {
   themeName: "Azure",
   borderRadius: "0.25rem",
   shadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)",
-  mode: "auto"
+  mode: "auto",
+  view: "docs"
 };
 
 const elements = {
@@ -446,13 +538,18 @@ const elements = {
   shadow: document.getElementById("shadow"),
   code: document.getElementById("generated-code"),
   copy: document.getElementById("copy-btn"),
-  btnLight: document.getElementById("btn-light"),
-  btnDark: document.getElementById("btn-dark"),
-  btnAuto: document.getElementById("btn-auto"),
+  navLight: document.getElementById("nav-light"),
+  navDark: document.getElementById("nav-dark"),
+  navAuto: document.getElementById("nav-auto"),
+  docsContent: document.getElementById("docs-content"),
+  tocNav: document.getElementById("toc-nav"),
+  viewDocs: document.getElementById("view-docs"),
+  viewTheme: document.getElementById("view-theme"),
 };
 
 let mapInstance = null;
 let chartInstance = null;
+let docsLoaded = false;
 
 function deriveSecondary(hex) {
   const [l, c, h] = chroma(hex).oklch();
@@ -491,17 +588,17 @@ function updateTheme() {
   else if (state.mode === "dark") document.documentElement.style.colorScheme = "dark";
   else document.documentElement.style.colorScheme = "light dark";
 
-  updateButtons();
+  updateModeButtons();
   updateCode(secondary);
 }
 
-function updateButtons() {
-  elements.btnLight.className = "outline secondary";
-  elements.btnDark.className = "outline secondary";
-  elements.btnAuto.className = "outline secondary";
-  if (state.mode === "light") elements.btnLight.className = "secondary";
-  else if (state.mode === "dark") elements.btnDark.className = "secondary";
-  else elements.btnAuto.className = "secondary";
+function updateModeButtons() {
+  elements.navLight.className = "outline secondary";
+  elements.navDark.className = "outline secondary";
+  elements.navAuto.className = "outline secondary";
+  if (state.mode === "light") elements.navLight.className = "secondary";
+  else if (state.mode === "dark") elements.navDark.className = "secondary";
+  else elements.navAuto.className = "secondary";
 }
 
 function updateCode(secondary) {
@@ -515,6 +612,78 @@ ${modeLine}  --pico-primary: ${state.primary};
   --pico-border-radius: ${state.borderRadius};
   --pico-shadow: ${state.shadow};
 }`;
+}
+
+function showView(view) {
+  state.view = view;
+  if (view === "docs") {
+    elements.viewDocs.style.display = "grid";
+    elements.viewTheme.style.display = "none";
+    if (!docsLoaded) loadDocs();
+  } else {
+    elements.viewDocs.style.display = "none";
+    elements.viewTheme.style.display = "grid";
+  }
+  updateNavLinks();
+}
+
+function updateNavLinks() {
+  document.querySelectorAll('[data-view]').forEach(el => {
+    if (el.tagName === 'A') {
+      el.classList.toggle('secondary', el.dataset.view !== state.view);
+    }
+  });
+}
+
+async function loadDocs() {
+  try {
+    const res = await fetch('README.md');
+    const markdown = await res.text();
+    const html = marked.parse(markdown, { gfm: true });
+    elements.docsContent.innerHTML = html;
+    generateTOC();
+    docsLoaded = true;
+  } catch (err) {
+    elements.docsContent.innerHTML = '<p>Error loading documentation.</p>';
+  }
+}
+
+function generateTOC() {
+  const headings = elements.docsContent.querySelectorAll('h2, h3');
+  const toc = document.createElement('ul');
+  let currentH2Item = null;
+  let h3List = null;
+
+  headings.forEach(h => {
+    const id = h.textContent.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    h.id = id;
+
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#' + id;
+    a.textContent = h.textContent;
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      h.scrollIntoView({ behavior: 'smooth' });
+    });
+    li.appendChild(a);
+
+    if (h.tagName === 'H2') {
+      li.style.marginTop = '0.5rem';
+      toc.appendChild(li);
+      currentH2Item = li;
+      h3List = null;
+    } else if (h.tagName === 'H3' && currentH2Item) {
+      li.classList.add('toc-h3');
+      if (!h3List) {
+        h3List = document.createElement('ul');
+        currentH2Item.appendChild(h3List);
+      }
+      h3List.appendChild(li);
+    }
+  });
+
+  elements.tocNav.appendChild(toc);
 }
 
 function initMap() {
@@ -573,6 +742,13 @@ function initChart() {
   });
 }
 
+document.querySelectorAll('[data-view]').forEach(el => {
+  el.addEventListener('click', (e) => {
+    e.preventDefault();
+    showView(el.dataset.view);
+  });
+});
+
 document.querySelectorAll(".tabs button").forEach((btn) => {
   btn.addEventListener("click", () => {
     document.querySelectorAll(".tabs button").forEach((b) => b.classList.remove("active"));
@@ -587,9 +763,9 @@ document.querySelectorAll(".tabs button").forEach((btn) => {
 
 elements.radius.addEventListener("change", (e) => { state.borderRadius = e.target.value; updateTheme(); });
 elements.shadow.addEventListener("change", (e) => { state.shadow = e.target.value; updateTheme(); });
-elements.btnLight.addEventListener("click", () => { state.mode = "light"; updateTheme(); });
-elements.btnDark.addEventListener("click", () => { state.mode = "dark"; updateTheme(); });
-elements.btnAuto.addEventListener("click", () => { state.mode = "auto"; updateTheme(); });
+elements.navLight.addEventListener("click", () => { state.mode = "light"; updateTheme(); });
+elements.navDark.addEventListener("click", () => { state.mode = "dark"; updateTheme(); });
+elements.navAuto.addEventListener("click", () => { state.mode = "auto"; updateTheme(); });
 elements.copy.addEventListener("click", () => {
   navigator.clipboard.writeText(elements.code.textContent).then(() => {
     elements.copy.textContent = "Copied!";
@@ -599,6 +775,7 @@ elements.copy.addEventListener("click", () => {
 
 renderPicker();
 updateTheme();
+showView("docs");
     </script>
   </body>
 </html>
