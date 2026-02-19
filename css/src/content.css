@@ -127,14 +127,14 @@
 		margin: var(--pico-typography-spacing-vertical) 0;
 		padding: var(--pico-spacing);
 		border-right: none;
-		border-left: 0.25rem solid var(--pico-blockquote-border-color);
-		border-inline-start: 0.25rem solid var(--pico-blockquote-border-color);
+		border-left: 0.25rem solid var(--pico-muted-border-color);
+		border-inline-start: 0.25rem solid var(--pico-muted-border-color);
 		border-inline-end: none;
 	}
 
 	blockquote footer {
 		margin-top: calc(var(--pico-typography-spacing-vertical) * 0.5);
-		color: var(--pico-blockquote-footer-color);
+		color: var(--pico-muted-color);
 	}
 
 	abbr[title] {

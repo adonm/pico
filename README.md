@@ -8,231 +8,302 @@
   </a>
 </p>
 
-[![Github release](https://img.shields.io/github/v/release/picocss/pico?color=0172ad&logo=github&logoColor=white)](https://github.com/picocss/pico/releases/latest)
-[![npm version](https://img.shields.io/npm/v/@picocss/pico?color=0172ad)](https://www.npmjs.com/package/@picocss/pico)
-[![License](https://img.shields.io/badge/license-MIT-%230172ad)](https://github.com/picocss/pico/blob/master/LICENSE.md)
-[![X (formerly Twitter)](https://img.shields.io/twitter/url/https/twitter.com/picocss.svg?style=social&label=Follow%20%40picocss)](https://x.com/picocss)
+## Modern CSS Framework
 
-## Minimal CSS Framework for Semantic HTML
+A fork of [PicoCSS](https://picocss.com) rebuilt with modern CSS features: `light-dark()`, `color-mix()`, CSS nesting, and cascade layers. No build step, no preprocessors.
 
-A minimalist and lightweight starter kit that prioritizes semantic syntax, making every HTML element responsive and elegant by default.
+**Key differences from upstream:**
+- Automatic light/dark mode via `light-dark()` - no media queries needed
+- Two-variable theming: set `--pico-primary` and `--pico-secondary`, everything else derives
+- CSS nesting throughout for cleaner source
+- Simplified: no 12-column grid utilities (use inline CSS)
 
-Write HTML, Add Pico CSS, and Voilà!
+## Quick Start
 
-## What’s new in v2?
+### CDN (recommended)
 
-Pico v2.0 features better accessibility, easier customization with SASS, a complete color palette, a new group component, and 20 precompiled color themes totaling over 100 combinations accessible via CDN.
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/adonm/pico/css/pico.min.css">
+```
 
-[Read more](https://picocss.com/docs/v2)
+### Local
 
-## A Superpowered HTML Reset
-
-With just the right amount of everything, Pico is great starting point for a clean and lightweight design system.
-
-- Class-light and Semantic
-- Great Styles with Just CSS
-- Responsive Everything
-- Light or Dark Mode
-- Easy Customization
-- Optimized Performance
-
-## Table of contents
-
-- [Quick start](#quick-start)
-- [Class-less version](#class-less-version)
-- [Limitations](#limitations)
-- [Documentation](#documentation)
-- [Browser Support](#browser-support)
-- [Contributing](#contributing)
-- [Copyright and license](#copyright-and-license)
-
-## Quick start
-
-There are 4 ways to get started with pico.css:
-
-### Install manually
-
-[Download Pico](https://github.com/picocss/pico/archive/refs/heads/main.zip) and link `/css/pico.min.css` in the `<head>` of your website.
+Download and link:
 
 ```html
 <link rel="stylesheet" href="css/pico.min.css">
 ```
 
-### Usage from CDN
-
-Alternatively, you can use [jsDelivr CDN](https://www.jsdelivr.com/package/npm/@picocss/pico) to link pico.css.
+### Minimal HTML
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-```
-
-### Install with NPM
-
-```shell
-npm install @picocss/pico
-```
-
-Or
-
-```shell
-yarn add @picocss/pico
-```
-
-Then, import Pico into your SCSS file with [@use](https://sass-lang.com/documentation/at-rules/use):
-
-```SCSS
-@use "pico";
-```
-
-### Install with Composer
-
-```shell
-composer require picocss/pico
-```
-
-### Starter HTML template
-
-```HTML
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="color-scheme" content="light dark">
-    <link rel="stylesheet" href="css/pico.min.css">
-    <title>Hello world!</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/adonm/pico/css/pico.min.css">
   </head>
   <body>
     <main class="container">
-      <h1>Hello world!</h1>
+      <h1>Hello world</h1>
     </main>
   </body>
 </html>
 ```
 
-## Class-less version
+## Theming
 
-Pico provides a `.classless` version.
+Set two variables on `:root`:
 
-In this version, `<header>`, `<main>`, and `<footer>` inside `<body>` act as containers to define a centered or a fluid viewport.
-
-Use the default `.classless` version if you need centered viewports:
-
-```html
-<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.classless.min.css"
-/>
+```css
+:root {
+  --pico-primary: #0172ad;
+  --pico-secondary: #646e82;
+}
 ```
 
-Or use the `.fluid.classless` version if you need a fluid container:
+All colors (hover states, backgrounds, borders, etc.) derive automatically via `color-mix()`.
+
+### Available Variables
+
+| Variable | Purpose |
+|----------|---------|
+| `--pico-primary` | Brand/accent color |
+| `--pico-secondary` | Neutral color (text, borders) |
+| `--pico-border-radius` | Corner rounding (default: `0.25rem`) |
+| `--pico-shadow` | Box shadow (set to `none` to disable) |
+
+## Common Patterns
+
+### Navigation
+
+Simple nav with links:
 
 ```html
-<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.fluid.classless.min.css"
->
+<nav>
+  <ul>
+    <li><strong>Brand</strong></li>
+  </ul>
+  <ul>
+    <li><a href="#">Home</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</nav>
 ```
 
-Then just write pure HTML, and it should look great:
+Dark nav on light page:
 
 ```html
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="color-scheme" content="light dark">
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.classless.min.css"
-    >
-    <title>Hello, world!</title>
-  </head>
-  <body>
-    <main>
-      <h1>Hello, world!</h1>
-    </main>
-  </body>
-</html>
+<nav class="dark">
+  <ul>
+    <li><strong>Brand</strong></li>
+  </ul>
+  <ul>
+    <li><a href="#">Home</a></li>
+  </ul>
+</nav>
 ```
 
-## Limitations
+### Forms
 
-Pico CSS can be used without custom CSS for quick or small projects. However, it’s designed as a starting point, like a “reset CSS on steroids”. As Pico does not integrate any helpers or utilities `.classes`, this minimal CSS framework requires SCSS or CSS knowledge to build large projects.
+Basic form:
 
-[Read more](https://picocss.com/docs/usage-scenarios)
+```html
+<form>
+  <label>Email <input type="email" placeholder="you@example.com"></label>
+  <label>Password <input type="password"></label>
+  <button>Sign In</button>
+</form>
+```
 
-## Documentation
+Form with validation:
 
-**Getting started**
+```html
+<form>
+  <label>Email <input type="email" aria-invalid="false" value="user@example.com"></label>
+  <small>Valid email address</small>
+  <label>Password <input type="password" aria-invalid="true"></label>
+  <small>Must be at least 8 characters</small>
+  <button>Sign In</button>
+</form>
+```
 
-- [Quick start](https://picocss.com/docs)
-- [Version picker `New`](https://picocss.com/docs/version-picker)
-- [Color schemes](https://picocss.com/docs/color-schemes)
-- [Class-less version](https://picocss.com/docs/classless)
-- [Conditional styling `New`](https://picocss.com/docs/conditional)
-- [RTL](https://picocss.com/docs/rtl)
+Button group:
 
-**Customization**
+```html
+<div role="group">
+  <input type="search" placeholder="Search...">
+  <button>Go</button>
+</div>
+```
 
-- [CSS Variables](https://picocss.com/docs/css-variables)
-- [Sass](https://picocss.com/docs/sass)
-- [Colors `New`](https://picocss.com/docs/colors)
+### Cards
 
-**Layout**
+Basic card:
 
-- [Container](https://picocss.com/docs/container)
-- [Landmarks & section](https://picocss.com/docs/landmarks-section)
-- [Grid](https://picocss.com/docs/grid)
-- [Overflow auto `New`](https://picocss.com/docs/overflow-auto)
+```html
+<article>
+  <header>Card Title</header>
+  <p>Card content goes here.</p>
+  <footer>
+    <button>Save</button>
+    <button class="secondary">Cancel</button>
+  </footer>
+</article>
+```
 
-**Content**
+Grid of cards:
 
-- [Typography](https://picocss.com/docs/typography)
-- [Link](https://picocss.com/docs/link)
-- [Button](https://picocss.com/docs/button)
-- [Table](https://picocss.com/docs/table)
+```html
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem">
+  <article>Card 1</article>
+  <article>Card 2</article>
+  <article>Card 3</article>
+</div>
+```
 
-**Forms**
+### Tables
 
-- [Overview](https://picocss.com/docs/forms)
-- [Input](https://picocss.com/docs/forms/input)
-- [Textarea](https://picocss.com/docs/forms/textarea)
-- [Select](https://picocss.com/docs/forms/select)
-- [Checkboxes](https://picocss.com/docs/forms/checkboxes)
-- [Radios](https://picocss.com/docs/forms/radios)
-- [Switch](https://picocss.com/docs/forms/switch)
-- [Range](https://picocss.com/docs/forms/range)
+Striped table:
 
-**Components**
+```html
+<table class="striped">
+  <thead>
+    <tr><th>Name</th><th>Status</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Alice</td><td><span class="tag success">Active</span></td></tr>
+    <tr><td>Bob</td><td><span class="tag secondary">Inactive</span></td></tr>
+  </tbody>
+</table>
+```
 
-- [Accordion](https://picocss.com/docs/accordion)
-- [Card](https://picocss.com/docs/card)
-- [Dropdown](https://picocss.com/docs/dropdown)
-- [Group `New`](https://picocss.com/docs/group)
-- [Loading](https://picocss.com/docs/loading)
-- [Modal](https://picocss.com/docs/modal)
-- [Nav](https://picocss.com/docs/nav)
-- [Progress](https://picocss.com/docs/progress)
-- [Tooltip](https://picocss.com/docs/tooltip)
+### Tags & Badges
 
-**About**
+```html
+<span class="tag">Default</span>
+<span class="tag primary">Primary</span>
+<span class="tag secondary">Secondary</span>
+<span class="tag success">Success</span>
+<span class="tag warning">Warning</span>
+<span class="tag error">Error</span>
+```
 
-- [What’s new in v2?](https://picocss.com/docs/v2)
-- [Mission](https://picocss.com/docs/mission)
-- [Usage scenarios](https://picocss.com/docs/usage-scenarios)
-- [Brand](https://picocss.com/docs/brand)
-- [Built With](https://picocss.com/docs/built-with)
+### Accordion
+
+```html
+<details open>
+  <summary>Open by default</summary>
+  <p>Content shown when expanded.</p>
+</details>
+<details>
+  <summary>Click to expand</summary>
+  <p>Hidden content revealed on click.</p>
+</details>
+```
+
+### Icons
+
+Icons inherit text color and size. Use inline with buttons, links, etc:
+
+```html
+<button><span class="icon icon-plus"></span> Add</button>
+<a href="#">Continue <span class="icon icon-arrow-right"></span></a>
+```
+
+Available icons:
+
+| Category | Icons |
+|----------|-------|
+| **Navigation** | `arrow-right`, `arrow-left`, `arrow-up`, `arrow-down`, `chevron-right`, `chevron-left`, `chevron-up`, `chevron-down` |
+| **Actions** | `plus`, `minus`, `x`, `check`, `edit`, `trash` |
+| **UI** | `menu`, `more`, `search`, `filter` |
+| **Status** | `info`, `warning`, `error`, `success` |
+| **Common** | `user`, `settings`, `home`, `external` |
+| **Theme** | `sun`, `moon`, `system` |
+
+### Layout
+
+Two-column layout:
+
+```html
+<div style="display: grid; grid-template-columns: 250px 1fr; gap: 2rem">
+  <aside>Sidebar</aside>
+  <main>Content</main>
+</div>
+```
+
+Responsive grid:
+
+```html
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem">
+  <div>Item 1</div>
+  <div>Item 2</div>
+  <div>Item 3</div>
+</div>
+```
+
+## Light/Dark Mode
+
+### Automatic (default)
+
+Colors switch based on user's system preference. Works out of the box - no configuration needed.
+
+### Force globally
+
+```css
+:root { color-scheme: light; }  /* force light mode */
+:root { color-scheme: dark; }   /* force dark mode */
+```
+
+### Invert sections
+
+Use `.light` or `.dark` classes to invert specific sections:
+
+```html
+<!-- Dark navbar on light page -->
+<nav class="dark">
+  <a href="#">Link</a>
+</nav>
+
+<!-- Light card on dark page -->
+<article class="light">
+  <p>This card is always light.</p>
+</article>
+```
+
+## Escape Hatch
+
+Isolate third-party widgets (maps, charts) from Pico styles:
+
+```html
+<div id="map" data-no-pico style="color-scheme: light; background: white"></div>
+```
+
+Apply `data-no-pico` and `color-scheme: light; background: white` directly to the widget element to prevent dark mode inheritance.
 
 ## Browser Support
 
-Pico CSS is designed and tested for the latest stable Chrome, Firefox, Edge, and Safari releases. It does not support any version of IE, including IE 11.
+Requires modern CSS:
 
-## Contributing
+| Feature | Chrome | Firefox | Safari |
+|---------|--------|---------|--------|
+| `light-dark()` | 123+ | 120+ | 17.2+ |
+| CSS nesting | 120+ | 117+ | 17.2+ |
+| Cascade layers | 99+ | 97+ | 15.4+ |
 
-If you are interested in contributing to Pico CSS, please read our [contributing guidelines](https://github.com/picocss/pico/blob/master/.github/CONTRIBUTING.md).
+## Build
 
-## Copyright and license
+```bash
+mise install      # Install tools
+mise run build    # Build CSS
+mise run watch    # Watch and rebuild
+mise run check    # Lint, format, build
+mise run dev      # Start dev server on port 3000
+```
 
-Licensed under the [MIT License](https://github.com/picocss/pico/blob/master/LICENSE.md).
+## License
+
+MIT

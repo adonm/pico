@@ -1,5 +1,210 @@
 @layer utilities {
 	/**
+	 * Force light/dark mode on a section
+	 * Use: <nav class="dark">...</nav> or <article class="light">...</article>
+	 */
+
+	.light {
+		color-scheme: light;
+		background-color: var(--pico-background-color);
+		color: var(--pico-color);
+	}
+
+	.light *,
+	.light *::before,
+	.light *::after {
+		color-scheme: light;
+	}
+
+	.dark {
+		color-scheme: dark;
+		background-color: var(--pico-background-color);
+		color: var(--pico-color);
+	}
+
+	.dark *,
+	.dark *::before,
+	.dark *::after {
+		color-scheme: dark;
+	}
+
+	/**
+	 * Icons (inherit text color via mask-image)
+	 * Use: <span class="icon icon-search"></span>
+	 */
+
+	.icon {
+		display: inline-block;
+		width: 1em;
+		height: 1em;
+		background-color: currentColor;
+		mask-size: contain;
+		mask-repeat: no-repeat;
+		mask-position: center;
+		vertical-align: -0.15em;
+	}
+
+	.icon-arrow-right {
+		mask-image: var(--pico-icon-arrow-right);
+	}
+	.icon-arrow-left {
+		mask-image: var(--pico-icon-arrow-left);
+	}
+	.icon-arrow-up {
+		mask-image: var(--pico-icon-arrow-up);
+	}
+	.icon-arrow-down {
+		mask-image: var(--pico-icon-arrow-down);
+	}
+	.icon-chevron-right {
+		mask-image: var(--pico-icon-chevron-right);
+	}
+	.icon-chevron-left {
+		mask-image: var(--pico-icon-chevron-left);
+	}
+	.icon-chevron-up {
+		mask-image: var(--pico-icon-chevron-up);
+	}
+	.icon-chevron-down {
+		mask-image: var(--pico-icon-chevron-down);
+	}
+	.icon-plus {
+		mask-image: var(--pico-icon-plus);
+	}
+	.icon-minus {
+		mask-image: var(--pico-icon-minus);
+	}
+	.icon-x {
+		mask-image: var(--pico-icon-x);
+	}
+	.icon-check {
+		mask-image: var(--pico-icon-check);
+	}
+	.icon-edit {
+		mask-image: var(--pico-icon-edit);
+	}
+	.icon-trash {
+		mask-image: var(--pico-icon-trash);
+	}
+	.icon-menu {
+		mask-image: var(--pico-icon-menu);
+	}
+	.icon-more {
+		mask-image: var(--pico-icon-more);
+	}
+	.icon-search {
+		mask-image: var(--pico-icon-search);
+	}
+	.icon-filter {
+		mask-image: var(--pico-icon-filter);
+	}
+	.icon-info {
+		mask-image: var(--pico-icon-info);
+	}
+	.icon-warning {
+		mask-image: var(--pico-icon-warning);
+	}
+	.icon-error {
+		mask-image: var(--pico-icon-error);
+	}
+	.icon-success {
+		mask-image: var(--pico-icon-success);
+	}
+	.icon-user {
+		mask-image: var(--pico-icon-user);
+	}
+	.icon-settings {
+		mask-image: var(--pico-icon-settings);
+	}
+	.icon-home {
+		mask-image: var(--pico-icon-home);
+	}
+	.icon-external {
+		mask-image: var(--pico-icon-external);
+	}
+	.icon-sun {
+		mask-image: var(--pico-icon-sun);
+	}
+	.icon-moon {
+		mask-image: var(--pico-icon-moon);
+	}
+	.icon-system {
+		mask-image: var(--pico-icon-system);
+	}
+
+	/**
+	 * Disable Pico styles for a container
+	 * Use: <div data-no-pico>...</div>
+	 */
+
+	[data-no-pico] {
+		color: initial;
+	}
+
+	[data-no-pico],
+	[data-no-pico] * {
+		--pico-font-family: initial;
+		--pico-font-size: initial;
+		--pico-font-weight: initial;
+		--pico-line-height: initial;
+		--pico-border-radius: initial;
+		--pico-border-width: initial;
+		--pico-outline-width: initial;
+		--pico-shadow: initial;
+		--pico-transition: initial;
+		--pico-spacing: initial;
+		--pico-typography-spacing-vertical: initial;
+		--pico-block-spacing-vertical: initial;
+		--pico-block-spacing-horizontal: initial;
+		--pico-grid-column-gap: initial;
+		--pico-grid-row-gap: initial;
+		--pico-form-element-spacing-vertical: initial;
+		--pico-form-element-spacing-horizontal: initial;
+		--pico-background-color: initial;
+		--pico-color: initial;
+		--pico-text-selection-color: initial;
+		--pico-muted-color: initial;
+		--pico-muted-border-color: initial;
+		--pico-primary: initial;
+		--pico-primary-background: initial;
+		--pico-primary-border: initial;
+		--pico-primary-hover: initial;
+		--pico-primary-hover-background: initial;
+		--pico-primary-hover-border: initial;
+		--pico-primary-focus: initial;
+		--pico-primary-inverse: initial;
+		--pico-secondary: initial;
+		--pico-secondary-background: initial;
+		--pico-secondary-border: initial;
+		--pico-secondary-hover: initial;
+		--pico-secondary-hover-background: initial;
+		--pico-secondary-hover-border: initial;
+		--pico-secondary-focus: initial;
+		--pico-secondary-inverse: initial;
+		--pico-contrast: initial;
+		--pico-contrast-background: initial;
+		--pico-contrast-border: initial;
+		--pico-contrast-hover: initial;
+		--pico-contrast-hover-background: initial;
+		--pico-contrast-hover-border: initial;
+		--pico-contrast-focus: initial;
+		--pico-contrast-inverse: initial;
+		--pico-box-shadow: initial;
+		--pico-button-box-shadow: initial;
+		--pico-button-hover-box-shadow: initial;
+		--pico-group-box-shadow: initial;
+		--pico-group-box-shadow-focus-with-button: initial;
+		--pico-group-box-shadow-focus-with-input: initial;
+		--pico-form-element-background-color: initial;
+		--pico-form-element-border-color: initial;
+		--pico-form-element-color: initial;
+		--pico-form-element-placeholder-color: initial;
+		--pico-form-element-focus-color: initial;
+		--pico-form-element-active-background-color: initial;
+		--pico-form-element-active-border-color: initial;
+	}
+
+	/**
 	 * Accessibility & User interaction
 	 */
 

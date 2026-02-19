@@ -1,8 +1,4 @@
 @layer buttons {
-	/**
-	 * Button
-	 */
-
 	button {
 		margin: 0;
 		overflow: visible;
@@ -49,33 +45,19 @@
 			border-color var(--pico-transition),
 			color var(--pico-transition),
 			box-shadow var(--pico-transition);
-	}
 
-	:where(
-			button,
-			[type="submit"],
-			[type="reset"],
-			[type="button"],
-			[type="file"]::file-selector-button,
-			[role="button"]
-		):is(:hover, :active, :focus, [aria-current]:not([aria-current="false"])) {
-		--pico-background-color: var(--pico-primary-hover-background);
-		--pico-border-color: var(--pico-primary-hover-border);
-		--pico-box-shadow: var(--pico-button-hover-box-shadow, 0 0 0 transparent);
-		--pico-color: var(--pico-primary-inverse);
-	}
+		&:is(:hover, :active, :focus, [aria-current]:not([aria-current="false"])) {
+			--pico-background-color: var(--pico-primary-hover-background);
+			--pico-border-color: var(--pico-primary-hover-border);
+			--pico-box-shadow: var(--pico-button-hover-box-shadow, 0 0 0 transparent);
+			--pico-color: var(--pico-primary-inverse);
+		}
 
-	:where(
-			button,
-			[type="submit"],
-			[type="reset"],
-			[type="button"],
-			[type="file"]::file-selector-button,
-			[role="button"]
-		):focus {
-		--pico-box-shadow:
-			var(--pico-button-hover-box-shadow, 0 0 0 transparent),
-			0 0 0 var(--pico-outline-width) var(--pico-primary-focus);
+		&:focus {
+			--pico-box-shadow:
+				var(--pico-button-hover-box-shadow, 0 0 0 transparent),
+				0 0 0 var(--pico-outline-width) var(--pico-primary-focus);
+		}
 	}
 
 	[type="submit"],
@@ -91,75 +73,36 @@
 		--pico-border-color: var(--pico-secondary-border);
 		--pico-color: var(--pico-secondary-inverse);
 		cursor: pointer;
-	}
 
-	:where(
-			button,
-			[type="submit"],
-			[type="button"],
-			[role="button"]
-		).secondary:is(
-			:hover,
-			:active,
-			:focus,
-			[aria-current]:not([aria-current="false"])
-		),
-	[type="reset"]:is(
-			:hover,
-			:active,
-			:focus,
-			[aria-current]:not([aria-current="false"])
-		),
-	[type="file"]::file-selector-button:is(
-			:hover,
-			:active,
-			:focus,
-			[aria-current]:not([aria-current="false"])
-		) {
-		--pico-background-color: var(--pico-secondary-hover-background);
-		--pico-border-color: var(--pico-secondary-hover-border);
-		--pico-color: var(--pico-secondary-inverse);
-	}
+		&:is(:hover, :active, :focus, [aria-current]:not([aria-current="false"])) {
+			--pico-background-color: var(--pico-secondary-hover-background);
+			--pico-border-color: var(--pico-secondary-hover-border);
+			--pico-color: var(--pico-secondary-inverse);
+		}
 
-	:where(
-			button,
-			[type="submit"],
-			[type="button"],
-			[role="button"]
-		).secondary:focus,
-	[type="reset"]:focus,
-	[type="file"]::file-selector-button:focus {
-		--pico-box-shadow:
-			var(--pico-button-hover-box-shadow, 0 0 0 transparent),
-			0 0 0 var(--pico-outline-width) var(--pico-secondary-focus);
+		&:focus {
+			--pico-box-shadow:
+				var(--pico-button-hover-box-shadow, 0 0 0 transparent),
+				0 0 0 var(--pico-outline-width) var(--pico-secondary-focus);
+		}
 	}
 
 	:where(button, [type="submit"], [type="button"], [role="button"]).contrast {
 		--pico-background-color: var(--pico-contrast-background);
 		--pico-border-color: var(--pico-contrast-border);
 		--pico-color: var(--pico-contrast-inverse);
-	}
 
-	:where(button, [type="submit"], [type="button"], [role="button"]).contrast:is(
-			:hover,
-			:active,
-			:focus,
-			[aria-current]:not([aria-current="false"])
-		) {
-		--pico-background-color: var(--pico-contrast-hover-background);
-		--pico-border-color: var(--pico-contrast-hover-border);
-		--pico-color: var(--pico-contrast-inverse);
-	}
+		&:is(:hover, :active, :focus, [aria-current]:not([aria-current="false"])) {
+			--pico-background-color: var(--pico-contrast-hover-background);
+			--pico-border-color: var(--pico-contrast-hover-border);
+			--pico-color: var(--pico-contrast-inverse);
+		}
 
-	:where(
-			button,
-			[type="submit"],
-			[type="button"],
-			[role="button"]
-		).contrast:focus {
-		--pico-box-shadow:
-			var(--pico-button-hover-box-shadow, 0 0 0 transparent),
-			0 0 0 var(--pico-outline-width) var(--pico-contrast-focus);
+		&:focus {
+			--pico-box-shadow:
+				var(--pico-button-hover-box-shadow, 0 0 0 transparent),
+				0 0 0 var(--pico-outline-width) var(--pico-contrast-focus);
+		}
 	}
 
 	:where(button, [type="submit"], [type="button"], [role="button"]).outline,
@@ -167,23 +110,12 @@
 		--pico-background-color: transparent;
 		--pico-color: var(--pico-primary);
 		--pico-border-color: var(--pico-primary);
-	}
 
-	:where(button, [type="submit"], [type="button"], [role="button"]).outline:is(
-			:hover,
-			:active,
-			:focus,
-			[aria-current]:not([aria-current="false"])
-		),
-	[type="reset"].outline:is(
-			:hover,
-			:active,
-			:focus,
-			[aria-current]:not([aria-current="false"])
-		) {
-		--pico-background-color: transparent;
-		--pico-color: var(--pico-primary-hover);
-		--pico-border-color: var(--pico-primary-hover);
+		&:is(:hover, :active, :focus, [aria-current]:not([aria-current="false"])) {
+			--pico-background-color: transparent;
+			--pico-color: var(--pico-primary-hover);
+			--pico-border-color: var(--pico-primary-hover);
+		}
 	}
 
 	:where(
@@ -195,27 +127,11 @@
 	[type="reset"].outline {
 		--pico-color: var(--pico-secondary);
 		--pico-border-color: var(--pico-secondary);
-	}
 
-	:where(
-			button,
-			[type="submit"],
-			[type="button"],
-			[role="button"]
-		).outline.secondary:is(
-			:hover,
-			:active,
-			:focus,
-			[aria-current]:not([aria-current="false"])
-		),
-	[type="reset"].outline:is(
-			:hover,
-			:active,
-			:focus,
-			[aria-current]:not([aria-current="false"])
-		) {
-		--pico-color: var(--pico-secondary-hover);
-		--pico-border-color: var(--pico-secondary-hover);
+		&:is(:hover, :active, :focus, [aria-current]:not([aria-current="false"])) {
+			--pico-color: var(--pico-secondary-hover);
+			--pico-border-color: var(--pico-secondary-hover);
+		}
 	}
 
 	:where(
@@ -226,21 +142,11 @@
 		).outline.contrast {
 		--pico-color: var(--pico-contrast);
 		--pico-border-color: var(--pico-contrast);
-	}
 
-	:where(
-			button,
-			[type="submit"],
-			[type="button"],
-			[role="button"]
-		).outline.contrast:is(
-			:hover,
-			:active,
-			:focus,
-			[aria-current]:not([aria-current="false"])
-		) {
-		--pico-color: var(--pico-contrast-hover);
-		--pico-border-color: var(--pico-contrast-hover);
+		&:is(:hover, :active, :focus, [aria-current]:not([aria-current="false"])) {
+			--pico-color: var(--pico-contrast-hover);
+			--pico-border-color: var(--pico-contrast-hover);
+		}
 	}
 
 	:where(
@@ -318,4 +224,4 @@
 	[role="group"] [role="button"] {
 		--pico-form-element-spacing-horizontal: 2rem;
 	}
-} /* @layer buttons */
+}

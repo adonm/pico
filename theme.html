@@ -3,17 +3,61 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pico CSS Theme Builder</title>
+    <title>Theme Builder</title>
     <style id="theme-override">
       :root {
         --pico-primary: #0172ad;
-        --pico-secondary: #646e82;
+        --pico-secondary: #5a6578;
         --pico-border-radius: 0.25rem;
+        --pico-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
       }
     </style>
     <link rel="stylesheet" href="css/pico.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/3.1.2/chroma.min.js"></script>
+    <link href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css" rel="stylesheet" />
     <style>
+      .color-picker {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.375rem;
+        margin-bottom: 1rem;
+      }
+      .color-picker button {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        border: none;
+        cursor: pointer;
+        position: relative;
+        transition: transform 0.15s;
+      }
+      .color-picker button:hover {
+        transform: scale(1.15);
+      }
+      .color-picker button.selected::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        border: 2px solid var(--pico-color);
+      }
+      .color-picker button svg {
+        position: absolute;
+        inset: 0.35rem;
+        stroke: white;
+        stroke-width: 3;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        fill: none;
+        filter: drop-shadow(0 1px 1px rgba(0,0,0,0.3));
+      }
+      .color-picker button svg path {
+        stroke-dasharray: 18px;
+        stroke-dashoffset: 18px;
+        animation: check 0.2s ease-out forwards;
+      }
+      @keyframes check {
+        to { stroke-dashoffset: 0; }
+      }
       .builder-layout {
         display: grid;
         grid-template-columns: 380px 1fr;
@@ -28,657 +72,533 @@
         padding: 2rem;
         overflow-y: auto;
       }
-      .swatch {
-        display: inline-block;
-        width: 1.5rem;
-        height: 1.5rem;
-        border-radius: var(--pico-border-radius);
-        border: 1px solid var(--pico-muted-border-color);
-        vertical-align: middle;
-      }
-      .palette-table {
-        font-size: 0.875rem;
-      }
-      .palette-table td {
-        padding: 0.25rem 0.5rem;
-      }
-      .palette-table .label {
-        font-family: var(--pico-font-family-monospace);
-        font-size: 0.8rem;
-        color: var(--pico-muted-color);
-      }
       .code-block {
         background: var(--pico-code-background-color);
-        padding: 1rem;
+        padding: 0.75rem;
         border-radius: var(--pico-border-radius);
         font-family: var(--pico-font-family-monospace);
-        font-size: 0.875rem;
+        font-size: 0.8rem;
         overflow-x: auto;
         white-space: pre;
       }
-      .color-input-wrapper {
+      .tabs {
         display: flex;
-        align-items: center;
-        gap: 0.5rem;
-      }
-      .color-input-wrapper input[type="color"] {
-        width: 3rem;
-        height: 2rem;
-        padding: 0;
-        border: 1px solid var(--pico-muted-border-color);
-        cursor: pointer;
-      }
-      .color-input-wrapper input[type="text"] {
-        flex: 1;
-        font-family: var(--pico-font-family-monospace);
-      }
-      .derived-var {
-        opacity: 0.7;
-      }
-      .source-var {
-        font-weight: 600;
-      }
-      .palette-section {
-        margin-bottom: 1rem;
-        padding-bottom: 1rem;
+        gap: 0;
+        margin-bottom: 1.5rem;
         border-bottom: 1px solid var(--pico-muted-border-color);
       }
-      .palette-section:last-child {
-        border-bottom: none;
-      }
-      .palette-section h5 {
-        margin-bottom: 0.5rem;
+      .tabs button {
+        padding: 0.75rem 1.25rem;
+        border: none;
+        border-bottom: 2px solid transparent;
+        background: transparent;
+        cursor: pointer;
         color: var(--pico-muted-color);
+        font-weight: 500;
+        transition: color 0.15s, border-color 0.15s;
+        margin-bottom: -1px;
+      }
+      .tabs button:hover {
+        color: var(--pico-primary-hover);
+      }
+      .tabs button.active {
+        color: var(--pico-primary);
+        border-bottom-color: var(--pico-primary);
+      }
+      .tab-panel {
+        display: none;
+      }
+      .tab-panel.active {
+        display: block;
+      }
+      .forced-demo {
+        padding: 1rem;
+        border-radius: var(--pico-border-radius);
+        border: 1px solid var(--pico-muted-border-color);
+        margin-top: 0.5rem;
+        background-color: var(--pico-background-color);
       }
       @media (max-width: 768px) {
-        .builder-layout {
-          grid-template-columns: 1fr;
-        }
-        .builder-sidebar {
-          border-right: none;
-          border-bottom: 1px solid var(--pico-muted-border-color);
-        }
+        .builder-layout { grid-template-columns: 1fr; }
+        .builder-sidebar { border-right: none; border-bottom: 1px solid var(--pico-muted-border-color); }
       }
     </style>
   </head>
   <body>
     <div class="builder-layout">
       <aside class="builder-sidebar">
-        <h3>Theme Builder</h3>
-        <p style="color: var(--pico-muted-color); font-size: 0.875rem">
-          Set 2 colors. Everything else derives automatically, including dark
-          mode.
-        </p>
+        <hgroup>
+          <h2 id="theme-title">Azure</h2>
+          <p>Custom theme</p>
+        </hgroup>
+
+        <div class="color-picker" id="color-picker"></div>
 
         <label>
-          <strong>Primary Color</strong>
-          <p
-            style="
-              font-size: 0.75rem;
-              color: var(--pico-muted-color);
-              margin: 0.25rem 0;
-            "
-          >
-            Brand/accent color for buttons, links, focus states
-          </p>
-          <div class="color-input-wrapper">
-            <input type="color" id="primary-color" value="#0172ad" />
-            <input
-              type="text"
-              id="primary-hex"
-              value="#0172ad"
-              placeholder="#000000"
-            />
-          </div>
-        </label>
-
-        <label>
-          <strong>Secondary Color</strong>
-          <p
-            style="
-              font-size: 0.75rem;
-              color: var(--pico-muted-color);
-              margin: 0.25rem 0;
-            "
-          >
-            Neutral color for text, borders, backgrounds
-          </p>
-          <div class="color-input-wrapper">
-            <input type="color" id="secondary-color" value="#646e82" />
-            <input
-              type="text"
-              id="secondary-hex"
-              value="#646e82"
-              placeholder="#000000"
-            />
-          </div>
-        </label>
-
-        <label>
-          <strong>Border Radius</strong>
+          Radius
           <select id="border-radius">
-            <option value="0">Sharp (0)</option>
-            <option value="0.125rem">Subtle (0.125rem)</option>
-            <option value="0.25rem" selected>Medium (0.25rem)</option>
-            <option value="0.5rem">Round (0.5rem)</option>
-            <option value="1rem">Pill (1rem)</option>
+            <option value="0">0</option>
+            <option value="0.125rem">0.125rem</option>
+            <option value="0.25rem" selected>0.25rem</option>
+            <option value="0.5rem">0.5rem</option>
+            <option value="1rem">1rem</option>
           </select>
         </label>
 
-        <hr />
+        <label>
+          Shadow
+          <select id="shadow">
+            <option value="0 0 0 1px var(--pico-muted-border-color)">Outline</option>
+            <option value="0 1px 3px rgba(0, 0, 0, 0.08)">Subtle</option>
+            <option value="0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)" selected>Medium</option>
+            <option value="0 10px 15px -3px rgba(0, 0, 0, 0.15), 0 4px 6px -4px rgba(0, 0, 0, 0.15)">Strong</option>
+          </select>
+        </label>
 
         <label>
-          <strong>Preview Mode</strong>
+          Mode
           <div role="group">
-            <button id="btn-light" class="outline">Light</button>
-            <button id="btn-dark" class="outline">Dark</button>
-            <button id="btn-auto" class="outline secondary">Auto</button>
+            <button id="btn-light" class="outline"><span class="icon icon-sun"></span></button>
+            <button id="btn-dark" class="outline"><span class="icon icon-moon"></span></button>
+            <button id="btn-auto" class="outline secondary"><span class="icon icon-system"></span></button>
           </div>
         </label>
 
         <hr />
 
-        <h4>Derived Palette</h4>
-        <p
-          style="
-            font-size: 0.75rem;
-            color: var(--pico-muted-color);
-            margin-top: -0.5rem;
-          "
-        >
-          All colors auto-generated from primary & secondary
-        </p>
-
-        <div class="palette-section">
-          <h5>Backgrounds & Text</h5>
-          <table class="palette-table">
-            <tbody>
-              <tr>
-                <td><span class="swatch" id="swatch-surface"></span></td>
-                <td>surface</td>
-              </tr>
-              <tr>
-                <td><span class="swatch" id="swatch-color"></span></td>
-                <td>text</td>
-              </tr>
-              <tr>
-                <td><span class="swatch" id="swatch-muted"></span></td>
-                <td>muted</td>
-              </tr>
-              <tr>
-                <td><span class="swatch" id="swatch-border"></span></td>
-                <td>border</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="palette-section">
-          <h5>Primary Variants</h5>
-          <table class="palette-table">
-            <tbody>
-              <tr>
-                <td><span class="swatch" id="swatch-primary-hover"></span></td>
-                <td>primary-hover</td>
-              </tr>
-              <tr>
-                <td><span class="swatch" id="swatch-primary-focus"></span></td>
-                <td>primary-focus</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="palette-section">
-          <h5>Semantic</h5>
-          <table class="palette-table">
-            <tbody>
-              <tr>
-                <td><span class="swatch" id="swatch-success"></span></td>
-                <td>success</td>
-              </tr>
-              <tr>
-                <td><span class="swatch" id="swatch-warning"></span></td>
-                <td>warning</td>
-              </tr>
-              <tr>
-                <td><span class="swatch" id="swatch-error"></span></td>
-                <td>error</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <hr />
-
-        <h4>Generated Code</h4>
+        <h4>Code</h4>
         <div class="code-block" id="generated-code"></div>
-        <button id="copy-btn" style="margin-top: 0.5rem; width: 100%">
-          Copy to Clipboard
-        </button>
+        <button id="copy-btn" style="margin-top: 0.5rem; width: 100%">Copy</button>
       </aside>
 
       <main class="builder-main">
-        <hgroup>
-          <h1>Live Preview</h1>
-          <p>All components styled with your 2-color theme</p>
-        </hgroup>
+        <nav class="tabs">
+          <button class="active" data-tab="components">Components</button>
+          <button data-tab="maplibre">MapLibre</button>
+          <button data-tab="echarts">ECharts</button>
+        </nav>
 
-        <article>
-          <header>Typography</header>
-          <h1>Heading 1</h1>
-          <h2>Heading 2</h2>
-          <h3>Heading 3</h3>
-          <h4>Heading 4</h4>
-          <h5>Heading 5</h5>
-          <h6>Heading 6</h6>
-          <p>
-            This is a paragraph with a <a href="#">link</a> and
-            <strong>bold</strong> and <em>italic</em> text. You can also have
-            <code>inline code</code> and <mark>highlighted text</mark>.
-          </p>
-          <blockquote>
-            "This is a blockquote. It can span multiple lines and is useful for
-            highlighting quotes or important information."
-            <footer>— Someone Famous</footer>
-          </blockquote>
-        </article>
+        <section id="tab-components" class="tab-panel active">
+          <article>
+            <header>Typography</header>
+            <h1>Heading 1</h1>
+            <h2>Heading 2</h2>
+            <h3>Heading 3</h3>
+            <h4>Heading 4</h4>
+            <h5>Heading 5</h5>
+            <h6>Heading 6</h6>
+            <p>Paragraph with <a href="#">link</a>, <strong>bold</strong>, <em>italic</em>, <code>code</code>, <mark>mark</mark>.</p>
+            <blockquote>"Quote with footer."<footer>— Author</footer></blockquote>
+            <pre><code>preformatted code block</code></pre>
+          </article>
 
-        <article>
-          <header>Buttons</header>
-          <div role="group">
-            <button>Primary</button>
-            <button class="secondary">Secondary</button>
-            <button class="contrast">Contrast</button>
-            <button class="outline">Outline</button>
-          </div>
-          <div role="group" style="margin-top: 0.5rem">
-            <button aria-busy="true">Loading</button>
-            <button disabled>Disabled</button>
-          </div>
-        </article>
+          <article>
+            <header>Buttons</header>
+            <div role="group">
+              <button>Primary</button>
+              <button class="secondary">Secondary</button>
+              <button class="contrast">Contrast</button>
+            </div>
+            <div role="group">
+              <button class="outline">Outline</button>
+              <button class="secondary outline">Secondary</button>
+              <button class="contrast outline">Contrast</button>
+            </div>
+            <div role="group">
+              <button aria-busy="true">Loading</button>
+              <button disabled>Disabled</button>
+            </div>
+          </article>
 
-        <article>
-          <header>Form Elements</header>
-          <form>
-            <label>
-              Email
-              <input type="email" placeholder="you@example.com" />
-            </label>
-            <label>
-              Password
-              <input type="password" placeholder="••••••••" />
-            </label>
-            <label>
-              Select
-              <select>
-                <option>Option 1</option>
-                <option>Option 2</option>
-                <option>Option 3</option>
-              </select>
-            </label>
-            <label>
-              Textarea
-              <textarea placeholder="Enter your message..." rows="3"></textarea>
-            </label>
-            <fieldset>
-              <legend>Checkboxes</legend>
-              <label><input type="checkbox" checked /> Option A</label>
-              <label><input type="checkbox" /> Option B</label>
-            </fieldset>
-            <fieldset>
-              <legend>Radios</legend>
-              <label
-                ><input type="radio" name="radio-group" checked /> Radio
-                1</label
-              >
-              <label><input type="radio" name="radio-group" /> Radio 2</label>
-            </fieldset>
-            <label>
-              Switch
-              <input type="checkbox" role="switch" checked />
-            </label>
-            <label>
-              Range
-              <input type="range" min="0" max="100" value="50" />
-            </label>
-          </form>
-        </article>
+          <article>
+            <header>Forms</header>
+            <form>
+              <label>Email <input type="email" placeholder="you@example.com" /></label>
+              <label>Password <input type="password" placeholder="••••••••" /></label>
+              <label>Select <select><option>Option 1</option><option>Option 2</option></select></label>
+              <label>Textarea <textarea rows="2" placeholder="Message..."></textarea></label>
+              <fieldset>
+                <legend>Checkboxes</legend>
+                <label><input type="checkbox" checked> Checked</label>
+                <label><input type="checkbox"> Unchecked</label>
+              </fieldset>
+              <fieldset>
+                <legend>Switches</legend>
+                <label><input type="checkbox" role="switch" checked> Enabled</label>
+                <label><input type="checkbox" role="switch"> Disabled</label>
+              </fieldset>
+              <fieldset>
+                <legend>Radios</legend>
+                <label><input type="radio" name="r" checked> Option 1</label>
+                <label><input type="radio" name="r"> Option 2</label>
+              </fieldset>
+              <label>Range <input type="range" value="50"></label>
+            </form>
+          </article>
 
-        <article>
-          <header>Card Component</header>
-          <p>Cards are containers with optional header and footer sections.</p>
-          <footer>
-            <button>Save</button>
-            <button class="secondary">Cancel</button>
-          </footer>
-        </article>
-
-        <article>
-          <header>Accordion</header>
-          <details>
-            <summary>Click to expand</summary>
+          <article>
+            <header>Tags & Badges</header>
             <p>
-              This is the accordion content. It's hidden by default and shown
-              when the user clicks the summary.
+              <span class="tag">Default</span>
+              <span class="tag primary">Primary</span>
+              <span class="tag secondary">Secondary</span>
+              <span class="tag contrast">Contrast</span>
             </p>
-          </details>
-          <details open>
-            <summary>Already open</summary>
             <p>
-              This accordion is open by default using the
-              <code>open</code> attribute.
+              <span class="tag success">Success</span>
+              <span class="tag warning">Warning</span>
+              <span class="tag error">Error</span>
             </p>
-          </details>
-        </article>
+            <p>Inline <code>code</code> and <kbd>Ctrl+C</kbd> keyboard.</p>
+          </article>
 
-        <article>
-          <header>Progress</header>
-          <progress value="70" max="100">70%</progress>
-          <progress>Indeterminate</progress>
-        </article>
+          <article>
+            <header>Tables</header>
+            <table class="striped">
+              <thead><tr><th>Name</th><th>Email</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td>Alice</td><td>alice@example.com</td><td><span class="tag success">Active</span></td></tr>
+                <tr><td>Bob</td><td>bob@example.com</td><td><span class="tag secondary">Inactive</span></td></tr>
+                <tr><td>Carol</td><td>carol@example.com</td><td><span class="tag warning">Pending</span></td></tr>
+              </tbody>
+            </table>
+          </article>
 
-        <article>
-          <header>Table</header>
-          <table class="striped">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Alice</td>
-                <td>alice@example.com</td>
-                <td><span data-tooltip="Active user">Active</span></td>
-              </tr>
-              <tr>
-                <td>Bob</td>
-                <td>bob@example.com</td>
-                <td>Inactive</td>
-              </tr>
-              <tr>
-                <td>Carol</td>
-                <td>carol@example.com</td>
-                <td>Pending</td>
-              </tr>
-            </tbody>
-          </table>
-        </article>
+          <article>
+            <header>Grid Layout</header>
+            <p>Use inline CSS for custom grids. No utility classes needed.</p>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; text-align: center;">
+              <div class="tag">1fr</div>
+              <div class="tag">1fr</div>
+              <div class="tag">1fr</div>
+            </div>
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 0.5rem; margin-top: 0.5rem; text-align: center;">
+              <div class="tag">2fr</div>
+              <div class="tag">1fr</div>
+            </div>
+          </article>
 
-        <article>
-          <header>Grid System</header>
-          <div class="grid-cols-12" style="text-align: center">
-            <div
-              class="col-span-4"
-              style="background: var(--pico-muted-border-color); padding: 1rem"
-            >
-              .col-span-4
-            </div>
-            <div
-              class="col-span-4"
-              style="background: var(--pico-muted-border-color); padding: 1rem"
-            >
-              .col-span-4
-            </div>
-            <div
-              class="col-span-4"
-              style="background: var(--pico-muted-border-color); padding: 1rem"
-            >
-              .col-span-4
-            </div>
-          </div>
-          <div
-            class="grid-cols-12"
-            style="text-align: center; margin-top: 0.5rem"
-          >
-            <div
-              class="col-span-6"
-              style="background: var(--pico-muted-border-color); padding: 1rem"
-            >
-              .col-span-6
-            </div>
-            <div
-              class="col-span-3"
-              style="background: var(--pico-muted-border-color); padding: 1rem"
-            >
-              .col-span-3
-            </div>
-            <div
-              class="col-span-3"
-              style="background: var(--pico-muted-border-color); padding: 1rem"
-            >
-              .col-span-3
-            </div>
-          </div>
-        </article>
+          <article>
+            <header>Cards</header>
+            <p>Card content with header and footer.</p>
+            <footer>
+              <button>Save</button>
+              <button class="secondary">Cancel</button>
+            </footer>
+          </article>
 
-        <article>
-          <header>Search Group</header>
-          <form role="search">
-            <input type="search" placeholder="Search..." />
-            <button>Search</button>
-          </form>
-        </article>
+          <article>
+            <header>Progress & Loading</header>
+            <progress value="70" max="100">70%</progress>
+            <progress>Indeterminate</progress>
+          </article>
+
+          <article>
+            <header>Accordion</header>
+            <details open><summary>Open section</summary><p>Visible content here.</p></details>
+            <details><summary>Closed section</summary><p>Hidden content revealed on click.</p></details>
+          </article>
+
+          <article>
+            <header>Search</header>
+            <div role="search">
+              <input type="search" placeholder="Search...">
+              <button>Search</button>
+            </div>
+          </article>
+
+          <article>
+            <header>Dropdown</header>
+            <details class="dropdown">
+              <summary>Click to open</summary>
+              <ul dir="ltr">
+                <li><a href="#">Option 1</a></li>
+                <li><a href="#">Option 2</a></li>
+                <li><a href="#">Option 3</a></li>
+              </ul>
+            </details>
+          </article>
+
+          <article>
+            <header>Navigation</header>
+            <nav>
+              <ul>
+                <li><strong>Brand</strong></li>
+              </ul>
+              <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+              </ul>
+            </nav>
+          </article>
+
+          <article>
+            <header>More Form Inputs</header>
+            <form>
+              <label>Date <input type="date"></label>
+              <label>Time <input type="time"></label>
+              <label>Color <input type="color" value="#0172ad"></label>
+              <label>File <input type="file"></label>
+            </form>
+          </article>
+
+          <article>
+            <header>Inverted Sections</header>
+            <p>Use <code>.dark</code> or <code>.light</code> classes to invert any element.</p>
+            <nav class="dark" style="margin-top: 0.5rem; padding: 0.5rem 1rem">
+              <ul>
+                <li><strong>Dark Nav</strong></li>
+              </ul>
+              <ul>
+                <li><a href="#">Link</a></li>
+              </ul>
+            </nav>
+            <div class="forced-demo light" style="margin-top: 1rem">
+              <strong>Light Card</strong>
+              <p style="margin: 0">On a dark page.</p>
+            </div>
+          </article>
+
+          <article>
+            <header>Icons</header>
+            <p>Icons inherit text color and size (1em). Use with semantic elements.</p>
+            <p>
+              <span class="icon icon-arrow-right"></span>
+              <span class="icon icon-arrow-left"></span>
+              <span class="icon icon-chevron-right"></span>
+              <span class="icon icon-plus"></span>
+              <span class="icon icon-x"></span>
+              <span class="icon icon-check"></span>
+              <span class="icon icon-menu"></span>
+              <span class="icon icon-search"></span>
+              <span class="icon icon-user"></span>
+              <span class="icon icon-settings"></span>
+              <span class="icon icon-home"></span>
+              <span class="icon icon-sun"></span>
+              <span class="icon icon-moon"></span>
+              <span class="icon icon-info"></span>
+              <span class="icon icon-warning"></span>
+              <span class="icon icon-error"></span>
+              <span class="icon icon-success"></span>
+            </p>
+          </article>
+        </section>
+
+        <section id="tab-maplibre" class="tab-panel">
+          <article>
+            <header>MapLibre GL</header>
+            <p>OpenFreeMap Liberty style with markers and popups. Wrapped in <code>data-no-pico</code> for isolation.</p>
+          </article>
+          <div id="map" data-no-pico style="color-scheme: light; background: white; height: 400px"></div>
+        </section>
+
+        <section id="tab-echarts" class="tab-panel">
+          <article>
+            <header>Apache ECharts</header>
+            <p>Mixed bar + line chart. Wrapped in <code>data-no-pico</code> for isolation.</p>
+          </article>
+          <div id="chart" data-no-pico style="color-scheme: light; background: white; height: 400px"></div>
+        </section>
       </main>
     </div>
 
-    <script>
-      const state = {
-        primary: "#0172ad",
-        secondary: "#646e82",
-        borderRadius: "0.25rem",
-        mode: "light",
-      };
+    <script src="https://unpkg.com/maplibre-gl/dist/maplibre-gl.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+    <script type="module">
+import chroma from "https://esm.sh/chroma-js@3";
 
-      const elements = {
-        primaryColor: document.getElementById("primary-color"),
-        primaryHex: document.getElementById("primary-hex"),
-        secondaryColor: document.getElementById("secondary-color"),
-        secondaryHex: document.getElementById("secondary-hex"),
-        borderRadius: document.getElementById("border-radius"),
-        generatedCode: document.getElementById("generated-code"),
-        copyBtn: document.getElementById("copy-btn"),
-        btnLight: document.getElementById("btn-light"),
-        btnDark: document.getElementById("btn-dark"),
-        btnAuto: document.getElementById("btn-auto"),
-      };
+const colors = [
+  { name: "Red", value: "#c52f21" },
+  { name: "Pink", value: "#d92662" },
+  { name: "Fuchsia", value: "#c1208b" },
+  { name: "Purple", value: "#9236a4" },
+  { name: "Violet", value: "#7540bf" },
+  { name: "Indigo", value: "#524ed2" },
+  { name: "Blue", value: "#2060df" },
+  { name: "Azure", value: "#0172ad" },
+  { name: "Cyan", value: "#047878" },
+  { name: "Jade", value: "#007a50" },
+  { name: "Green", value: "#398712" },
+  { name: "Lime", value: "#a5d601" },
+  { name: "Yellow", value: "#f2df0d" },
+  { name: "Amber", value: "#ffbf00" },
+  { name: "Pumpkin", value: "#ff9500" },
+  { name: "Orange", value: "#d24317" },
+  { name: "Sand", value: "#ccc6b4" },
+  { name: "Grey", value: "#ababab" },
+  { name: "Zinc", value: "#646b79" },
+  { name: "Slate", value: "#646e82" },
+];
 
-      /**
-       * Constrain a color to ensure good contrast in both light and dark modes.
-       * Uses OKLCH color space for perceptually uniform constraints.
-       * - Keeps hue unchanged (user's color choice)
-       * - Clamps lightness to safe range
-       * - Clamps chroma (saturation) to moderate range
-       */
-      function constrainColor(hex, isPrimary) {
-        const [l, c, h] = chroma(hex).oklch();
+const state = {
+  primary: "#0172ad",
+  themeName: "Azure",
+  borderRadius: "0.25rem",
+  shadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)",
+  mode: "auto"
+};
 
-        if (isPrimary) {
-          // Primary: mid-tone with moderate saturation for button visibility
-          const constrainedL = Math.max(0.45, Math.min(0.65, l));
-          const constrainedC = Math.max(0.08, Math.min(0.22, c));
-          return chroma.oklch(constrainedL, constrainedC, h).hex();
-        } else {
-          // Secondary: wider lightness range, lower saturation for neutrals
-          const constrainedL = Math.max(0.35, Math.min(0.65, l));
-          const constrainedC = Math.max(0.02, Math.min(0.1, c));
-          return chroma.oklch(constrainedL, constrainedC, h).hex();
-        }
-      }
+const elements = {
+  picker: document.getElementById("color-picker"),
+  title: document.getElementById("theme-title"),
+  radius: document.getElementById("border-radius"),
+  shadow: document.getElementById("shadow"),
+  code: document.getElementById("generated-code"),
+  copy: document.getElementById("copy-btn"),
+  btnLight: document.getElementById("btn-light"),
+  btnDark: document.getElementById("btn-dark"),
+  btnAuto: document.getElementById("btn-auto"),
+};
 
-      /**
-       * Mix two colors using chroma.js (more accurate than manual RGB mixing)
-       */
-      function colorMix(color1, color2, amount) {
-        return chroma.mix(color1, color2, amount, "oklch").hex();
-      }
+let mapInstance = null;
+let chartInstance = null;
 
-      function updateTheme() {
-        // Apply constraints to ensure good contrast
-        const constrainedPrimary = constrainColor(state.primary, true);
-        const constrainedSecondary = constrainColor(state.secondary, false);
+function deriveSecondary(hex) {
+  const [l, c, h] = chroma(hex).oklch();
+  return chroma.oklch(0.48, Math.min(c * 0.1, 0.05), h).hex();
+}
 
-        // Update state with constrained values
-        state.primary = constrainedPrimary;
-        state.secondary = constrainedSecondary;
-
-        // Update input fields to show constrained values
-        elements.primaryColor.value = constrainedPrimary;
-        elements.primaryHex.value = constrainedPrimary;
-        elements.secondaryColor.value = constrainedSecondary;
-        elements.secondaryHex.value = constrainedSecondary;
-
-        const style = document.getElementById("theme-override");
-        style.textContent = `
-        :root {
-          --pico-primary: ${constrainedPrimary};
-          --pico-secondary: ${constrainedSecondary};
-          --pico-border-radius: ${state.borderRadius};
-        }
-      `;
-
-        if (state.mode === "light") {
-          document.documentElement.setAttribute("data-theme", "light");
-        } else if (state.mode === "dark") {
-          document.documentElement.setAttribute("data-theme", "dark");
-        } else {
-          document.documentElement.removeAttribute("data-theme");
-        }
-
-        updateButtons();
-        updateSwatches();
-        updateGeneratedCode();
-      }
-
-      function updateSwatches() {
-        const isDark = state.mode === "dark";
-        const secondary = state.secondary;
-        const primary = state.primary;
-
-        // Derived - surface
-        const surface = isDark
-          ? colorMix("#000000", secondary, 0.2)
-          : colorMix("#ffffff", secondary, 0.04);
-        document.getElementById("swatch-surface").style.background = surface;
-
-        // Derived - text
-        const text = isDark
-          ? colorMix("#ffffff", secondary, 0.25)
-          : colorMix("#000000", secondary, 0.25);
-        document.getElementById("swatch-color").style.background = text;
-
-        // Derived - muted
-        const muted = isDark
-          ? colorMix(secondary, "#ffffff", 0.3)
-          : colorMix(secondary, "#000000", 0.25);
-        document.getElementById("swatch-muted").style.background = muted;
-
-        // Derived - border
-        const border = isDark
-          ? colorMix("#000000", secondary, 0.3)
-          : colorMix(secondary, "#ffffff", 0.75);
-        document.getElementById("swatch-border").style.background = border;
-
-        // Primary variants
-        const primaryHover = isDark
-          ? colorMix(primary, "#ffffff", 0.15)
-          : colorMix(primary, "#000000", 0.12);
-        document.getElementById("swatch-primary-hover").style.background =
-          primaryHover;
-        document.getElementById("swatch-primary-focus").style.background =
-          chroma(primary).alpha(0.3).css();
-
-        // Semantic colors
-        document.getElementById("swatch-success").style.background = "#22c55e";
-        document.getElementById("swatch-warning").style.background = "#eab308";
-        document.getElementById("swatch-error").style.background = "#ef4444";
-      }
-
-      function updateGeneratedCode() {
-        const code = `<style>
-  :root {
-    --pico-primary: ${state.primary};
-    --pico-secondary: ${state.secondary};
-    --pico-border-radius: ${state.borderRadius};
-  }
-</style>`;
-        elements.generatedCode.textContent = code;
-      }
-
-      function syncColorInputs(colorInput, hexInput, key) {
-        colorInput.addEventListener("input", (e) => {
-          state[key] = e.target.value;
-          hexInput.value = e.target.value;
-          updateTheme();
-        });
-
-        hexInput.addEventListener("input", (e) => {
-          const hex = e.target.value;
-          if (/^#[0-9A-Fa-f]{6}$/.test(hex)) {
-            state[key] = hex;
-            colorInput.value = hex;
-            updateTheme();
-          }
-        });
-      }
-
-      syncColorInputs(elements.primaryColor, elements.primaryHex, "primary");
-      syncColorInputs(
-        elements.secondaryColor,
-        elements.secondaryHex,
-        "secondary",
-      );
-
-      elements.borderRadius.addEventListener("change", (e) => {
-        state.borderRadius = e.target.value;
-        updateTheme();
-      });
-
-      elements.btnLight.addEventListener("click", () => {
-        state.mode = "light";
-        updateTheme();
-      });
-
-      elements.btnDark.addEventListener("click", () => {
-        state.mode = "dark";
-        updateTheme();
-      });
-
-      elements.btnAuto.addEventListener("click", () => {
-        state.mode = "auto";
-        updateTheme();
-      });
-
-      function updateButtons() {
-        elements.btnLight.className = "outline secondary";
-        elements.btnDark.className = "outline secondary";
-        elements.btnAuto.className = "outline secondary";
-
-        if (state.mode === "light") {
-          elements.btnLight.className = "secondary";
-        } else if (state.mode === "dark") {
-          elements.btnDark.className = "secondary";
-        } else {
-          elements.btnAuto.className = "secondary";
-        }
-      }
-
-      elements.copyBtn.addEventListener("click", () => {
-        navigator.clipboard
-          .writeText(elements.generatedCode.textContent)
-          .then(() => {
-            const originalText = elements.copyBtn.textContent;
-            elements.copyBtn.textContent = "Copied!";
-            setTimeout(() => {
-              elements.copyBtn.textContent = originalText;
-            }, 2000);
-          });
-      });
-
+function renderPicker() {
+  elements.picker.innerHTML = "";
+  colors.forEach((c) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.style.background = c.value;
+    btn.title = c.name;
+    if (c.value === state.primary) {
+      btn.classList.add("selected");
+      btn.innerHTML = '<svg><path d="M5 12l5 5l10 -10"></path></svg>';
+    }
+    btn.addEventListener("click", () => {
+      state.primary = c.value;
+      state.themeName = c.name;
+      renderPicker();
       updateTheme();
+    });
+    elements.picker.appendChild(btn);
+  });
+}
+
+function updateTheme() {
+  const secondary = deriveSecondary(state.primary);
+  document.getElementById("theme-override").textContent =
+    `:root { --pico-primary: ${state.primary}; --pico-secondary: ${secondary}; --pico-border-radius: ${state.borderRadius}; --pico-shadow: ${state.shadow}; }`;
+
+  elements.title.textContent = state.themeName;
+
+  if (state.mode === "light") document.documentElement.style.colorScheme = "light";
+  else if (state.mode === "dark") document.documentElement.style.colorScheme = "dark";
+  else document.documentElement.style.colorScheme = "light dark";
+
+  updateButtons();
+  updateCode(secondary);
+}
+
+function updateButtons() {
+  elements.btnLight.className = "outline secondary";
+  elements.btnDark.className = "outline secondary";
+  elements.btnAuto.className = "outline secondary";
+  if (state.mode === "light") elements.btnLight.className = "secondary";
+  else if (state.mode === "dark") elements.btnDark.className = "secondary";
+  else elements.btnAuto.className = "secondary";
+}
+
+function updateCode(secondary) {
+  const modeLine = state.mode !== 'auto' 
+    ? `  color-scheme: ${state.mode};\n` 
+    : '';
+  elements.code.textContent = `/* ${state.themeName} */
+:root {
+${modeLine}  --pico-primary: ${state.primary};
+  --pico-secondary: ${secondary};
+  --pico-border-radius: ${state.borderRadius};
+  --pico-shadow: ${state.shadow};
+}`;
+}
+
+function initMap() {
+  if (mapInstance) return;
+  mapInstance = new maplibregl.Map({
+    style: "https://tiles.openfreemap.org/styles/liberty",
+    center: [13.388, 52.517],
+    zoom: 12,
+    container: "map"
+  });
+  mapInstance.addControl(new maplibregl.NavigationControl(), "top-right");
+
+  new maplibregl.Marker()
+    .setLngLat([13.388, 52.517])
+    .setPopup(new maplibregl.Popup().setHTML("<strong>Berlin</strong><br>Capital of Germany"))
+    .addTo(mapInstance);
+
+  new maplibregl.Marker()
+    .setLngLat([13.4, 52.52])
+    .setPopup(new maplibregl.Popup().setHTML("<strong>Museum Island</strong><br>UNESCO World Heritage"))
+    .addTo(mapInstance);
+
+  new maplibregl.Marker()
+    .setLngLat([13.35, 52.5])
+    .setPopup(new maplibregl.Popup().setHTML("<strong>Potsdamer Platz</strong><br>Major public square"))
+    .addTo(mapInstance);
+}
+
+function initChart() {
+  if (chartInstance) return;
+  chartInstance = echarts.init(document.getElementById("chart"));
+  chartInstance.setOption({
+    tooltip: { trigger: "axis" },
+    legend: { data: ["Sales", "Revenue"] },
+    xAxis: {
+      type: "category",
+      data: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"]
+    },
+    yAxis: [
+      { type: "value", name: "Units" },
+      { type: "value", name: "$", position: "right" }
+    ],
+    series: [
+      {
+        name: "Sales",
+        type: "bar",
+        data: [120, 200, 150, 80, 70, 110]
+      },
+      {
+        name: "Revenue",
+        type: "line",
+        yAxisIndex: 1,
+        data: [2400, 4000, 3000, 1600, 1400, 2200]
+      }
+    ]
+  });
+}
+
+document.querySelectorAll(".tabs button").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".tabs button").forEach((b) => b.classList.remove("active"));
+    document.querySelectorAll(".tab-panel").forEach((p) => p.classList.remove("active"));
+    btn.classList.add("active");
+    const tabId = "tab-" + btn.dataset.tab;
+    document.getElementById(tabId).classList.add("active");
+    if (btn.dataset.tab === "maplibre") initMap();
+    if (btn.dataset.tab === "echarts") initChart();
+  });
+});
+
+elements.radius.addEventListener("change", (e) => { state.borderRadius = e.target.value; updateTheme(); });
+elements.shadow.addEventListener("change", (e) => { state.shadow = e.target.value; updateTheme(); });
+elements.btnLight.addEventListener("click", () => { state.mode = "light"; updateTheme(); });
+elements.btnDark.addEventListener("click", () => { state.mode = "dark"; updateTheme(); });
+elements.btnAuto.addEventListener("click", () => { state.mode = "auto"; updateTheme(); });
+elements.copy.addEventListener("click", () => {
+  navigator.clipboard.writeText(elements.code.textContent).then(() => {
+    elements.copy.textContent = "Copied!";
+    setTimeout(() => { elements.copy.textContent = "Copy"; }, 1500);
+  });
+});
+
+renderPicker();
+updateTheme();
     </script>
   </body>
 </html>
